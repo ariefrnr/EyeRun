@@ -10,8 +10,9 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            HorizontalButton(color: Color.horizontalButton)
+            StepProgressView(steps: 1500, goal: 6000)
         }
+        .padding()
     }
 }
 
