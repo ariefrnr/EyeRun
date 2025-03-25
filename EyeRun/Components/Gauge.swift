@@ -21,23 +21,19 @@ struct StepsProgressView: View {
                 Text("Steps")
                     .font(.largeTitle)
                     .bold()
-//                    .border(.black, width: 2)
                 
                 VStack {
                     Text("\(steps)")
                         .font(.largeTitle)
                         .bold()
-//                        .border(.black, width: 2)
                     
                     Text("/\(goals)")
                         .font(.headline)
                         .bold()
-//                        .border(.black, width: 2)
                 }
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-//            .border(.black, width: 2)
         }
         .padding()
         .cornerRadius(2)
