@@ -23,40 +23,42 @@ struct DatePicker: View {
             return []
         }
         
-        return (0..<7).map { index in
+        return (-20..<7).map { index in
             calendar.date(byAdding: .day, value: index, to: startOfWeek)!
         }
     }
     
     var body: some View {
-        HStack(spacing: 8) {
-            ForEach(dates, id: \.self) { date in
-                VStack {
-                    Text(dayAbbreviation(from: date))
-                        .font(.caption)
-                        .foregroundColor(isSameDay(date1: date, date2: selectedDate) ? .white : .gray)
-                    
-                    Text(dayNumber(from: date))
-                        .font(.system(size: 24))
+        ScrollView(.horizontal) {
+            HStack(spacing: 8) {
+                ForEach(dates, id: \.self) { date in
+                    VStack {
+                        Text(dayAbbreviation(from: date))
+                            .font(.caption)
+                            .foregroundColor(isSameDay(date1: date, date2: selectedDate) ? .white : .gray)
                         
-                }
-                .frame(width: 48, height: 56)
-                .background(isSameDay(date1: date, date2: selectedDate) ? Color.horizontalButton : Color.white)
-                .foregroundColor(isSameDay(date1: date, date2: selectedDate) ? .white : isDateInFuture(date) ? .gray : .horizontalButton)
-                .cornerRadius(10)
-                .onTapGesture {
-                    if !isDateInFuture(date) {
-                        selectedDate = date
+                        Text(dayNumber(from: date))
+                            .font(.system(size: 24))
+                            
                     }
+                    .frame(width: 45, height: 56)
+                    .background(isSameDay(date1: date, date2: selectedDate) ? Color.horizontalButton : Color.white)
+                    .foregroundColor(isSameDay(date1: date, date2: selectedDate) ? .white : isDateInFuture(date) ? .gray : .horizontalButton)
+                    .cornerRadius(10)
+                    .onTapGesture {
+                        if !isDateInFuture(date) {
+                            selectedDate = date
+                        }
+                    }
+                    .opacity(isDateInFuture(date) ? 0.8 : 1.0)
+                    
                 }
-                .opacity(isDateInFuture(date) ? 0.8 : 1.0)
-                
             }
+            .padding(4)
+            .cornerRadius(15)
+            .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 2)
         }
-        .padding()
-//        .background(Color.white)
-        .cornerRadius(15)
-        .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 2)
+        
     }
     
     private func isDateInFuture(_ date: Date) -> Bool {
