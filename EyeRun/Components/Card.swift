@@ -8,25 +8,48 @@
 import SwiftUI
 
 struct Card: View {
+    let distance: Double = 3.7
+    let goals: Int = 5
+    var progress: Double { distance / Double(goals) }
+    
     var body: some View {
-        VStack (alignment: .leading) {
+        VStack(alignment: .leading, spacing: 10) {
             Text("Distance Traveled")
-                .font(.system(size: 20))
+                .font(.largeTitle)
+                .bold()
                 .foregroundColor(.white)
             
             Spacer()
-            HStack (alignment: .bottom){
-                Text("3.7km")
-                    .font(.system(size: 40))
+            
+            HStack(alignment: .lastTextBaseline, spacing: 5) {
+                Text("\(distance, specifier: "%.1f") km")
+                    .font(.system(size: 50))
+                    .fontWeight(.bold)
                     .foregroundColor(.white)
-                Text("/5km")
-                    .font(.system(size: 20))
+                
+                Text("/ \(goals) km")
+                    .font(.title2)
+                    .fontWeight(.bold)
                     .foregroundColor(.white)
                     .opacity(0.7)
             }
+            
+            ProgressView(value: progress)
+                .frame(maxWidth: .infinity, maxHeight: 10)
+                .background(Color.white.opacity(0.3))
+                .overlay(
+                    GeometryReader { geometry in
+                        Rectangle()
+                            .fill(Color.white)
+                            .frame(width: geometry.size.width * CGFloat(progress))
+                            .cornerRadius(5)
+                    },
+                    alignment: .leading
+                )
+                .cornerRadius(3)
         }
-        .padding(.vertical)
-        .frame(minWidth: 250, maxHeight: 150)
+        .padding()
+        .frame(maxHeight: 200)
         .background(Color.brandSecondary)
         .cornerRadius(15)
     }

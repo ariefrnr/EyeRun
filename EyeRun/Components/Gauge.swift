@@ -7,49 +7,40 @@
 
 import SwiftUI
 
-struct StepProgressView: View {
-    var steps: Int
-    var goal: Int
-
-    var progress: CGFloat {
-        return CGFloat(steps) / CGFloat(goal)
-    }
-
+struct StepsProgressView: View {
+    var steps: Int = 1304
+    var goals: Int = 10000
+    
     var body: some View {
         ZStack {
-            // Background circle
             Circle()
-                .trim(from: 0, to: 1)
-                .stroke(Color.gray.opacity(0.2), lineWidth: 15)
-                .rotationEffect(.degrees(-90))
+                .frame(maxWidth: 220)
+                .foregroundStyle(.white)
             
-            // Progress circle
-            Circle()
-                .trim(from: 0, to: progress)
-                .stroke(Color.orange, lineWidth: 15)
-                .rotationEffect(.degrees(-90))
-                .animation(.easeOut(duration: 1), value: progress)
-
-            // Step count text
-            VStack {
+            VStack (spacing: 5) {
                 Text("Steps")
-                    .font(.title3)
-                    .foregroundColor(.black)
+                    .font(.largeTitle)
                     .bold()
                 
-                Text("\(steps.formatted(.number))")
-                    .font(.system(size: 40, weight: .bold))
-                    .foregroundColor(.black)
-
-                Text("/\(goal.formatted(.number))")
-                    .font(.title3)
-                    .foregroundColor(.gray)
+                VStack {
+                    Text("\(steps)")
+                        .font(.largeTitle)
+                        .bold()
+                    
+                    Text("/\(goals)")
+                        .font(.headline)
+                        .bold()
+                }
             }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(width: 200, height: 200)
+        .padding()
+        .cornerRadius(2)
+        .shadow(radius: 2)
     }
 }
 
 #Preview {
-    StepProgressView(steps: 1500, goal: 5000)
+    StepsProgressView()
 }
