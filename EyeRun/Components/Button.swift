@@ -16,7 +16,7 @@ struct HorizontalButton: View {
         }) {
             Text("Start Running")
                 .font(.headline)
-                .foregroundColor(.blue)
+                .foregroundColor(.white)
                 .frame(maxWidth: .infinity) // Mengisi seluruh lebar yang tersedia
                 .padding()
                 .background(color)
@@ -26,6 +26,8 @@ struct HorizontalButton: View {
         
     }
 }
+
+
 
 #Preview {
     HorizontalButton(color: .horizontalButton)
