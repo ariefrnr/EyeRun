@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct StepsProgress: View {
-    var steps: Int = 1304
-    var goals: Int = 10000
+    var distance = 3.7
+    var GoalsDistance = 5
     
     var body: some View {
         ZStack {
@@ -20,22 +20,22 @@ struct StepsProgress: View {
                     minHeight: 80,
                     maxHeight: 100
                 )
-                .foregroundColor(Color(.systemBackground))
+                .foregroundColor(Color.white)
                 .shadow(radius: 2)
 
             VStack(spacing: 5) {
-                Text("Steps")
+                Text("Distance")
                     .font(.headline)
                     .fontWeight(.bold)
                     .foregroundColor(.primary) // Adaptasi dengan mode terang/gelap
                 
                 VStack {
-                    Text("\(steps)")
+                    Text("\(distance)")
                         .font(.subheadline)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
                     
-                    Text("/\(goals)")
+                    Text("/\(GoalsDistance)km")
                         .font(.caption)
                         .fontWeight(.bold)
                         .foregroundColor(.secondary) // Warna lebih redup untuk info tambahan
@@ -48,6 +48,100 @@ struct StepsProgress: View {
     }
 }
 
+
+
+struct DistanceProgress: View {
+    var distance = 3
+    var GoalsDistance = 5
+    
+    var body: some View {
+        VStack(alignment: .center){
+            Text("Distance Traveled")
+                .font(.system(size: 24))
+                .fontWeight(.semibold)
+                .foregroundColor(Color.horizontalButton)
+                .multilineTextAlignment(.center)
+            Text("\(distance)")
+                .font(.system(size: 56))
+                .fontWeight(.bold)
+            Text("/\(GoalsDistance) km")
+                .font(.system(size: 20))
+        }
+        .frame(width: .infinity, height: 150)
+    }
+}
+
+struct MovementProgress: View {
+    var activeMinutes = 30
+    var activeMinutesGoals = 45
+    
+    var body: some View {
+        VStack(alignment: .center){
+            Text("Active Minutes")
+                .font(.system(size: 24))
+                .fontWeight(.semibold)
+                .foregroundColor(Color.horizontalButton)
+                .multilineTextAlignment(.center)
+            Text("\(activeMinutes)")
+                .font(.system(size: 56))
+                .fontWeight(.bold)
+            Text("/\(activeMinutesGoals) min")
+                .font(.system(size: 20))
+                .opacity(0.6)
+        }
+        .frame(width: .infinity, height: 150)
+        
+    }
+}
+
+struct CaloriesProgress: View {
+    var caloriesBurned = 189
+    var caloriesBurnedGoals = 450
+    
+    var body: some View {
+        VStack(alignment: .center){
+            
+            Text("Calories Burned")
+                .font(.system(size: 24))
+                .fontWeight(.semibold)
+                .foregroundColor(Color.horizontalButton)
+                .multilineTextAlignment(.center)
+            Text("\(caloriesBurned)")
+                .font(.system(size: 56))
+                .fontWeight(.bold)
+            Text("/\(caloriesBurnedGoals) kcal")
+                .font(.system(size: 20))
+                .opacity(0.6)
+        }
+        .frame(width: .infinity, height: 150)
+        
+    }
+}
+
+struct MainMetrics: View {
+    
+    
+    var body: some View {
+        VStack(alignment: .center){
+            DistanceProgress()
+                .padding(10)
+            Divider()
+                .background(Color.black.opacity(1))
+            MovementProgress()
+                .padding(10)
+            Divider()
+                .background(Color.black.opacity(0.8))
+            CaloriesProgress()
+                .padding(10)
+        }
+        .frame(width: 130)
+        .padding(.vertical)
+        .padding(.horizontal)
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(15)
+    }
+}
+
 #Preview {
-    StepsProgress()
+    MainMetrics()
 }

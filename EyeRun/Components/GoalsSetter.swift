@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GoalsSteps: View {
-    @State private var stepsGoals = 10000
+    @State private var stepsGoals = 11000
     
     var body: some View {
         
