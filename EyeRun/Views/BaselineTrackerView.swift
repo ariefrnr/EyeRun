@@ -32,10 +32,7 @@ struct BaselineTrackerView: View {
                         .padding(.horizontal)
 
                     // Average Stat
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.indigo)
-                        .frame(height: 100)
-                        .padding(.horizontal)
+                    AverageStat()
                 }
                 .padding(.vertical)
             }
