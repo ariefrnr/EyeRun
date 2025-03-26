@@ -7,48 +7,30 @@
 
 import SwiftUI
 
-struct SegmentedControls: View{
-    enum Period {
-        case daily, weekly, monthly
+struct SegmentedControls: View {
+    enum Period: String, CaseIterable {
+        case daily = "Daily"
+        case weekly = "Weekly"
+        case monthly = "Monthly"
     }
     
-    @Binding var selectedPeriod: Period
+    @State private var selectedPeriod: Period = .daily
     
     var body: some View {
-        HStack(spacing: 0){
-            Text("Daily")
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(selectedPeriod == .daily ? Color.horizontalButton : Color.clear)
-                .foregroundColor(selectedPeriod == .daily ? .white : .black)
-                .cornerRadius(10)
-                .onTapGesture {
-                    withAnimation(.spring()) {
-                        selectedPeriod = .daily
+        HStack(spacing: 0) {
+            ForEach(Period.allCases, id: \.self) { period in
+                Text(period.rawValue)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(selectedPeriod == period ? Color.horizontalButton : Color.clear)
+                    .foregroundColor(selectedPeriod == period ? .white : .black)
+                    .cornerRadius(10)
+                    .onTapGesture {
+                        withAnimation(.spring()) {
+                            selectedPeriod = period
+                        }
                     }
-                }
-            Text("Weekly")
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(selectedPeriod == .weekly ? Color.horizontalButton : Color.clear)
-                .foregroundColor(selectedPeriod == .weekly ? .white : .black)
-                .cornerRadius(10)
-                .onTapGesture {
-                    withAnimation(.spring()) {
-                        selectedPeriod = .weekly
-                    }
-                }
-            Text("Monthly")
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(selectedPeriod == .monthly ? Color.horizontalButton : Color.clear)
-                .foregroundColor(selectedPeriod == .monthly ? .white : .black)
-                .cornerRadius(10)
-                .onTapGesture {
-                    withAnimation(.spring()) {
-                        selectedPeriod = .monthly
-                    }
-                }
+            }
         }
         .background(Color.gray.opacity(0.2))
         .cornerRadius(10)
@@ -56,5 +38,5 @@ struct SegmentedControls: View{
 }
 
 #Preview {
-    SegmentedControls(selectedPeriod: .constant(.daily))
+    SegmentedControls()
 }
