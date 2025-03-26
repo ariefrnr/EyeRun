@@ -10,8 +10,8 @@ import SwiftUI
 struct DateView: View {
     var body: some View {
         VStack {
-            Color.blue
-            Color.yellow
+            SegmentedControls()
+            DatePicker()
         }
     }
 }

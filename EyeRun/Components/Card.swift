@@ -7,28 +7,28 @@
 
 import SwiftUI
 
-struct Card: View {
-    let distance: Double = 3.7
-    let goals: Int = 5
-    var progress: Double { distance / Double(goals) }
+struct StepsCard: View {
+    let steps: CGFloat
+    let goals: CGFloat
+    var progress: CGFloat { steps / CGFloat(goals) }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Distance Traveled")
-                .font(.largeTitle)
+            Text("Steps")
+                .font(.title2)
                 .bold()
                 .foregroundColor(.white)
             
             Spacer()
             
             HStack(alignment: .lastTextBaseline, spacing: 5) {
-                Text("\(distance, specifier: "%.1f") km")
-                    .font(.system(size: 50))
+                Text("\(steps, specifier: "%.0f")")
+                    .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                 
-                Text("/ \(goals) km")
-                    .font(.title2)
+                Text("/ \(goals, specifier: "%.0f")")
+                    .font(.subheadline)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                     .opacity(0.7)
@@ -50,11 +50,11 @@ struct Card: View {
         }
         .padding()
         .frame(maxHeight: 200)
-        .background(Color.brandSecondary)
+        .background(Color.customizedBlue)
         .cornerRadius(15)
     }
 }
 
 #Preview {
-    Card()
+    StepsCard(steps: 1304, goals: 10000)
 }

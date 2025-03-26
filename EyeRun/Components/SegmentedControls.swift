@@ -22,7 +22,7 @@ struct SegmentedControls: View {
                 Text(period.rawValue)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(selectedPeriod == period ? Color.horizontalButton : Color.clear)
+                    .background(selectedPeriod == period ? Color.customizedOrange : Color.clear)
                     .foregroundColor(selectedPeriod == period ? .white : .black)
                     .cornerRadius(10)
                     .onTapGesture {
