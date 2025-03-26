@@ -14,14 +14,14 @@ struct PrimaryMetrics: View {
                 Color.pink
                 
                 VStack {
-                    Color.purple
-                    Color.cyan
-                    Color.cyan
+                    StepsProgress()
+                    StepsProgress()
+                    StepsProgress()
                 }
             }
         }
         
-        Color.green
+        HorizontalButton(buttonName: "Start Running")
     }
 }
 
@@ -29,13 +29,13 @@ struct SecondaryMetrics: View {
     var body: some View {
         HStack {
             VStack {
-                Color.pink
-                Color.orange
+                StepsCard(steps: 1304, goals: 10000)
+                StepsCard(steps: 1304, goals: 10000)
             }
             
             VStack {
-                Color.purple
-                Color.cyan
+                StepsCard(steps: 1304, goals: 10000)
+                HorizontalButton(buttonName: "Manage Goals")
             }
         }
     }

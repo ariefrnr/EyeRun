@@ -25,7 +25,7 @@ struct GoalsSteps: View {
                     .frame(height: 60)
                     .padding(10)
                     .fontWeight(.heavy)
-                    .background(Color.horizontalButton)
+                    .background(Color.customizedOrange)
                     .foregroundColor(Color.white)
                     .clipShape(Circle())
             }
@@ -55,7 +55,7 @@ struct GoalsSteps: View {
                     .frame(height: 60)
                     .padding(10)
                     .fontWeight(.heavy)
-                    .background(Color.horizontalButton)
+                    .background(Color.customizedOrange)
                     .foregroundColor(Color.white)
                     .clipShape(Circle())
             }
@@ -81,7 +81,7 @@ struct GoalsDistance : View {
                     .frame(height: 60)
                     .padding(10)
                     .fontWeight(.heavy)
-                    .background(Color.horizontalButton)
+                    .background(Color.customizedOrange)
                     .foregroundColor(Color.white)
                     .clipShape(Circle())
             }
@@ -111,7 +111,7 @@ struct GoalsDistance : View {
                     .frame(height: 60)
                     .padding(10)
                     .fontWeight(.heavy)
-                    .background(Color.horizontalButton)
+                    .background(Color.customizedOrange)
                     .foregroundColor(Color.white)
                     .clipShape(Circle())
             }
@@ -137,7 +137,7 @@ struct GoalsMinutes : View {
                     .frame(height: 60)
                     .padding(10)
                     .fontWeight(.heavy)
-                    .background(Color.horizontalButton)
+                    .background(Color.customizedOrange)
                     .foregroundColor(Color.white)
                     .clipShape(Circle())
             }
@@ -167,7 +167,7 @@ struct GoalsMinutes : View {
                     .frame(height: 60)
                     .padding(10)
                     .fontWeight(.heavy)
-                    .background(Color.horizontalButton)
+                    .background(Color.customizedOrange)
                     .foregroundColor(Color.white)
                     .clipShape(Circle())
             }
@@ -193,7 +193,7 @@ struct GoalsCalories : View {
                     .frame(height: 60)
                     .padding(10)
                     .fontWeight(.heavy)
-                    .background(Color.horizontalButton)
+                    .background(Color.customizedOrange)
                     .foregroundColor(Color.white)
                     .clipShape(Circle())
             }
@@ -223,7 +223,7 @@ struct GoalsCalories : View {
                     .frame(height: 60)
                     .padding(10)
                     .fontWeight(.heavy)
-                    .background(Color.horizontalButton)
+                    .background(Color.customizedOrange)
                     .foregroundColor(Color.white)
                     .clipShape(Circle())
             }
