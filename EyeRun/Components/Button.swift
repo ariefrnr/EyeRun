@@ -12,7 +12,7 @@ struct HorizontalButton: View {
     
     var body: some View {
         Button(action: {
-            print("Button Tapped!")
+            // geas
         }) {
             HStack{
                 Text(buttonName)

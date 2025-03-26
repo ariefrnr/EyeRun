@@ -9,19 +9,15 @@ import SwiftUI
 
 struct PrimaryMetrics: View {
     var body: some View {
-        VStack {
-            HStack {
-                Color.pink
-                
-                VStack {
-                    StepsProgress()
-                    StepsProgress()
-                    StepsProgress()
-                }
+        HStack {
+            Color.pink
+            
+            VStack {
+                StepsProgress()
+                StepsProgress()
+                StepsProgress()
             }
         }
-        
-        HorizontalButton(buttonName: "Start Running")
     }
 }
 
