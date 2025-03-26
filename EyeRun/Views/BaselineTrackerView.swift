@@ -10,8 +10,22 @@ struct BaselineTrackerView: View {
                         .padding(.horizontal)
 
                     // Primary Metrics
-                    PrimaryMetrics()
-                        .padding(.horizontal)
+                    VStack {
+                        PrimaryMetrics()
+                        
+                        NavigationLink(destination: LiveRunningView()) {
+                            Text("Start Running")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.customizedOrange)
+                                .cornerRadius(25)
+                        }
+                    }
+                    .padding(.horizontal)
+                    
+                        
 
                     // Secondary Metrics
                     SecondaryMetrics()
