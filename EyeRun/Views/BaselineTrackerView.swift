@@ -21,6 +21,7 @@ struct BaselineTrackerView: View {
                                 .padding()
                                 .background(Color.customizedOrange)
                                 .cornerRadius(25)
+                                .padding(.top)
                         }
                     }
                     .padding(.horizontal)

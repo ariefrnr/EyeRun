@@ -10,13 +10,11 @@ import SwiftUI
 struct PrimaryMetrics: View {
     var body: some View {
         HStack {
-            Color.pink
+            Image(systemName: "figure.run")
+                .resizable()
+                .padding()
             
-            VStack {
-                StepsProgress()
-                StepsProgress()
-                StepsProgress()
-            }
+            MainMetrics()
         }
     }
 }

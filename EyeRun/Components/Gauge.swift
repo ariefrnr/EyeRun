@@ -7,49 +7,6 @@
 
 import SwiftUI
 
-struct StepsProgress: View {
-    var distance = 3.7
-    var GoalsDistance = 5
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .frame(
-                    minWidth: 80,
-                    maxWidth: 100,
-                    minHeight: 80,
-                    maxHeight: 100
-                )
-                .foregroundColor(Color.white)
-                .shadow(radius: 2)
-
-            VStack(spacing: 5) {
-                Text("Distance")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary) // Adaptasi dengan mode terang/gelap
-                
-                VStack {
-                    Text("\(distance)")
-                        .font(.subheadline)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
-                    
-                    Text("/\(GoalsDistance)km")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                        .foregroundColor(.secondary) // Warna lebih redup untuk info tambahan
-                }
-            }
-            .multilineTextAlignment(.center)
-            .dynamicTypeSize(.large ... .xxLarge) // Mendukung ukuran font besar untuk aksesibilitas
-        }
-        .padding(8)
-    }
-}
-
-
-
 struct DistanceProgress: View {
     var distance = 3
     var GoalsDistance = 5
@@ -57,17 +14,17 @@ struct DistanceProgress: View {
     var body: some View {
         VStack(alignment: .center){
             Text("Distance Traveled")
-                .font(.system(size: 24))
+                .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(Color.customizedOrange)
                 .multilineTextAlignment(.center)
             Text("\(distance)")
-                .font(.system(size: 56))
+                .font(.headline)
                 .fontWeight(.bold)
             Text("/\(GoalsDistance) km")
-                .font(.system(size: 20))
+                .font(.subheadline)
         }
-        .frame(width: .infinity, height: 150)
+        .frame(maxWidth: .infinity)
     }
 }
 
@@ -78,18 +35,18 @@ struct MovementProgress: View {
     var body: some View {
         VStack(alignment: .center){
             Text("Active Minutes")
-                .font(.system(size: 24))
+                .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(Color.customizedOrange)
                 .multilineTextAlignment(.center)
             Text("\(activeMinutes)")
-                .font(.system(size: 56))
+                .font(.headline)
                 .fontWeight(.bold)
             Text("/\(activeMinutesGoals) min")
-                .font(.system(size: 20))
+                .font(.subheadline)
                 .opacity(0.6)
         }
-        .frame(width: .infinity, height: 150)
+        .frame(maxWidth: .infinity)
         
     }
 }
@@ -100,21 +57,21 @@ struct CaloriesProgress: View {
     
     var body: some View {
         VStack(alignment: .center){
-            
             Text("Calories Burned")
-                .font(.system(size: 24))
+                .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(Color.customizedOrange)
                 .multilineTextAlignment(.center)
+            
             Text("\(caloriesBurned)")
-                .font(.system(size: 56))
+                .font(.headline)
                 .fontWeight(.bold)
+            
             Text("/\(caloriesBurnedGoals) kcal")
-                .font(.system(size: 20))
+                .font(.headline)
                 .opacity(0.6)
         }
-        .frame(width: .infinity, height: 150)
-        
+        .frame(maxWidth: .infinity)
     }
 }
 
@@ -124,19 +81,17 @@ struct MainMetrics: View {
     var body: some View {
         VStack(alignment: .center){
             DistanceProgress()
-                .padding(10)
+                .padding()
             Divider()
                 .background(Color.black.opacity(1))
             MovementProgress()
-                .padding(10)
+                .padding()
             Divider()
                 .background(Color.black.opacity(0.8))
             CaloriesProgress()
-                .padding(10)
+                .padding()
         }
-        .frame(width: 130)
-        .padding(.vertical)
-        .padding(.horizontal)
+        .frame(maxWidth: .infinity)
         .background(Color.gray.opacity(0.1))
         .cornerRadius(15)
     }
