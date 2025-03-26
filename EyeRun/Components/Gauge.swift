@@ -7,49 +7,47 @@
 
 import SwiftUI
 
-struct StepProgressView: View {
-    var steps: Int
-    var goal: Int
-
-    var progress: CGFloat {
-        return CGFloat(steps) / CGFloat(goal)
-    }
-
+struct StepsProgress: View {
+    var steps: Int = 1304
+    var goals: Int = 10000
+    
     var body: some View {
         ZStack {
-            // Background circle
             Circle()
-                .trim(from: 0, to: 1)
-                .stroke(Color.gray.opacity(0.2), lineWidth: 15)
-                .rotationEffect(.degrees(-90))
-            
-            // Progress circle
-            Circle()
-                .trim(from: 0, to: progress)
-                .stroke(Color.orange, lineWidth: 15)
-                .rotationEffect(.degrees(-90))
-                .animation(.easeOut(duration: 1), value: progress)
+                .frame(
+                    minWidth: 80,
+                    maxWidth: 100,
+                    minHeight: 80,
+                    maxHeight: 100
+                )
+                .foregroundColor(Color(.systemBackground))
+                .shadow(radius: 2)
 
-            // Step count text
-            VStack {
+            VStack(spacing: 5) {
                 Text("Steps")
-                    .font(.title3)
-                    .foregroundColor(.black)
-                    .bold()
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary) // Adaptasi dengan mode terang/gelap
                 
-                Text("\(steps.formatted(.number))")
-                    .font(.system(size: 40, weight: .bold))
-                    .foregroundColor(.black)
-
-                Text("/\(goal.formatted(.number))")
-                    .font(.title3)
-                    .foregroundColor(.gray)
+                VStack {
+                    Text("\(steps)")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
+                    
+                    Text("/\(goals)")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(.secondary) // Warna lebih redup untuk info tambahan
+                }
             }
+            .multilineTextAlignment(.center)
+            .dynamicTypeSize(.large ... .xxLarge) // Mendukung ukuran font besar untuk aksesibilitas
         }
-        .frame(width: 200, height: 200)
+        .padding(8)
     }
 }
 
 #Preview {
-    StepProgressView(steps: 1500, goal: 5000)
+    StepsProgress()
 }

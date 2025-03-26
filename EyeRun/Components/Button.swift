@@ -27,6 +27,8 @@ struct HorizontalButton: View {
     }
 }
 
+
+
 #Preview {
     HorizontalButton(color: .horizontalButton)
 }

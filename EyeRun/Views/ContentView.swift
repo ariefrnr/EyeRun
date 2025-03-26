@@ -9,10 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        StopButton(action: {
-            print("Stop button pressed!")
-        })
-        .padding()
+        BaselineTrackerView()
     }
 }
 
