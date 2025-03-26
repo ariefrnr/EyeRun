@@ -42,8 +42,8 @@ struct DatePicker: View {
                             
                     }
                     .frame(width: 45, height: 56)
-                    .background(isSameDay(date1: date, date2: selectedDate) ? Color.horizontalButton : Color.white)
-                    .foregroundColor(isSameDay(date1: date, date2: selectedDate) ? .white : isDateInFuture(date) ? .gray : .horizontalButton)
+                    .background(isSameDay(date1: date, date2: selectedDate) ? Color.customizedOrange : Color.white)
+                    .foregroundColor(isSameDay(date1: date, date2: selectedDate) ? .white : isDateInFuture(date) ? .gray : Color.customizedOrange)
                     .cornerRadius(10)
                     .onTapGesture {
                         if !isDateInFuture(date) {

@@ -8,26 +8,26 @@
 import SwiftUI
 
 struct HorizontalButton: View {
-    let color: Color
+    let buttonName: String
     
     var body: some View {
         Button(action: {
             print("Button Tapped!")
         }) {
-            Text("Start Running")
+            Text(buttonName)
                 .font(.headline)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(color)
+                .background(Color.customizedOrange)
                 .cornerRadius(25)
         }
-        .padding(.horizontal)
         
     }
 }
 
 struct StopButton: View {
+    let buttonName: String
     @State private var isPressed = false
     
     var body: some View {
@@ -35,13 +35,13 @@ struct StopButton: View {
             print("Stop button pressed!")
             isPressed.toggle()
         } label: {
-            Text("STOP")
+            Text(buttonName)
                 .font(.system(size: 40, weight: .heavy))
                 .foregroundColor(.white)
                 .frame(width: 150, height: 150)
                 .padding()
-                .background(Color.horizontalButton)
-                .clipShape(Circle()) // paksa jadi circle
+                .background(Color.customizedOrange)
+                .clipShape(Circle())
                 .shadow(color: .gray.opacity(0.4), radius: 5, x: 0, y: 2)
                 .animation(.spring(), value: isPressed)
         }
@@ -62,7 +62,7 @@ struct DownloadButton: View {
                 .frame(width: 150, height: 150)
                 .padding()
                 .padding(.bottom, 10)
-                .background(Color.horizontalButton)
+                .background(Color.customizedOrange)
                 .clipShape(Circle())
                 .shadow(color: .gray.opacity(0.4), radius: 5, x: 0, y: 2)
                 .animation(.spring(), value: isPressed)
@@ -71,7 +71,7 @@ struct DownloadButton: View {
 }
 
 #Preview {
-    HorizontalButton(color: .horizontalButton)
-    StopButton()
+    HorizontalButton(buttonName: "Start Running")
+    StopButton(buttonName: "Stop Run")
     DownloadButton()
 }
