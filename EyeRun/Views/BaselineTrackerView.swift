@@ -1,44 +1,35 @@
-//
-//  BaselineTrackerView.swift
-//  EyeRun
-//
-//  Created by Arief Roihan Nur Rahman on 26/03/25.
-//
-
 import SwiftUI
 
 struct BaselineTrackerView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
-                VStack {
+                VStack(spacing: 20) {
                     // Date
                     DateView()
-                    
-                    // Primary
+                        .padding(.horizontal)
+
+                    // Primary Metrics
                     PrimaryMetrics()
-                    
-                    // Secondary
+                        .padding(.horizontal)
+
+                    // Secondary Metrics
                     SecondaryMetrics()
-                    
+                        .padding(.horizontal)
+
                     // Average Stat
-                    Color.indigo
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.indigo)
+                        .frame(height: 100)
+                        .padding(.horizontal)
                 }
-                .padding()
+                .padding(.vertical)
             }
-            .padding()
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Activities Overview")
-                        .font(.title)
-                        .foregroundColor(Color(Color.horizontalButton))
-                        .padding()
-                }
-            }
+            .navigationTitle("Activities Overview")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
-
 
 #Preview {
     BaselineTrackerView()

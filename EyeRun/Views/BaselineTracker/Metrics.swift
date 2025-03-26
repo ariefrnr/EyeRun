@@ -11,12 +11,17 @@ struct PrimaryMetrics: View {
     var body: some View {
         VStack {
             HStack {
-                Color.green
-                Color.gray
+                Color.pink
+                
+                VStack {
+                    Color.purple
+                    Color.cyan
+                    Color.cyan
+                }
             }
-            
-            Color.red
         }
+        
+        Color.green
     }
 }
 
@@ -37,6 +42,6 @@ struct SecondaryMetrics: View {
 }
 
 #Preview {
-//    PrimaryMetrics()
-    SecondaryMetrics()
+    PrimaryMetrics()
+//    SecondaryMetrics()
 }

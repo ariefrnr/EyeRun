@@ -7,40 +7,47 @@
 
 import SwiftUI
 
-struct StepsProgressView: View {
+struct StepsProgress: View {
     var steps: Int = 1304
     var goals: Int = 10000
     
     var body: some View {
         ZStack {
             Circle()
-                .frame(maxWidth: 220)
-                .foregroundStyle(.white)
-            
-            VStack (spacing: 5) {
+                .frame(
+                    minWidth: 80,
+                    maxWidth: 100,
+                    minHeight: 80,
+                    maxHeight: 100
+                )
+                .foregroundColor(Color(.systemBackground))
+                .shadow(radius: 2)
+
+            VStack(spacing: 5) {
                 Text("Steps")
-                    .font(.largeTitle)
-                    .bold()
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary) // Adaptasi dengan mode terang/gelap
                 
                 VStack {
                     Text("\(steps)")
-                        .font(.largeTitle)
-                        .bold()
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
                     
                     Text("/\(goals)")
-                        .font(.headline)
-                        .bold()
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(.secondary) // Warna lebih redup untuk info tambahan
                 }
             }
-            .padding()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .multilineTextAlignment(.center)
+            .dynamicTypeSize(.large ... .xxLarge) // Mendukung ukuran font besar untuk aksesibilitas
         }
-        .padding()
-        .cornerRadius(2)
-        .shadow(radius: 2)
+        .padding(8)
     }
 }
 
 #Preview {
-    StepsProgressView()
+    StepsProgress()
 }
