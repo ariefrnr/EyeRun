@@ -29,7 +29,7 @@ struct DatePicker: View {
     }
     
     var body: some View {
-        ScrollView(.horizontal) {
+        ScrollView(.horizontal){
             HStack(spacing: 8) {
                 ForEach(dates, id: \.self) { date in
                     VStack {
@@ -58,6 +58,7 @@ struct DatePicker: View {
             .cornerRadius(15)
             .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 2)
         }
+        .scrollIndicators(.hidden)
         
     }
     
