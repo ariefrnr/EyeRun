@@ -12,6 +12,7 @@ struct PrimaryMetrics: View {
         HStack {
             Image(systemName: "figure.run")
                 .resizable()
+                .frame(width: 200, height: 350)
                 .padding()
             
             MainMetrics()
