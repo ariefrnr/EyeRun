@@ -10,6 +10,8 @@ import SwiftUI
 struct StepsCard: View {
     let steps: CGFloat
     let goals: CGFloat
+    let heartRate: Int
+    let streak: Int
     var progress: CGFloat { steps / CGFloat(goals) }
     
     var body: some View {
