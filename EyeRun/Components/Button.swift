@@ -12,16 +12,20 @@ struct HorizontalButton: View {
     
     var body: some View {
         Button(action: {
-            print("Button Tapped!")
+            // geas
         }) {
-            Text(buttonName)
-                .font(.headline)
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.customizedOrange)
-                .cornerRadius(25)
+            HStack{
+                Text(buttonName)
+                    .font(.system(size: 20))
+                    .fontWeight(.bold)
+                Image(systemName: "play.fill")
+            }
         }
+        .foregroundColor(.white)
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(Color.customizedOrange)
+        .cornerRadius(25)
         
     }
 }

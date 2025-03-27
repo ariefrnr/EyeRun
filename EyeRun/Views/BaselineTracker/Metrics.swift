@@ -9,19 +9,14 @@ import SwiftUI
 
 struct PrimaryMetrics: View {
     var body: some View {
-        VStack {
-            HStack {
-                Color.pink
-                
-                VStack {
-                    StepsProgress()
-                    StepsProgress()
-                    StepsProgress()
-                }
-            }
+        HStack {
+            Image(systemName: "figure.run")
+                .resizable()
+                .frame(width: 200, height: 350)
+                .padding()
+            
+            MainMetrics()
         }
-        
-        HorizontalButton(buttonName: "Start Running")
     }
 }
 

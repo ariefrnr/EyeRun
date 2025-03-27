@@ -10,18 +10,30 @@ struct BaselineTrackerView: View {
                         .padding(.horizontal)
 
                     // Primary Metrics
-                    PrimaryMetrics()
-                        .padding(.horizontal)
+                    VStack {
+                        PrimaryMetrics()
+                        
+                        NavigationLink(destination: LiveRunningView()) {
+                            Text("Start Running")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.customizedOrange)
+                                .cornerRadius(25)
+                                .padding(.top)
+                        }
+                    }
+                    .padding(.horizontal)
+                    
+                        
 
                     // Secondary Metrics
                     SecondaryMetrics()
                         .padding(.horizontal)
 
                     // Average Stat
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.indigo)
-                        .frame(height: 100)
-                        .padding(.horizontal)
+                    AverageStat()
                 }
                 .padding(.vertical)
             }

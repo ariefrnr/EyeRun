@@ -7,47 +7,97 @@
 
 import SwiftUI
 
-struct StepsProgress: View {
-    var steps: Int = 1304
-    var goals: Int = 10000
+struct DistanceProgress: View {
+    var distance = 3
+    var GoalsDistance = 5
     
     var body: some View {
-        ZStack {
-            Circle()
-                .frame(
-                    minWidth: 80,
-                    maxWidth: 100,
-                    minHeight: 80,
-                    maxHeight: 100
-                )
-                .foregroundColor(Color(.systemBackground))
-                .shadow(radius: 2)
-
-            VStack(spacing: 5) {
-                Text("Steps")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary) // Adaptasi dengan mode terang/gelap
-                
-                VStack {
-                    Text("\(steps)")
-                        .font(.subheadline)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
-                    
-                    Text("/\(goals)")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                        .foregroundColor(.secondary) // Warna lebih redup untuk info tambahan
-                }
-            }
-            .multilineTextAlignment(.center)
-            .dynamicTypeSize(.large ... .xxLarge) // Mendukung ukuran font besar untuk aksesibilitas
+        VStack(alignment: .center){
+            Text("Distance Traveled")
+                .font(.headline)
+                .fontWeight(.semibold)
+                .foregroundColor(Color.customizedOrange)
+                .multilineTextAlignment(.center)
+            Text("\(distance)")
+                .font(.system(size: 32))
+                .fontWeight(.bold)
+            Text("/\(GoalsDistance) km")
+                .font(.subheadline)
+                .opacity(0.6)
         }
-        .padding(8)
+        .frame(maxWidth: .infinity)
+    }
+}
+
+struct MovementProgress: View {
+    var activeMinutes = 30
+    var activeMinutesGoals = 45
+    
+    var body: some View {
+        VStack(alignment: .center){
+            Text("Active Minutes")
+                .font(.headline)
+                .fontWeight(.semibold)
+                .foregroundColor(Color.customizedOrange)
+                .multilineTextAlignment(.center)
+            Text("\(activeMinutes)")
+                .font(.system(size: 32))
+                .fontWeight(.bold)
+            Text("/\(activeMinutesGoals) min")
+                .font(.subheadline)
+                .opacity(0.6)
+        }
+        .frame(maxWidth: .infinity)
+        
+    }
+}
+
+struct CaloriesProgress: View {
+    var caloriesBurned = 189
+    var caloriesBurnedGoals = 450
+    
+    var body: some View {
+        VStack(alignment: .center){
+            Text("Calories Burned")
+                .font(.headline)
+                .fontWeight(.semibold)
+                .foregroundColor(Color.customizedOrange)
+                .multilineTextAlignment(.center)
+            
+            Text("\(caloriesBurned)")
+                .font(.system(size: 32))
+                .fontWeight(.bold)
+            
+            Text("/\(caloriesBurnedGoals) kcal")
+                .font(.subheadline)
+                .opacity(0.6)
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+struct MainMetrics: View {
+    
+    
+    var body: some View {
+        VStack(alignment: .center){
+            DistanceProgress()
+                .padding()
+            Divider()
+                .background(Color.black.opacity(1))
+            MovementProgress()
+                .padding()
+            Divider()
+                .background(Color.black.opacity(0.8))
+            CaloriesProgress()
+                .padding()
+        }
+        .frame(maxWidth: .infinity)
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(15)
     }
 }
 
 #Preview {
-    StepsProgress()
+    MainMetrics()
 }
