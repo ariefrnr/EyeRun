@@ -9,23 +9,37 @@ import SwiftUI
 
 struct HorizontalButton: View {
     let buttonName: String
+    @State private var isPressed = false
     
     var body: some View {
-        Button(action: {
-            // geas
-        }) {
+        Button {
+            print("Stop button pressed!")
+            isPressed.toggle()
+        } label: {
             HStack{
                 Text(buttonName)
                     .font(.system(size: 20))
                     .fontWeight(.bold)
+                
                 Image(systemName: "play.fill")
+                
             }
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.customizedOrange)
+            .cornerRadius(25)
+            .animation(.spring(), value: isPressed)
         }
+<<<<<<< HEAD
+=======
         .foregroundColor(.white)
         .frame(maxWidth: .infinity)
         .padding()
         .background(Color.customizedOrange)
         .cornerRadius(25)
+>>>>>>> parent of 00cba21 (Merge pull request #38 from ariefrnr/jojo)
+        
     }
 }
 

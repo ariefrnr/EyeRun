@@ -34,7 +34,7 @@ struct GoalsSteps: View {
             
             VStack{
                 Text("\(stepsGoals)")
-                    .font(.system(size: 48))
+                    .font(.system(size: 56))
                     .fontWeight(.bold)
                     .foregroundColor(Color.brandSecondary)
                 Text("steps")
@@ -90,7 +90,7 @@ struct GoalsDistance : View {
             
             VStack{
                 Text("\(distanceGoals)")
-                    .font(.system(size: 48))
+                    .font(.system(size: 56))
                     .fontWeight(.bold)
                     .foregroundColor(Color.brandSecondary)
                 Text("kilometers")
@@ -146,7 +146,7 @@ struct GoalsMinutes : View {
             
             VStack{
                 Text("\(activeMinutesGoals)")
-                    .font(.system(size: 48))
+                    .font(.system(size: 56))
                     .fontWeight(.bold)
                     .foregroundColor(Color.brandSecondary)
                 Text("minutes")
@@ -202,7 +202,7 @@ struct GoalsCalories : View {
             
             VStack{
                 Text("\(caloriesBurnedGoals)")
-                    .font(.system(size: 48))
+                    .font(.system(size: 56))
                     .fontWeight(.bold)
                     .foregroundColor(Color.brandSecondary)
                 Text("kcal")

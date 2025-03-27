@@ -17,6 +17,7 @@ struct LiveMetrics: View {
                 CadenceCard(cadence: 75)
                     .frame(height: 200)
                 
+
             }
             
             VStack {
