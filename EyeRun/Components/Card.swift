@@ -157,9 +157,10 @@ struct DistanceCard: View {
                     .foregroundColor(.white)
                 
                 Text("km")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
+                    .font(.title2)
+                    .bold()
                     .foregroundColor(.white)
+                    .padding(.leading, 5)
             }
 
         }
@@ -184,17 +185,17 @@ struct PaceCard: View {
             
             HStack(alignment: .lastTextBaseline, spacing: 5) {
                 Text("\(pace)")
-                    .font(.system(size: 60))
+                    .font(.system(size: 48))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
             }
             .padding(.top)
             VStack{
-                Text("Mins/ Kilometers")
+                Text("/kilometers")
                     .font(.title2)
                     .bold()
                     .foregroundColor(.white)
-                    .padding(.leading, 2)
+                    .padding(.leading, 5)
             }
         }
         .padding()
@@ -215,16 +216,17 @@ struct CaloriesCard: View {
             
             Spacer()
 
-            HStack(alignment: .lastTextBaseline, spacing: 5) {
+            VStack(alignment: .leading) {
                 Text("\(calories)")
                     .font(.system(size: 56))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
                 
                 Text("kcal")
-                    .font(.title)
-                    .fontWeight(.semibold)
+                    .font(.title2)
+                    .bold()
                     .foregroundColor(.white)
+                    .padding(.leading, 5)
             }
             .padding(.top, 30)
 
@@ -260,7 +262,7 @@ struct CadenceCard: View {
                     .font(.title2)
                     .bold()
                     .foregroundColor(.white)
-                    .padding(.leading, 2)
+                    .padding(.leading, 5)
             }
         }
         .padding()
@@ -281,16 +283,17 @@ struct SpeedCard: View {
             
             Spacer()
 
-            HStack(alignment: .lastTextBaseline, spacing: 5) {
+            VStack(alignment: .leading, spacing: 5) {
                 Text("\(speed, specifier: "%.1f")")
                     .font(.system(size: 56))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
                 
                 Text("km/h")
-                    .font(.title)
-                    .fontWeight(.semibold)
+                    .font(.title2)
+                    .bold()
                     .foregroundColor(.white)
+                    .padding(.leading, 5)
             }
             .padding(.top, 30)
 
@@ -305,13 +308,13 @@ struct SpeedCard: View {
 
 #Preview {
     ScrollView{
-        StepsCard(steps: 1304, goals: 10000)
-        HeartRateCard(heartRate: 90)
-        StreakCard(streak: 90)
-        DistanceCard(distance: 3.7, goals: 5)
-        PaceCard(pace: "43:28")
+//        StepsCard(steps: 1304, goals: 10000)
+//        HeartRateCard(heartRate: 90)
+//        StreakCard(streak: 90)
+//        DistanceCard(distance: 3.7, goals: 5)
+//        PaceCard(pace: "43:28")
         CaloriesCard(calories: 239)
-        CadenceCard(cadence: 75)
-        SpeedCard(speed: 6.6)
+//        CadenceCard(cadence: 75)
+//        SpeedCard(speed: 6.6)
     }
 }
