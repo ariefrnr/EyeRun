@@ -13,7 +13,7 @@ struct HeartRateCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing:0) {
             Text("Heart Rate")
-                .font(.title2)
+                .font(.title)
                 .bold()
                 .foregroundColor(.white)
             
@@ -21,13 +21,15 @@ struct HeartRateCard: View {
             
             HStack(alignment: .lastTextBaseline, spacing: 5) {
                 Text("\(heartRate)")
-                    .font(.system(size: 56))
+                    .font(.system(size: 60))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
             }
+            .padding(.top)
             VStack{
                 Text("bpm")
                     .font(.title2)
+                    .bold()
                     .foregroundColor(.white)
                     .padding(.leading, 5)
             }
@@ -45,7 +47,7 @@ struct StreakCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing:0) {
             Text("I'm on a")
-                .font(.title2)
+                .font(.title)
                 .bold()
                 .foregroundColor(.white)
             
@@ -57,6 +59,7 @@ struct StreakCard: View {
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
             }
+            .padding(.top)
             
             VStack(alignment: .leading, spacing:0){
                 Text("day running")
@@ -81,9 +84,9 @@ struct StepsCard: View {
     var progress: CGFloat { steps / CGFloat(goals) }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("Steps")
-                .font(.title2)
+                .font(.title)
                 .bold()
                 .foregroundColor(.white)
             
@@ -91,19 +94,24 @@ struct StepsCard: View {
             
             HStack(alignment: .lastTextBaseline, spacing: 5) {
                 Text("\(steps, specifier: "%.0f")")
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(.system(size: 42))
+                    .fontWeight(.heavy)
                     .foregroundColor(.white)
-                
-                Text("/ \(goals, specifier: "%.0f")")
-                    .font(.subheadline)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .opacity(0.7)
             }
+            .padding(.top)
+            
+            HStack(alignment: .lastTextBaseline, spacing: 5) {
+                Text("/ \(goals, specifier: "%.0f")")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+            }
+            .padding(.bottom)
+            .padding(.leading, 5)
+        
             
             ProgressView(value: progress)
-                .frame(maxWidth: .infinity, maxHeight: 10)
+                .frame(maxWidth: .infinity, maxHeight: 20)
                 .background(Color.white.opacity(0.3))
                 .overlay(
                     GeometryReader { geometry in
@@ -111,6 +119,7 @@ struct StepsCard: View {
                             .fill(Color.white)
                             .frame(width: geometry.size.width * CGFloat(progress))
                             .cornerRadius(5)
+                            
                     },
                     alignment: .leading
                 )
@@ -124,8 +133,185 @@ struct StepsCard: View {
         
 }
 
+struct DistanceCard: View {
+    let distance: CGFloat
+    let goals: CGFloat
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Distance")
+                .font(.title)
+                .bold()
+                .foregroundColor(.white)
+            
+            Spacer()
+            
+            Image (systemName: "figure.run")
+                .foregroundColor(.white)
+                .font(.system(size: 50))
+                .padding(.top)
+            
+            HStack(alignment: .lastTextBaseline, spacing: 5) {
+                Text("\(distance, specifier: "%.1f")")
+                    .font(.system(size: 56))
+                    .fontWeight(.heavy)
+                    .foregroundColor(.white)
+                
+                Text("km")
+                    .font(.largeTitle)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+            }
+
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .background(Color.distancePurple)
+        .cornerRadius(15)
+    }
+        
+}
+
+struct PaceCard: View {
+    let pace: String
+    var body: some View {
+        VStack(alignment: .leading, spacing:0) {
+            Text("Pace")
+                .font(.title)
+                .bold()
+                .foregroundColor(.white)
+            
+            Spacer()
+            
+            HStack(alignment: .lastTextBaseline, spacing: 5) {
+                Text("\(pace)")
+                    .font(.system(size: 60))
+                    .fontWeight(.heavy)
+                    .foregroundColor(.white)
+            }
+            .padding(.top)
+            VStack{
+                Text("Mins/ Kilometers")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(.white)
+                    .padding(.leading, 2)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .background(Color("PaceRed"))
+        .cornerRadius(15)
+    }
+}
+
+struct CaloriesCard: View {
+    let calories: Int
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Calories")
+                .font(.title)
+                .bold()
+                .foregroundColor(.white)
+            
+            Spacer()
+
+            HStack(alignment: .lastTextBaseline, spacing: 5) {
+                Text("\(calories)")
+                    .font(.system(size: 56))
+                    .fontWeight(.heavy)
+                    .foregroundColor(.white)
+                
+                Text("kcal")
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+            }
+            .padding(.top, 30)
+
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .background(Color.caloriesOrange)
+        .cornerRadius(15)
+    }
+        
+}
+
+struct CadenceCard: View {
+    let cadence: Int
+    var body: some View {
+        VStack(alignment: .leading, spacing:0) {
+            Text("Cadence")
+                .font(.title)
+                .bold()
+                .foregroundColor(.white)
+            
+            Spacer()
+            
+            HStack(alignment: .lastTextBaseline, spacing: 5) {
+                Text("\(cadence)")
+                    .font(.system(size: 60))
+                    .fontWeight(.heavy)
+                    .foregroundColor(.white)
+            }
+            .padding(.top)
+            VStack{
+                Text("Steps/ Min")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(.white)
+                    .padding(.leading, 2)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .background(Color("CadenceCyan"))
+        .cornerRadius(15)
+    }
+}
+
+struct SpeedCard: View {
+    let speed: CGFloat
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Speed")
+                .font(.title)
+                .bold()
+                .foregroundColor(.white)
+            
+            Spacer()
+
+            HStack(alignment: .lastTextBaseline, spacing: 5) {
+                Text("\(speed, specifier: "%.1f")")
+                    .font(.system(size: 56))
+                    .fontWeight(.heavy)
+                    .foregroundColor(.white)
+                
+                Text("km/h")
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+            }
+            .padding(.top, 30)
+
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .background(Color.speedYellow)
+        .cornerRadius(15)
+    }
+        
+}
+
 #Preview {
-    StepsCard(steps: 1304, goals: 10000)
-    HeartRateCard(heartRate: 90)
-    StreakCard(streak: 90)
+    ScrollView{
+        StepsCard(steps: 1304, goals: 10000)
+        HeartRateCard(heartRate: 90)
+        StreakCard(streak: 90)
+        DistanceCard(distance: 3.7, goals: 5)
+        PaceCard(pace: "43:28")
+        CaloriesCard(calories: 239)
+        CadenceCard(cadence: 75)
+        SpeedCard(speed: 6.6)
+    }
 }
