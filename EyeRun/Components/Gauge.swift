@@ -19,10 +19,11 @@ struct DistanceProgress: View {
                 .foregroundColor(Color.customizedOrange)
                 .multilineTextAlignment(.center)
             Text("\(distance)")
-                .font(.headline)
+                .font(.system(size: 32))
                 .fontWeight(.bold)
             Text("/\(GoalsDistance) km")
                 .font(.subheadline)
+                .opacity(0.6)
         }
         .frame(maxWidth: .infinity)
     }
@@ -40,7 +41,7 @@ struct MovementProgress: View {
                 .foregroundColor(Color.customizedOrange)
                 .multilineTextAlignment(.center)
             Text("\(activeMinutes)")
-                .font(.headline)
+                .font(.system(size: 32))
                 .fontWeight(.bold)
             Text("/\(activeMinutesGoals) min")
                 .font(.subheadline)
@@ -64,11 +65,11 @@ struct CaloriesProgress: View {
                 .multilineTextAlignment(.center)
             
             Text("\(caloriesBurned)")
-                .font(.headline)
+                .font(.system(size: 32))
                 .fontWeight(.bold)
             
             Text("/\(caloriesBurnedGoals) kcal")
-                .font(.headline)
+                .font(.subheadline)
                 .opacity(0.6)
         }
         .frame(maxWidth: .infinity)
