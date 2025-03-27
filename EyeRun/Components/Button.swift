@@ -26,7 +26,6 @@ struct HorizontalButton: View {
         .padding()
         .background(Color.customizedOrange)
         .cornerRadius(25)
-        
     }
 }
 

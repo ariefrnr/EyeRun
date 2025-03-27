@@ -11,9 +11,8 @@ struct LiveMetrics: View {
     var body: some View {
         HStack {
             VStack {
-                Color.purple
-                Color.orange
-                Color.brandSecondary
+                StepsCard(steps: 1304, goals: 10000)
+                
             }
             
             VStack {
