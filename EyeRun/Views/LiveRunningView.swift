@@ -13,7 +13,7 @@ struct LiveRunningView: View {
             ScrollView {
                 VStack {
                     // Stopwatch
-                    Stopwatch()
+                    StopwatchRun()
                         .padding()
                     
                     // Metrics

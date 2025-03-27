@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SimpleTimerView: View {
+struct StopwatchRun: View {
     @State private var elapsedTime: Double = 0
     @State private var isRunning = true
     @State private var isPaused = false
@@ -120,5 +120,5 @@ struct SimpleTimerView: View {
 
 // Preview
 #Preview {
-    SimpleTimerView()
+    StopwatchRun()
 }
