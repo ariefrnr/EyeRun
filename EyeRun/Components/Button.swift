@@ -31,15 +31,6 @@ struct HorizontalButton: View {
             .cornerRadius(25)
             .animation(.spring(), value: isPressed)
         }
-<<<<<<< HEAD
-=======
-        .foregroundColor(.white)
-        .frame(maxWidth: .infinity)
-        .padding()
-        .background(Color.customizedOrange)
-        .cornerRadius(25)
->>>>>>> parent of 00cba21 (Merge pull request #38 from ariefrnr/jojo)
-        
     }
 }
 

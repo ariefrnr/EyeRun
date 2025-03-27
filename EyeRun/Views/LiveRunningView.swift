@@ -18,7 +18,7 @@ struct LiveRunningView: View {
                     
                     // Metrics
                     LiveMetrics()
-                        .padding(.horizontal)
+                        .padding()
                 }
             }
             .navigationTitle("Live Running")

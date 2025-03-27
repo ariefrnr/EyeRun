@@ -11,13 +11,7 @@ struct Stopwatch: View {
     var body: some View {
         VStack {
             // Stopwatch
-            Color.blue
-            
-            // Start and Pause Button
-            HStack {
-                Color.green
-                Color.red
-            }
+            StopwatchRun()
         }
     }
 }
