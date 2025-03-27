@@ -36,7 +36,7 @@ struct SecondaryMetrics: View {
                         showModal = true
                     }
                 .sheet(isPresented: $showModal){
-                    GoalsModalView()
+//                    GoalsModalView()
                 }
             }
         }

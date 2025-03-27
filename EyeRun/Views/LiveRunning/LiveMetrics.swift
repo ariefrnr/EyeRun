@@ -11,14 +11,19 @@ struct LiveMetrics: View {
     var body: some View {
         HStack {
             VStack {
-                StepsCard(steps: 1304, goals: 10000)
+                DistanceCard(distance: 3.7, goals: 5)
+                PaceCard(pace: "43:28")
+                    .frame(height: 300)
+                CadenceCard(cadence: 75)
+                    .frame(height: 200)
                 
             }
             
             VStack {
-                Color.red
-                Color.customizedOrange
-                Color.yellow
+                HeartRateCard(heartRate: 90)
+                    .frame(height: 200)
+                CaloriesCard(calories: 239)
+                SpeedCard(speed: 6.6)
             }
         }
     }

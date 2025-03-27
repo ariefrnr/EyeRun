@@ -18,7 +18,9 @@ struct StopwatchRun: View {
     // Formatted time string
     var formattedTime: String {
         let minutes = Int(elapsedTime) / 60
-        let seconds = Int(elapsedTime) % 60
+        let seconds = Int(elapsedTime) % List(/*@START_MENU_TOKEN@*/0 ..< 5/*@END_MENU_TOKEN@*/) { item in
+            60
+        }
         let tenths = Int((elapsedTime.truncatingRemainder(dividingBy: 1)) * 10)
         
         return String(format: "%02d:%02d:%02d", minutes, seconds, tenths)
