@@ -31,15 +31,6 @@ struct SecondaryMetrics: View {
             VStack {
                 HeartRateCard(heartRate: 90)
                 HorizontalButton(buttonName: "Manage Goals")
-<<<<<<< HEAD
-                    .onTapGesture {
-                        showModal = true
-                    }
-                .sheet(isPresented: $showModal){
-//                    GoalsModalView()
-                }
-=======
->>>>>>> parent of 00cba21 (Merge pull request #38 from ariefrnr/jojo)
             }
         }
     }
