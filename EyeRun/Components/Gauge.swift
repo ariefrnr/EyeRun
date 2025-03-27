@@ -76,8 +76,6 @@ struct CaloriesProgress: View {
 }
 
 struct MainMetrics: View {
-    
-    
     var body: some View {
         VStack(alignment: .center){
             DistanceProgress()

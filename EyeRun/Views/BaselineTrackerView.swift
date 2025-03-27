@@ -31,9 +31,6 @@ struct BaselineTrackerView: View {
                     // Secondary Metrics
                     SecondaryMetrics()
                         .padding(.horizontal)
-
-                    // Average Stat
-                    AverageStat()
                 }
                 .padding(.vertical)
             }
