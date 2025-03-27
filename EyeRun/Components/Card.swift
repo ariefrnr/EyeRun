@@ -80,7 +80,7 @@ struct StepsCard: View {
         }
         .padding()
         .frame(maxHeight: 200)
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color("HeartRateRed"))
         .cornerRadius(15)
         
@@ -110,7 +110,7 @@ struct StepsCard: View {
         }
         .padding()
         .frame(maxHeight: 200)
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color("StreakPurple"))
         .cornerRadius(15)
     }
