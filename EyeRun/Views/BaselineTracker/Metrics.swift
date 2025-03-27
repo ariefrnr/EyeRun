@@ -21,7 +21,6 @@ struct PrimaryMetrics: View {
 }
 
 struct SecondaryMetrics: View {
-    @State var showModal = false
     var body: some View {
         HStack {
             VStack {
@@ -32,18 +31,21 @@ struct SecondaryMetrics: View {
             VStack {
                 HeartRateCard(heartRate: 90)
                 HorizontalButton(buttonName: "Manage Goals")
+<<<<<<< HEAD
                     .onTapGesture {
                         showModal = true
                     }
                 .sheet(isPresented: $showModal){
 //                    GoalsModalView()
                 }
+=======
+>>>>>>> parent of 00cba21 (Merge pull request #38 from ariefrnr/jojo)
             }
         }
     }
 }
 
 #Preview {
-    //    PrimaryMetrics()
+//    PrimaryMetrics()
     SecondaryMetrics()
 }
