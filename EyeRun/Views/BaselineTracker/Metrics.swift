@@ -24,12 +24,12 @@ struct SecondaryMetrics: View {
     var body: some View {
         HStack {
             VStack {
-                StepsCard(steps: 1304, goals: 10000, heartRate: 96, streak: 23)
-                StepsCard(steps: 1304, goals: 10000, heartRate: 96, streak: 23)
+                StepsCard(steps: 1304, goals: 10000)
+                StreakCard(streak: 90)
             }
             
             VStack {
-                StepsCard(steps: 1304, goals: 10000, heartRate: 96, streak: 23)
+                HeartRateCard(heartRate: 90)
                 HorizontalButton(buttonName: "Manage Goals")
             }
         }
@@ -37,6 +37,6 @@ struct SecondaryMetrics: View {
 }
 
 #Preview {
-    PrimaryMetrics()
-//    SecondaryMetrics()
+//    PrimaryMetrics()
+    SecondaryMetrics()
 }
