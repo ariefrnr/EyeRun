@@ -12,29 +12,13 @@ struct LiveRunningView: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    Color.blue
+                    // Stopwatch
+                    Stopwatch()
+                        .padding()
+                    
+                    // Metrics
+                    LiveMetrics()
                         .padding(.horizontal)
-                    
-                    HStack {
-                        Color.green
-                        Color.red
-                    }
-                    .padding(.horizontal)
-                    
-                    HStack {
-                        VStack {
-                            Color.purple
-                            Color.orange
-                            Color.brandSecondary
-                        }
-                        
-                        VStack {
-                            Color.red
-                            Color.customizedOrange
-                            Color.yellow
-                        }
-                    }
-                    .padding(.horizontal)
                 }
             }
             .navigationTitle("Live Running")

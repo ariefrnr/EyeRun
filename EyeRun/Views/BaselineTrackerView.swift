@@ -25,8 +25,6 @@ struct BaselineTrackerView: View {
                         }
                     }
                     .padding(.horizontal)
-                    
-                        
 
                     // Secondary Metrics
                     SecondaryMetrics()
