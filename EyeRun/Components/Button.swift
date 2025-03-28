@@ -7,29 +7,31 @@
 
 import SwiftUI
 
+
 struct HorizontalButton: View {
     let buttonName: String
-    @State private var isPressed = false
+    var systemImageName: String? = nil
+    var action: () -> Void = {}
     
     var body: some View {
         Button {
             print("Stop button pressed!")
-            isPressed.toggle()
+            action()
         } label: {
-            HStack{
+            HStack {
                 Text(buttonName)
                     .font(.system(size: 20))
                     .fontWeight(.bold)
                 
-                Image(systemName: "play.fill")
-                
+                if let imageName = systemImageName {
+                    Image(systemName: imageName)
+                }
             }
             .foregroundColor(.white)
             .frame(maxWidth: .infinity)
             .padding()
             .background(Color.customizedOrange)
             .cornerRadius(25)
-            .animation(.spring(), value: isPressed)
         }
     }
 }
