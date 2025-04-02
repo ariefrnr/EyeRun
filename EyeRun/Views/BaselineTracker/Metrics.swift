@@ -24,7 +24,7 @@ struct SecondaryMetrics: View {
     var body: some View {
         HStack {
             VStack {
-                StepsCard(steps: 1304, goals: 10000)
+                StepsCard(goals: 10000)
                 StreakCard(streak: 90)
             }
             

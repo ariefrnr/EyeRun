@@ -79,9 +79,10 @@ struct StreakCard: View {
 }
 
 struct StepsCard: View {
-    let steps: CGFloat
+    @StateObject private var controller = StepsController(deviceType: .simulator)
+    
     let goals: CGFloat
-    var progress: CGFloat { steps / CGFloat(goals) }
+    var progress: CGFloat { CGFloat(controller.steps) / CGFloat(goals) }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -93,7 +94,7 @@ struct StepsCard: View {
             Spacer()
             
             HStack(alignment: .lastTextBaseline, spacing: 5) {
-                Text("\(steps, specifier: "%.0f")")
+                Text("\(controller.steps, specifier: "%.0f")")
                     .font(.system(size: 42))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
@@ -306,15 +307,70 @@ struct SpeedCard: View {
         
 }
 
+
+//import SwiftUI
+//
+//struct ContentView: View {
+//    @StateObject private var stepsController = StepsController(deviceType: .simulator)
+//    
+//    var body: some View {
+//        VStack {
+//            Text("Today's Steps: \(stepsController.steps)")
+//                .font(.title)
+//                .padding()
+//            
+//            Button(action: {
+//                do {
+//                    try stepsController.startRealTimeStepCounting()
+//                } catch {
+//                    print("Error: \(error)")
+//                }
+//            }) {
+//                Text("Start Record")
+//                    .padding()
+//                    .frame(maxWidth: .infinity)
+//                    .background(stepsController.isRealTimeActive ? Color.gray : Color.blue)
+//                    .foregroundColor(.white)
+//                    .cornerRadius(10)
+//            }
+//            .disabled(stepsController.isRealTimeActive)
+//            
+//            Button(action: {
+//                do {
+//                    try stepsController.stopRealTimeStepCounting()
+//                } catch {
+//                    print("Error: \(error)")
+//                }
+//            }) {
+//                Text("Stop Record")
+//                    .padding()
+//                    .frame(maxWidth: .infinity)
+//                    .background(stepsController.isRealTimeActive ? Color.blue : Color.gray)
+//                    .foregroundColor(.white)
+//                    .cornerRadius(10)
+//            }
+//            .disabled(!stepsController.isRealTimeActive)
+//        }
+//        .padding()
+//        .onAppear {
+//            do {
+//                try stepsController.fetchDailySteps()
+//            } catch {
+//                print("Error: \(error)")
+//            }
+//        }
+//    }
+//}
+
 #Preview {
     ScrollView{
-//        StepsCard(steps: 1304, goals: 10000)
-//        HeartRateCard(heartRate: 90)
-//        StreakCard(streak: 90)
-//        DistanceCard(distance: 3.7, goals: 5)
-//        PaceCard(pace: "43:28")
+        StepsCard(goals: 10000)
+        HeartRateCard(heartRate: 90)
+        StreakCard(streak: 90)
+        DistanceCard(distance: 3.7, goals: 5)
+        PaceCard(pace: "43:28")
         CaloriesCard(calories: 239)
-//        CadenceCard(cadence: 75)
-//        SpeedCard(speed: 6.6)
+        CadenceCard(cadence: 75)
+        SpeedCard(speed: 6.6)
     }
 }
