@@ -14,14 +14,7 @@ struct BaselineTrackerView: View {
                         PrimaryMetrics()
                         
                         NavigationLink(destination: LiveRunningView()) {
-                            Text("Start Running")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.customizedOrange)
-                                .cornerRadius(25)
-                                .padding(.top)
+                            HorizontalButton(buttonName: "Start Running", systemImageName: "play.fill")
                         }
                     }
                     .padding(.horizontal)
