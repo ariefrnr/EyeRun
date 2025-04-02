@@ -5,53 +5,55 @@
 //  Created by Jonathan Tjahjadi on 27/03/25.
 //
 
-
 import SwiftUI
 
-struct StepsGoalsModalView: View {
+enum GoalType {
+    case steps
+    case distance
+    case movement
+    case calories
+}
+
+struct GoalsModalView: View {
     @Environment(\.dismiss) private var dismiss
+    @State private var currentGoal: GoalType = .steps
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .center) {
                 Spacer()
                 
                 VStack(alignment: .center) {
                     Text("Set Your Daily")
-                        .font(.system(size: 38))
+                        .font(.system(size: 32))
                         .fontWeight(.heavy)
-                    Text("Steps Goals")
-                        .font(.system(size: 38))
+                    Text(goalType)
+                        .font(.system(size: 32))
                         .fontWeight(.heavy)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.bottom, 20)
                 
-                GoalsSteps()
+                goalSetter
                 
                 Spacer()
-                
-                
-                NavigationLink(destination: DistanceGoalsModalView()) {
-                    HStack{
-                        Text("Set Next Goals")
-                        .font(.system(size: 20))
-                        .fontWeight(.bold)
+    
+                Button(action: {
+                    goToNextGoal()
+                }) {
+                    HStack {
+                        Text(isLastGoal ? "Save Goals" : "Set Next Goals")
+                            .font(.system(size: 20))
+                            .fontWeight(.bold)
                         
-                        
-                        Image(systemName: "chevron.right")
+                        Image(systemName: isLastGoal ? "flag.pattern.checkered" : "chevron.right")
                     }
-                    .frame(width: .infinity)
-                    .foregroundColor(.white)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.customizedOrange)
                     .cornerRadius(25)
-                        
-//                    HorizontalButton(buttonName: "Set Next Goal", systemImageName: "chevron.right")
                 }
-                
                 .buttonStyle(PlainButtonStyle())
             }
             .padding()
@@ -64,188 +66,54 @@ struct StepsGoalsModalView: View {
                     }
                 }
             }
+            .animation(.default, value: currentGoal)
         }
     }
-}
-
-struct DistanceGoalsModalView: View {
-    @Environment(\.dismiss) private var dismiss
     
-    var body: some View {
-        VStack(alignment: .leading) {
-            Spacer()
-            
-            VStack(alignment: .center) {
-                Text("Set Your Daily")
-                    .font(.system(size: 38))
-                    .fontWeight(.heavy)
-                Text("Distance Goals")
-                    .font(.system(size: 38))
-                    .fontWeight(.heavy)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.bottom, 20)
-            
-            GoalsDistance()
-            
-            Spacer()
-            
-            NavigationLink(destination: MovementGoalsModalView()) {
-                HStack{
-                    Text("Set Next Goals")
-                    .font(.system(size: 20))
-                    .fontWeight(.bold)
-                    
-                    
-                    Image(systemName: "chevron.right")
-                }
-                .frame(width: .infinity)
-                .foregroundColor(.white)
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.customizedOrange)
-                .cornerRadius(25)
-                    
-//                    HorizontalButton(buttonName: "Set Next Goal", systemImageName: "chevron.right")
-            }
-            
-            .buttonStyle(PlainButtonStyle())
+    private var goalType: String {
+        switch currentGoal {
+        case .steps:
+            return "Steps Goals"
+        case .distance:
+            return "Distance Goals"
+        case .movement:
+            return "Movement Goals"
+        case .calories:
+            return "Calories Burned Goals"
         }
-        .padding()
-        .navigationTitle("Manage Goals")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button("Cancel") {
-                    dismiss()
-                }
-            }
-        }
-        .navigationBarBackButtonHidden(true)
     }
-}
-
-struct MovementGoalsModalView: View {
-    @Environment(\.dismiss) private var dismiss
     
-    var body: some View {
-        VStack(alignment: .leading) {
-            Spacer()
-            
-            VStack(alignment: .center) {
-                Text("Set Your Daily")
-                    .font(.system(size: 38))
-                    .fontWeight(.heavy)
-                Text("Movement Goals")
-                    .font(.system(size: 38))
-                    .fontWeight(.heavy)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.bottom, 20)
-            
-            GoalsMinutes()
-            
-            Spacer()
-            
-            NavigationLink(destination: CaloriesGoalsModalView()) {
-                HStack{
-                    Text("Set Next Goals")
-                    .font(.system(size: 20))
-                    .fontWeight(.bold)
-                    
-                    
-                    Image(systemName: "chevron.right")
-                }
-                .frame(width: .infinity)
-                .foregroundColor(.white)
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.customizedOrange)
-                .cornerRadius(25)
-                    
-//                    HorizontalButton(buttonName: "Set Next Goal", systemImageName: "chevron.right")
-            }
-            
-            .buttonStyle(PlainButtonStyle())
-        }
-        .padding()
-        .navigationTitle("Manage Goals")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button("Cancel") {
-                    dismiss()
-                }
-            }
-        }
-        .navigationBarBackButtonHidden(true)
+    private var isLastGoal: Bool {
+        return currentGoal == .calories
     }
-}
-
-struct CaloriesGoalsModalView: View {
-    @Environment(\.dismiss) private var dismiss
     
-    var body: some View {
-        VStack(alignment: .leading) {
-            Spacer()
-            
-            VStack(alignment: .center) {
-                Text("Set Your Daily")
-                    .font(.system(size: 38))
-                    .fontWeight(.heavy)
-                Text("Calories Burned Goals")
-                    .font(.system(size: 38))
-                    .fontWeight(.heavy)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.bottom, 20)
-            
-            GoalsCalories()
-            
-            Spacer()
-            
-            
-            NavigationLink(destination: BaselineTrackerView()) {
-                HStack{
-                    Text("Save Goals")
-                    .font(.system(size: 20))
-                    .fontWeight(.bold)
-                    
-                    
-                    Image(systemName: "flag.pattern.checkered")
-                }
-                .frame(width: .infinity)
-                .foregroundColor(.white)
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.customizedOrange)
-                .cornerRadius(25)
-                    
-//                    HorizontalButton(buttonName: "Set Next Goal", systemImageName: "chevron.right")
-            }
-            
-            .buttonStyle(PlainButtonStyle())
+    private var goalSetter: some View {
+        switch currentGoal {
+        case .steps:
+            return AnyView(GoalsSteps())
+        case .distance:
+            return AnyView(GoalsDistance())
+        case .movement:
+            return AnyView(GoalsMinutes())
+        case .calories:
+            return AnyView(GoalsCalories())
         }
-        .padding()
-        .navigationTitle("Manage Goals")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button("Cancel") {
-                    dismiss()
-                }
-            }
+    }
+    
+    private func goToNextGoal() {
+        switch currentGoal {
+        case .steps:
+            currentGoal = .distance
+        case .distance:
+            currentGoal = .movement
+        case .movement:
+            currentGoal = .calories
+        case .calories:
+            dismiss()
         }
-        .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-    StepsGoalsModalView()
-    //    DistanceGoalsModalView()
+    GoalsModalView()
 }
-
-
