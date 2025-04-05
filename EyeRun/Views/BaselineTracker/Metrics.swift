@@ -27,19 +27,22 @@ struct SecondaryMetrics: View {
         HStack {
             VStack {
                 StepsCard()
-                    .environmentObject(GoalsManager())
                 StreakCard(streak: 90)
             }
             
             VStack {
-                            HeartRateCard(heartRate: 90)
-                HorizontalButton(buttonName: "Manage Goals",systemImageName: "gearshape.fill", action: {
-                                showModal = true
-                            })
-                            .sheet(isPresented: $showModal) {
-                                GoalsModalView()
-                            }
-                        }
+                HeartRateCard(heartRate: 90)
+                HorizontalButton(
+                    buttonName: "Manage Goals",
+                    systemImageName: "gearshape.fill",
+                    action: {
+                        showModal = true
+                    }
+                )
+                .sheet(isPresented: $showModal) {
+                    GoalsModalView()
+                }
+            }
         }
        
     }
