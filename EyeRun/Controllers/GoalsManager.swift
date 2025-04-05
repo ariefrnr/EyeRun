@@ -6,24 +6,9 @@
 import Foundation
 import SwiftUI
 
-// Data model for user goals
-struct UserGoals: Codable {
-    var stepsGoal: Int
-    var distanceGoal: Double // in kilometers/miles
-    var movementGoal: Int // in minutes
-    var caloriesGoal: Int
-    
-    static let defaultGoals = UserGoals(
-        stepsGoal: 2000,
-        distanceGoal: 2.0,
-        movementGoal: 30,
-        caloriesGoal: 400
-    )
-}
-
 // Manager class to handle saving and loading goals
 class GoalsManager: ObservableObject {
-    @Published var userGoals: UserGoals
+    @Published var userGoals: Users
     
     private let userDefaults = UserDefaults.standard
     private let goalsKey = "userGoals"
@@ -31,10 +16,10 @@ class GoalsManager: ObservableObject {
     init() {
         // Try to load saved goals, or use default if none exist
         if let savedGoalsData = userDefaults.data(forKey: goalsKey),
-           let decodedGoals = try? JSONDecoder().decode(UserGoals.self, from: savedGoalsData) {
+           let decodedGoals = try? JSONDecoder().decode(Users.self, from: savedGoalsData) {
             self.userGoals = decodedGoals
         } else {
-            self.userGoals = UserGoals.defaultGoals
+            self.userGoals = Users.defaultGoals
         }
     }
     

@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-enum GoalType {
-    case steps
-    case distance
-    case movement
-    case calories
-}
-
 struct GoalsModalView: View {
+    enum GoalType {
+        case steps
+        case distance
+        case movement
+        case calories
+    }
+    
     @Environment(\.dismiss) private var dismiss
     @State private var currentGoal: GoalType = .steps
     @EnvironmentObject var goalsManager: GoalsManager
