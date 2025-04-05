@@ -80,9 +80,12 @@ struct StreakCard: View {
 
 struct StepsCard: View {
     @StateObject private var controller = StepsController(deviceType: .simulator)
+    @EnvironmentObject private var goalsManager: GoalsManager
     
-    let goals: CGFloat
-    var progress: CGFloat { CGFloat(controller.steps) / CGFloat(goals) }
+    // Remove the goals parameter since we'll get it from the manager
+    var progress: CGFloat {
+        CGFloat(controller.steps) / CGFloat(goalsManager.userGoals.stepsGoal)
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -102,37 +105,39 @@ struct StepsCard: View {
             .padding(.top)
             
             HStack(alignment: .lastTextBaseline, spacing: 5) {
-                Text("/ \(goals, specifier: "%.0f")")
+                Text("/ \(goalsManager.userGoals.stepsGoal)")
                     .font(.headline)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
             }
-            .padding(.bottom)
+            .padding(.bottom, 10)
             .padding(.leading, 5)
-        
             
-            ProgressView(value: progress)
+            ProgressView(value: min(progress, 1.0))  // Cap progress at 1.0 to avoid overflow
                 .frame(maxWidth: .infinity, maxHeight: 20)
                 .background(Color.white.opacity(0.3))
                 .overlay(
                     GeometryReader { geometry in
                         Rectangle()
                             .fill(Color.white)
-                            .frame(width: geometry.size.width * CGFloat(progress))
+                            .frame(width: geometry.size.width * min(progress, 1.0))
                             .cornerRadius(5)
-                            
                     },
                     alignment: .leading
                 )
                 .cornerRadius(3)
+            
         }
         .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .background(Color.customizedBlue)
         .cornerRadius(15)
     }
-        
 }
+
+
+
+ 
 
 struct DistanceCard: View {
     let distance: CGFloat
@@ -308,63 +313,10 @@ struct SpeedCard: View {
 }
 
 
-//import SwiftUI
-//
-//struct ContentView: View {
-//    @StateObject private var stepsController = StepsController(deviceType: .simulator)
-//    
-//    var body: some View {
-//        VStack {
-//            Text("Today's Steps: \(stepsController.steps)")
-//                .font(.title)
-//                .padding()
-//            
-//            Button(action: {
-//                do {
-//                    try stepsController.startRealTimeStepCounting()
-//                } catch {
-//                    print("Error: \(error)")
-//                }
-//            }) {
-//                Text("Start Record")
-//                    .padding()
-//                    .frame(maxWidth: .infinity)
-//                    .background(stepsController.isRealTimeActive ? Color.gray : Color.blue)
-//                    .foregroundColor(.white)
-//                    .cornerRadius(10)
-//            }
-//            .disabled(stepsController.isRealTimeActive)
-//            
-//            Button(action: {
-//                do {
-//                    try stepsController.stopRealTimeStepCounting()
-//                } catch {
-//                    print("Error: \(error)")
-//                }
-//            }) {
-//                Text("Stop Record")
-//                    .padding()
-//                    .frame(maxWidth: .infinity)
-//                    .background(stepsController.isRealTimeActive ? Color.blue : Color.gray)
-//                    .foregroundColor(.white)
-//                    .cornerRadius(10)
-//            }
-//            .disabled(!stepsController.isRealTimeActive)
-//        }
-//        .padding()
-//        .onAppear {
-//            do {
-//                try stepsController.fetchDailySteps()
-//            } catch {
-//                print("Error: \(error)")
-//            }
-//        }
-//    }
-//}
-
 #Preview {
     ScrollView{
-        StepsCard(goals: 10000)
+        StepsCard()
+            .environmentObject(GoalsManager())
         HeartRateCard(heartRate: 90)
         StreakCard(streak: 90)
         DistanceCard(distance: 3.7, goals: 5)
@@ -374,3 +326,5 @@ struct SpeedCard: View {
         SpeedCard(speed: 6.6)
     }
 }
+
+

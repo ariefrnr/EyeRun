@@ -26,7 +26,8 @@ struct SecondaryMetrics: View {
     var body: some View {
         HStack {
             VStack {
-                StepsCard(goals: 10000)
+                StepsCard()
+                    .environmentObject(GoalsManager())
                 StreakCard(streak: 90)
             }
             

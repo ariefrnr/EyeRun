@@ -17,59 +17,82 @@ enum GoalType {
 struct GoalsModalView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var currentGoal: GoalType = .steps
+    @EnvironmentObject var goalsManager: GoalsManager
     
-    var body: some View {
-        NavigationStack {
-            VStack(alignment: .center) {
-                Spacer()
-                
-                VStack(alignment: .center) {
-                    Text("Set Your Daily")
-                        .font(.system(size: 32))
-                        .fontWeight(.heavy)
-                    Text(goalType)
-                        .font(.system(size: 32))
-                        .fontWeight(.heavy)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.bottom, 20)
-                
-                goalSetter
-                
-                Spacer()
+    // Keep track of temporary values
+    @State private var tempStepsGoal: Int
+    @State private var tempDistanceGoal: Double
+    @State private var tempMovementGoal: Int
+    @State private var tempCaloriesGoal: Int
     
-                Button(action: {
-                    goToNextGoal()
-                }) {
-                    HStack {
-                        Text(isLastGoal ? "Save Goals" : "Set Next Goals")
-                            .font(.system(size: 20))
-                            .fontWeight(.bold)
-                        
-                        Image(systemName: isLastGoal ? "flag.pattern.checkered" : "chevron.right")
-                    }
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.customizedOrange)
-                    .cornerRadius(25)
-                }
-                .buttonStyle(PlainButtonStyle())
-            }
-            .padding()
-            .navigationTitle("Manage Goals")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                }
-            }
-            .animation(.default, value: currentGoal)
-        }
+    init() {
+        // Use a temporary instance just for the initializer
+        let tempManager = GoalsManager()
+        _tempStepsGoal = State(initialValue: tempManager.userGoals.stepsGoal)
+        _tempDistanceGoal = State(initialValue: tempManager.userGoals.distanceGoal)
+        _tempMovementGoal = State(initialValue: tempManager.userGoals.movementGoal)
+        _tempCaloriesGoal = State(initialValue: tempManager.userGoals.caloriesGoal)
     }
+    var body: some View {
+            NavigationStack {
+                VStack(alignment: .center) {
+                    Spacer()
+                    
+                    VStack(alignment: .center) {
+                        Text("Set Your Daily")
+                            .font(.system(size: 32))
+                            .fontWeight(.heavy)
+                        Text(goalType)
+                            .font(.system(size: 32))
+                            .fontWeight(.heavy)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.bottom, 20)
+                    
+                    goalSetter
+                    
+                    Spacer()
+        
+                    Button(action: {
+                        goToNextGoal()
+                    }) {
+                        HStack {
+                            Text(isLastGoal ? "Save Goals" : "Set Next Goals")
+                                .font(.system(size: 20))
+                                .fontWeight(.bold)
+                            
+                            Image(systemName: isLastGoal ? "flag.pattern.checkered" : "chevron.right")
+                        }
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.customizedOrange)
+                        .cornerRadius(25)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+                .padding()
+                .navigationTitle("Manage Goals")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Cancel") {
+                            dismiss()
+                        }
+                    }
+                }
+                .animation(.default, value: currentGoal)
+            }
+            .onAppear {
+                // Update temporary values with current saved values
+                tempStepsGoal = goalsManager.userGoals.stepsGoal
+                tempDistanceGoal = goalsManager.userGoals.distanceGoal
+                tempMovementGoal = goalsManager.userGoals.movementGoal
+                tempCaloriesGoal = goalsManager.userGoals.caloriesGoal
+            }
+        }
     
+
     private var goalType: String {
         switch currentGoal {
         case .steps:
@@ -88,32 +111,39 @@ struct GoalsModalView: View {
     }
     
     private var goalSetter: some View {
-        switch currentGoal {
-        case .steps:
-            return AnyView(GoalsSteps())
-        case .distance:
-            return AnyView(GoalsDistance())
-        case .movement:
-            return AnyView(GoalsMinutes())
-        case .calories:
-            return AnyView(GoalsCalories())
+            switch currentGoal {
+            case .steps:
+                return AnyView(GoalsSteps(stepsGoal: $tempStepsGoal))
+            case .distance:
+                return AnyView(GoalsDistance(distanceGoal: $tempDistanceGoal))
+            case .movement:
+                return AnyView(GoalsMinutes(movementGoal: $tempMovementGoal))
+            case .calories:
+                return AnyView(GoalsCalories(caloriesGoal: $tempCaloriesGoal))
+            }
         }
-    }
     
     private func goToNextGoal() {
-        switch currentGoal {
-        case .steps:
-            currentGoal = .distance
-        case .distance:
-            currentGoal = .movement
-        case .movement:
-            currentGoal = .calories
-        case .calories:
-            dismiss()
+            // Save the current goal before moving to next
+            switch currentGoal {
+            case .steps:
+                goalsManager.updateStepsGoal(tempStepsGoal)
+                currentGoal = .distance
+            case .distance:
+                goalsManager.updateDistanceGoal(tempDistanceGoal)
+                currentGoal = .movement
+            case .movement:
+                goalsManager.updateMovementGoal(tempMovementGoal)
+                currentGoal = .calories
+            case .calories:
+                goalsManager.updateCaloriesGoal(tempCaloriesGoal)
+                dismiss()
+            }
         }
     }
-}
+
 
 #Preview {
     GoalsModalView()
+        .environmentObject(GoalsManager())
 }
