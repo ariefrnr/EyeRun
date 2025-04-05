@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DistanceProgress: View {
     var distance = 3
-    var GoalsDistance = 5
+    @EnvironmentObject var goalsManager: GoalsManager
     
     var body: some View {
         VStack(alignment: .center){
@@ -21,7 +21,7 @@ struct DistanceProgress: View {
             Text("\(distance)")
                 .font(.system(size: 32))
                 .fontWeight(.bold)
-            Text("/\(GoalsDistance) km")
+            Text("/\(Int(goalsManager.userGoals.distanceGoal)) km")
                 .font(.subheadline)
                 .opacity(0.6)
         }
@@ -31,7 +31,7 @@ struct DistanceProgress: View {
 
 struct MovementProgress: View {
     var activeMinutes = 30
-    var activeMinutesGoals = 45
+    @EnvironmentObject var goalsManager: GoalsManager
     
     var body: some View {
         VStack(alignment: .center){
@@ -43,18 +43,17 @@ struct MovementProgress: View {
             Text("\(activeMinutes)")
                 .font(.system(size: 32))
                 .fontWeight(.bold)
-            Text("/\(activeMinutesGoals) min")
+            Text("/\(goalsManager.userGoals.movementGoal) min")
                 .font(.subheadline)
                 .opacity(0.6)
         }
         .frame(maxWidth: .infinity)
-        
     }
 }
 
 struct CaloriesProgress: View {
     var caloriesBurned = 189
-    var caloriesBurnedGoals = 450
+    @EnvironmentObject var goalsManager: GoalsManager
     
     var body: some View {
         VStack(alignment: .center){
@@ -68,7 +67,7 @@ struct CaloriesProgress: View {
                 .font(.system(size: 32))
                 .fontWeight(.bold)
             
-            Text("/\(caloriesBurnedGoals) kcal")
+            Text("/\(goalsManager.userGoals.caloriesGoal) kcal")
                 .font(.subheadline)
                 .opacity(0.6)
         }
@@ -77,6 +76,8 @@ struct CaloriesProgress: View {
 }
 
 struct MainMetrics: View {
+    @EnvironmentObject var goalsManager: GoalsManager
+    
     var body: some View {
         VStack(alignment: .center){
             DistanceProgress()
@@ -98,4 +99,5 @@ struct MainMetrics: View {
 
 #Preview {
     MainMetrics()
+        .environmentObject(GoalsManager())
 }
