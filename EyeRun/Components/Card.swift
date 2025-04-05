@@ -80,7 +80,7 @@ struct StreakCard: View {
 
 struct StepsCard: View {
     @StateObject private var controller = StepsController(deviceType: .simulator)
-    @EnvironmentObject private var goalsManager: GoalsManager
+    @EnvironmentObject var goalsManager: GoalsManager
     
     // Remove the goals parameter since we'll get it from the manager
     var progress: CGFloat {
@@ -97,7 +97,7 @@ struct StepsCard: View {
             Spacer()
             
             HStack(alignment: .lastTextBaseline, spacing: 5) {
-                Text("\(controller.steps, specifier: "%.0f")")
+                Text("\(Int(controller.steps))")
                     .font(.system(size: 42))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
