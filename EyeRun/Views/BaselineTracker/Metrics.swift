@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PrimaryMetrics: View {
+    @EnvironmentObject var manager: HealthManager
     var body: some View {
         HStack {
             Image(systemName: "figure.run")
