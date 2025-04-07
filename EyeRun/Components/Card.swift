@@ -79,23 +79,30 @@ struct StreakCard: View {
 }
 
 struct StepsCard: View {
-    @StateObject private var controller = StepsController(deviceType: .simulator)
+    @StateObject private var controller = StepsController(deviceType: {
+        #if targetEnvironment(simulator)
+        return .simulator
+        #else
+        return .iPhone
+        #endif
+    }())
     @EnvironmentObject var goalsManager: GoalsManager
-    
-    // Remove the goals parameter since we'll get it from the manager
+
+    @State private var refreshTimer: Timer?
+
     var progress: CGFloat {
         CGFloat(controller.steps) / CGFloat(goalsManager.userGoals.stepsGoal)
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Steps")
                 .font(.title)
                 .bold()
                 .foregroundColor(.white)
-            
+
             Spacer()
-            
+
             HStack(alignment: .lastTextBaseline, spacing: 5) {
                 Text("\(Int(controller.steps))")
                     .font(.system(size: 42))
@@ -103,7 +110,7 @@ struct StepsCard: View {
                     .foregroundColor(.white)
             }
             .padding(.top)
-            
+
             HStack(alignment: .lastTextBaseline, spacing: 5) {
                 Text("/ \(goalsManager.userGoals.stepsGoal)")
                     .font(.headline)
@@ -112,8 +119,8 @@ struct StepsCard: View {
             }
             .padding(.bottom, 10)
             .padding(.leading, 5)
-            
-            ProgressView(value: min(progress, 1.0))  // Cap progress at 1.0 to avoid overflow
+
+            ProgressView(value: min(progress, 1.0))
                 .frame(maxWidth: .infinity, maxHeight: 20)
                 .background(Color.white.opacity(0.3))
                 .overlay(
@@ -126,17 +133,39 @@ struct StepsCard: View {
                     alignment: .leading
                 )
                 .cornerRadius(3)
-            
+
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .background(Color.customizedBlue)
         .cornerRadius(15)
+        .onAppear {
+            refreshSteps()
+
+            refreshTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
+                refreshSteps()
+            }
+        }
+        .onDisappear {
+            refreshTimer?.invalidate()
+        }
+    }
+
+    private func refreshSteps() {
+        // Stop updating if goal is reached
+        if controller.steps >= goalsManager.userGoals.stepsGoal {
+            refreshTimer?.invalidate()
+            print("🎯 Goal reached! Step counting stopped.")
+            return
+        }
+
+        do {
+            try controller.fetchDailySteps()
+        } catch {
+            print("❌ Failed to fetch steps: \(error.localizedDescription)")
+        }
     }
 }
-
-
-
  
 
 struct DistanceCard: View {
