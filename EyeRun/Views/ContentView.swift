@@ -8,10 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var manager: HealthManager
+    var healthManager = HealthManager()
     var body: some View {
         BaselineTrackerView()
             .environmentObject(GoalsManager())
+            .onAppear{
+                healthManager.requestAuthorization { isSuccess, error in
+                    if isSuccess{
+                        print("success")
+                    } else {
+                        print(error?.localizedDescription)
+                    }
+                }
+            }
     }
 }
 

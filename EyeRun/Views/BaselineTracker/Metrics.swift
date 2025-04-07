@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PrimaryMetrics: View {
-    @EnvironmentObject var manager: HealthManager
     var body: some View {
         HStack {
             Image(systemName: "figure.run")
@@ -23,7 +22,7 @@ struct PrimaryMetrics: View {
 
 struct SecondaryMetrics: View {
     @State private var showModal = false
-    
+    @State private var healthManager = HealthManager()
     var body: some View {
         HStack {
             VStack {
@@ -32,7 +31,7 @@ struct SecondaryMetrics: View {
             }
             
             VStack {
-                HeartRateCard(heartRate: 90)
+                HeartRateCard(heartRate: healthManager.currentHeartRate ?? 0)
                 HorizontalButton(
                     buttonName: "Manage Goals",
                     systemImageName: "gearshape.fill",

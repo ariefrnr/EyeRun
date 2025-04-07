@@ -10,9 +10,22 @@
 		23CDB0E12D8D4A3E00EF2BD3 /* EyeRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EyeRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		99999C042DA37B8A003C7763 /* Exceptions for "EyeRun" folder in "EyeRun" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 23CDB0E02D8D4A3E00EF2BD3 /* EyeRun */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		23CDB0E32D8D4A3E00EF2BD3 /* EyeRun */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				99999C042DA37B8A003C7763 /* Exceptions for "EyeRun" folder in "EyeRun" target */,
+			);
 			path = EyeRun;
 			sourceTree = "<group>";
 		};
@@ -253,8 +266,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EyeRun/Preview Content\"";
+				DEVELOPMENT_TEAM = NYY3655RKW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EyeRun/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "We need health data to track your metrics";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need your updated health data to track your metrics";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -283,8 +300,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EyeRun/Preview Content\"";
+				DEVELOPMENT_TEAM = NYY3655RKW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EyeRun/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "We need health data to track your metrics";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need your updated health data to track your metrics";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

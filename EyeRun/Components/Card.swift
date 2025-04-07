@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HeartRateCard: View {
-    let heartRate: Int
+    var heartRate: Double
     
     var body: some View {
         VStack(alignment: .leading, spacing:0) {
@@ -20,7 +20,7 @@ struct HeartRateCard: View {
             Spacer()
             
             HStack(alignment: .lastTextBaseline, spacing: 5) {
-                Text("\(heartRate)")
+                Text("\(Int(heartRate))")
                     .font(.system(size: 60))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
