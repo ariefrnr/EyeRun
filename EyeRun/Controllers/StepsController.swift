@@ -13,7 +13,6 @@ class StepsController: ObservableObject {
     @Published var isRealTimeActive: Bool = false
 
     private let model: Steps = Steps(pedometer: CMPedometer())
-
     let deviceType: Device
 
     enum Device {
@@ -26,18 +25,33 @@ class StepsController: ObservableObject {
         case invalidDevice(message: String = "❌ Invalid device.")
         case realTimeNotActive(message: String = "Real-time steps tracking is not active.")
 
+        // 👇 Tambahkan deskripsi error agar bisa tampil saat catch error
+        var errorDescription: String? {
+            switch self {
+            case .stepCountingNotAvailable(let message),
+                 .invalidDevice(let message),
+                 .realTimeNotActive(let message):
+                return message
+            }
+        }
     }
 
-    init(deviceType: Device) { self.deviceType = deviceType }
+    init(deviceType: Device) {
+        self.deviceType = deviceType
+    }
 
     func fetchDailySteps() throws {
         if deviceType == .simulator {
-            print("⚠️ Simulator Mode: Fetching Dummy Steps")
+            print("⚠️ Simulator Mode: Simulating Step Count")
+
+            // Tambah terus setiap kali dipanggil (simulasi berjalan)
             DispatchQueue.main.async {
-                self.steps = Int.random(in: 1000...5000)
+                self.steps += Int.random(in: 10...30) // Bertambah setiap fetch
             }
         } else if deviceType == .iPhone {
-            guard CMPedometer.isStepCountingAvailable() else { throw SystemError.stepCountingNotAvailable() }
+            guard CMPedometer.isStepCountingAvailable() else {
+                throw SystemError.stepCountingNotAvailable()
+            }
 
             model.dailySteps { [weak self] steps in
                 DispatchQueue.main.async {
@@ -51,13 +65,13 @@ class StepsController: ObservableObject {
 
     func startRealTimeStepCounting() throws {
         isRealTimeActive = true
-        
+
         if deviceType == .simulator {
             print("⚠️ Simulator Mode: Simulating Real-Time Steps")
             if !isRealTimeActive {
                 throw SystemError.realTimeNotActive()
             }
-            
+
             Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
                 guard let self = self, self.isRealTimeActive else {
                     timer.invalidate()
@@ -69,9 +83,10 @@ class StepsController: ObservableObject {
                 }
             }
         } else if deviceType == .iPhone {
-            guard CMPedometer.isStepCountingAvailable() else { throw SystemError.stepCountingNotAvailable() }
+            guard CMPedometer.isStepCountingAvailable() else {
+                throw SystemError.stepCountingNotAvailable()
+            }
 
-            isRealTimeActive = true
             model.realTimeSteps { [weak self] steps in
                 DispatchQueue.main.async {
                     self?.steps = steps
@@ -83,7 +98,9 @@ class StepsController: ObservableObject {
     }
 
     func stopRealTimeStepCounting() throws {
-        guard isRealTimeActive else { throw SystemError.realTimeNotActive() }
+        guard isRealTimeActive else {
+            throw SystemError.realTimeNotActive()
+        }
 
         if deviceType == .simulator {
             self.isRealTimeActive = false

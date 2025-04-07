@@ -44,8 +44,9 @@ struct SecondaryMetrics: View {
                 }
             }
         }
-       
+        .environmentObject(GoalsManager())
     }
+
 }
 
 #Preview {
