@@ -1,56 +1,88 @@
 import HealthKit
 
-import HealthKit
-
-class HealthManager: ObservableObject {
+class HealthManager: NSObject, ObservableObject {
     private let healthStore = HKHealthStore()
     @Published var currentHeartRate: Double?
     @Published var lastReadingDate: Date?
+    @Published var isLoading = false
+    @Published var error: Error?
     
     func requestAuthorization(completion: @escaping (Bool, Error?) -> Void) {
-        // Check if HealthKit is available
         guard HKHealthStore.isHealthDataAvailable() else {
-            completion(false, NSError(domain: "com.yourapp", code: 2, userInfo: [NSLocalizedDescriptionKey: "HealthKit is not available on this device"]))
+            let error = NSError(domain: "com.yourapp", code: 2, userInfo: [NSLocalizedDescriptionKey: "HealthKit not available"])
+            DispatchQueue.main.async {
+                self.error = error
+                completion(false, error)
+            }
             return
         }
         
-        // Data types to read
         let readTypes: Set<HKObjectType> = [
-            HKObjectType.quantityType(forIdentifier: .stepCount)!,
-            HKObjectType.quantityType(forIdentifier: .heartRate)!
+            HKObjectType.quantityType(forIdentifier: .heartRate)!,
+            HKObjectType.quantityType(forIdentifier: .stepCount)!
         ]
         
-        // Request authorization
         healthStore.requestAuthorization(toShare: nil, read: readTypes) { success, error in
-            completion(success, error)
+            DispatchQueue.main.async {
+                if success {
+                    self.fetchHeartRate()
+                }
+                self.error = error
+                completion(success, error)
+            }
         }
     }
     
-    func getLatestHeartRate(completion: @escaping (Double?, Date?, Error?) -> Void) {
+    // Fungsi utama untuk mengambil dan mengupdate data
+    func fetchHeartRate() {
+        isLoading = true
+        
+        getLatestHeartRate { [weak self] heartRate in
+            DispatchQueue.main.async {
+                self?.currentHeartRate = heartRate
+                self?.lastReadingDate = Date()
+                self?.isLoading = false
+                
+                if heartRate == nil {
+                    self?.error = NSError(domain: "com.yourapp", code: 3,
+                                        userInfo: [NSLocalizedDescriptionKey: "No heart rate data available"])
+                }
+            }
+        }
+    }
+    
+    private func getLatestHeartRate(completion: @escaping (Double?) -> Void) {
         guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else {
-            completion(nil, nil, NSError(domain: "com.yourapp", code: 5, userInfo: [NSLocalizedDescriptionKey: "Heart rate data not available"]))
+            completion(nil)
             return
         }
+        
+        let now = Date()
+        let startDate = Calendar.current.date(byAdding: .hour, value: -24, to: now)!
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: .strictStartDate)
         let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
         
         let query = HKSampleQuery(
             sampleType: heartRateType,
-            predicate: nil, // Get all available samples
-            limit: 1, // We only want the most recent one
+            predicate: predicate,
+            limit: 1,
             sortDescriptors: [sortDescriptor]
         ) { _, samples, error in
-            guard let samples = samples, let mostRecentSample = samples.first as? HKQuantitySample else {
-                completion(nil, nil, error)
+            if let error = error {
+                print("Error fetching heart rate: \(error.localizedDescription)")
+                completion(nil)
                 return
             }
-            let heartRateUnit = HKUnit(from: "count/min")
-            let heartRate = mostRecentSample.quantity.doubleValue(for: heartRateUnit)
-            let sampleDate = mostRecentSample.startDate
             
-            completion(heartRate, sampleDate, nil)
+            guard let sample = samples?.first as? HKQuantitySample else {
+                completion(nil)
+                return
+            }
+            
+            let heartRate = sample.quantity.doubleValue(for: HKUnit(from: "count/min"))
+            completion(heartRate)
         }
-        healthStore.execute(query)
         
-
+        healthStore.execute(query)
     }
 }
