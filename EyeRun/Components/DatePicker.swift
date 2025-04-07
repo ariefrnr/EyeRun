@@ -23,49 +23,63 @@ struct DatePicker: View {
             return []
         }
         
-        return (-20..<7).map { index in
+        return (-20..<5).map { index in
             calendar.date(byAdding: .day, value: index, to: startOfWeek)!
         }
     }
     
     var body: some View {
-        ScrollView(.horizontal){
-            HStack(spacing: 8) {
-                ForEach(dates, id: \.self) { date in
-                    VStack {
-                        Text(dayAbbreviation(from: date))
-                            .font(.caption)
-                            .foregroundColor(isSameDay(date1: date, date2: selectedDate) ? .white : .gray)
-                        
-                        Text(dayNumber(from: date))
-                            .font(.system(size: 24))
+        ScrollViewReader { scrollProxy in
+            ScrollView(.horizontal){
+                HStack(spacing: 8) {
+                    ForEach(dates, id: \.self) { date in
+                        VStack {
+                            Text(dayAbbreviation(from: date))
+                                .font(.caption)
+                                .foregroundColor(isSameDay(date1: date, date2: selectedDate) ? .white : .gray)
                             
-                    }
-                    .frame(width: 45, height: 56)
-                    .background(isSameDay(date1: date, date2: selectedDate) ? Color.customizedOrange : Color.white)
-                    .foregroundColor(isSameDay(date1: date, date2: selectedDate) ? .white : isDateInFuture(date) ? .gray : Color.customizedOrange)
-                    .cornerRadius(10)
-                    .onTapGesture {
-                        if !isDateInFuture(date) {
-                            selectedDate = date
+                            Text(dayNumber(from: date))
+                                .font(.system(size: 24))
+                            
                         }
+                        .frame(width: 45, height: 56)
+                        .background(isSameDay(date1: date, date2: selectedDate) ? Color.customizedOrange : Color.white)
+                        .foregroundColor(isSameDay(date1: date, date2: selectedDate) ? .white : isDateInFuture(date) ? .gray : Color.customizedOrange)
+                        .cornerRadius(10)
+                        .onTapGesture {
+                            if !isDateInFuture(date) {
+                                selectedDate = date
+                            }
+                        }
+                        .opacity(isDateInFuture(date) ? 0.8 : 1.0)
+                        
                     }
-                    .opacity(isDateInFuture(date) ? 0.8 : 1.0)
-                    
+                }
+                .padding(4)
+                .cornerRadius(15)
+                .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 2)
+            }
+            .scrollIndicators(.hidden)
+            .onAppear {
+                // Find today's date and center it
+                let today = Date()
+                if let todayDate = dates.first(where: { isSameDay(date1: $0, date2: today) }) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        
+                        scrollProxy.scrollTo(todayDate, anchor: .center)
+                        selectedDate = today
+                        
+                    }
                 }
             }
-            .padding(4)
-            .cornerRadius(15)
-            .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 2)
+            
         }
-        .scrollIndicators(.hidden)
-        
     }
     
     private func isDateInFuture(_ date: Date) -> Bool {
-            let calendar = Calendar.current
-            return calendar.compare(date, to: Date(), toGranularity: .day) == .orderedDescending
-        }
+        let calendar = Calendar.current
+        return calendar.compare(date, to: Date(), toGranularity: .day) == .orderedDescending
+    }
     
     
     
