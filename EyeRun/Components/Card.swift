@@ -82,7 +82,7 @@ struct StepsCard: View {
     @StateObject private var controller = StepsController(deviceType: .simulator)
     @EnvironmentObject var goalsManager: GoalsManager
     
-    // Remove the goals parameter since we'll get it from the manager
+
     var progress: CGFloat {
         CGFloat(controller.steps) / CGFloat(goalsManager.userGoals.stepsGoal)
     }

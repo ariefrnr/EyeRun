@@ -10,7 +10,6 @@ import SwiftUI
 @main
 struct EyeRunApp: App {
     @StateObject private var goalsManager = GoalsManager()
-    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -18,3 +17,4 @@ struct EyeRunApp: App {
         }
     }
 }
+
