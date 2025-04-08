@@ -26,6 +26,9 @@ struct SecondaryMetrics: View {
     @EnvironmentObject var goalsManager: GoalsManager
     @EnvironmentObject var healthManager: HealthManager
     @StateObject private var streakManager = StreakManager()
+    
+    @State var timer: Timer?
+    
     var body: some View {
         HStack {
             VStack {
@@ -47,18 +50,39 @@ struct SecondaryMetrics: View {
                 }
             }
             .onAppear(){
-                healthManager.fetchHeartRate()
-                healthManager.fetchStepCount()
-                healthManager.fetchCaloriesData()
-                healthManager.fetchActiveMinutes()
-                healthManager.fetchWalkingRunningDistance()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
-                    
-                    streakManager.checkAndUpdateStreak(healthManager: healthManager, goalsManager: goalsManager)
-                }
+                fetchDataStreak()
+                autoRefreshOn()
             }
-        }    }
+            .onDisappear(){
+                autoRefreshOff()
+            }
+        }
+        
 
+    }
+    private func fetchDataStreak() {
+        healthManager.fetchHeartRate()
+        healthManager.fetchStepCount()
+        healthManager.fetchCaloriesData()
+        healthManager.fetchActiveMinutes()
+        healthManager.fetchWalkingRunningDistance()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+            
+            streakManager.checkAndUpdateStreak(healthManager: healthManager, goalsManager: goalsManager)
+        }
+    }
+    
+    func autoRefreshOn(){
+        timer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) {_ in
+            fetchDataStreak()
+        }
+    }
+    
+    func autoRefreshOff() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
 }
 
 #Preview {
