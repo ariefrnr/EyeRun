@@ -87,7 +87,9 @@ struct StepsCard: View {
         return .iPhone
         #endif
     }())
+    let steps: Int
     @EnvironmentObject var goalsManager: GoalsManager
+    @EnvironmentObject var healthManager: HealthManager
 
     @State private var refreshTimer: Timer?
 
@@ -105,7 +107,7 @@ struct StepsCard: View {
             Spacer()
 
             HStack(alignment: .lastTextBaseline, spacing: 5) {
-                Text("\(Int(controller.steps))")
+                Text("\(steps)")
                     .font(.system(size: 42))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
@@ -345,8 +347,8 @@ struct SpeedCard: View {
 
 #Preview {
     ScrollView{
-        StepsCard()
-            .environmentObject(GoalsManager())
+//        StepsCard()
+//            .environmentObject(GoalsManager())
         HeartRateCard(heartRate: 90)
         StreakCard(streak: 90)
         DistanceCard(distance: 3.7, goals: 5)
