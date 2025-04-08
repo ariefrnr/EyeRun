@@ -23,9 +23,9 @@ struct PrimaryMetrics: View {
 
 struct SecondaryMetrics: View {
     @State private var showModal = false
-    @State private var goalsManager = GoalsManager()
-    @State private var healthManager = HealthManager()
-    @State private var streakManager = StreakManager()
+    @EnvironmentObject var goalsManager: GoalsManager
+    @EnvironmentObject var healthManager: HealthManager
+    @StateObject private var streakManager = StreakManager()
     var body: some View {
         HStack {
             VStack {
@@ -49,10 +49,13 @@ struct SecondaryMetrics: View {
             .onAppear(){
                 healthManager.fetchHeartRate()
                 healthManager.fetchStepCount()
-                
                 healthManager.fetchCaloriesData()
                 healthManager.fetchActiveMinutes()
                 healthManager.fetchWalkingRunningDistance()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+                    
+                    streakManager.checkAndUpdateStreak(healthManager: healthManager, goalsManager: goalsManager)
+                }
             }
         }    }
 
