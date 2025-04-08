@@ -55,4 +55,5 @@ struct SecondaryMetrics: View {
 #Preview {
     //    PrimaryMetrics()
     SecondaryMetrics()
+        .environmentObject(GoalsManager())
 }

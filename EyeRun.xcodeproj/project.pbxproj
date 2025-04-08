@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		99999C042DA37B8A003C7763 /* Exceptions for "EyeRun" folder in "EyeRun" target */ = {
+		23021D872DA4D21F003D132D /* Exceptions for "EyeRun" folder in "EyeRun" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -24,7 +24,7 @@
 		23CDB0E32D8D4A3E00EF2BD3 /* EyeRun */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				99999C042DA37B8A003C7763 /* Exceptions for "EyeRun" folder in "EyeRun" target */,
+				23021D872DA4D21F003D132D /* Exceptions for "EyeRun" folder in "EyeRun" target */,
 			);
 			path = EyeRun;
 			sourceTree = "<group>";
@@ -266,7 +266,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EyeRun/Preview Content\"";
-				DEVELOPMENT_TEAM = NYY3655RKW;
+				DEVELOPMENT_TEAM = 3CRY833KVA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EyeRun/Info.plist;
@@ -284,7 +284,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = name.arief.EyeRun;
+				PRODUCT_BUNDLE_IDENTIFIER = name.kel10.EyeRun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -301,7 +301,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EyeRun/Preview Content\"";
-				DEVELOPMENT_TEAM = NYY3655RKW;
+				DEVELOPMENT_TEAM = 3CRY833KVA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EyeRun/Info.plist;
@@ -319,7 +319,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = name.arief.EyeRun;
+				PRODUCT_BUNDLE_IDENTIFIER = name.kel10.EyeRun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
