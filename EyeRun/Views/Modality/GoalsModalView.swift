@@ -145,5 +145,4 @@ struct GoalsModalView: View {
 
 #Preview {
     GoalsModalView()
-        .environmentObject(GoalsManager())
 }

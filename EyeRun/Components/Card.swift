@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct HeartRateCard: View {
-    let heartRate: Int
+    var heartRate: Double?  // Make it optional
     
     var body: some View {
-        VStack(alignment: .leading, spacing:0) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("Heart Rate")
                 .font(.title)
                 .bold()
@@ -20,13 +20,14 @@ struct HeartRateCard: View {
             Spacer()
             
             HStack(alignment: .lastTextBaseline, spacing: 5) {
-                Text("\(heartRate)")
+                Text(heartRate != nil ? "\(Int(heartRate!))" : "--")
                     .font(.system(size: 60))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
             }
             .padding(.top)
-            VStack{
+            
+            VStack {
                 Text("bpm")
                     .font(.title2)
                     .bold()

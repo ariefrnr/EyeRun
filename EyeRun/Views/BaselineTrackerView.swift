@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct BaselineTrackerView: View {
-    @EnvironmentObject var manager: HealthManager
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -45,5 +44,4 @@ struct BaselineTrackerView: View {
 
 #Preview {
     BaselineTrackerView()
-        .environmentObject(GoalsManager())
 }
