@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DistanceProgress: View {
-    var distance = 3
+    var distance: Double
     @EnvironmentObject var goalsManager: GoalsManager
     
     var body: some View {
@@ -18,7 +18,7 @@ struct DistanceProgress: View {
                 .fontWeight(.semibold)
                 .foregroundColor(Color.customizedOrange)
                 .multilineTextAlignment(.center)
-            Text("\(distance)")
+            Text(String(format: "%.2f", distance ?? 0))
                 .font(.system(size: 32))
                 .fontWeight(.bold)
             Text("/\(Int(goalsManager.userGoals.distanceGoal)) km")
@@ -52,18 +52,18 @@ struct MovementProgress: View {
 }
 
 struct CaloriesProgress: View {
-    var caloriesBurned = 189
+    var caloriesBurned: Double
     @EnvironmentObject var goalsManager: GoalsManager
     
     var body: some View {
         VStack(alignment: .center){
-            Text("Calories Burned")
+            Text("Active Calories")
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(Color.customizedOrange)
                 .multilineTextAlignment(.center)
             
-            Text("\(caloriesBurned)")
+            Text("\(Int(caloriesBurned))")
                 .font(.system(size: 32))
                 .fontWeight(.bold)
             
@@ -77,23 +77,32 @@ struct CaloriesProgress: View {
 
 struct MainMetrics: View {
     @EnvironmentObject var goalsManager: GoalsManager
-    
+    @EnvironmentObject var healthManager: HealthManager
     var body: some View {
         VStack(alignment: .center){
-            DistanceProgress()
+            DistanceProgress(distance: healthManager.distanceTraveled ?? 0)
                 .padding()
             Divider()
                 .background(Color.black.opacity(1))
-            MovementProgress()
+            MovementProgress(activeMinutes: healthManager.activeMinutes ?? 0)
                 .padding()
             Divider()
                 .background(Color.black.opacity(0.8))
-            CaloriesProgress()
+            CaloriesProgress(caloriesBurned: healthManager.currentCalories ?? 0)
+           
                 .padding()
         }
         .frame(maxWidth: .infinity)
         .background(Color.gray.opacity(0.1))
         .cornerRadius(15)
+        .onChange(of: healthManager.currentCalories) { oldValue, newValue in
+            print(newValue)
+        }
+        .onAppear(){
+            healthManager.fetchCaloriesData()
+            healthManager.fetchActiveMinutes()
+            healthManager.fetchWalkingRunningDistance()
+        }
     }
 }
 
