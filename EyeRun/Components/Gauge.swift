@@ -99,5 +99,4 @@ struct MainMetrics: View {
 
 #Preview {
     MainMetrics()
-        .environmentObject(GoalsManager())
 }
