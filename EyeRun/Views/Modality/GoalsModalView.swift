@@ -19,14 +19,12 @@ struct GoalsModalView: View {
     @State private var currentGoal: GoalType = .steps
     @EnvironmentObject var goalsManager: GoalsManager
     
-    // Keep track of temporary values
     @State private var tempStepsGoal: Int
     @State private var tempDistanceGoal: Double
     @State private var tempMovementGoal: Int
     @State private var tempCaloriesGoal: Int
     
     init() {
-        // Use a temporary instance just for the initializer
         let tempManager = GoalsManager()
         _tempStepsGoal = State(initialValue: tempManager.userGoals.stepsGoal)
         _tempDistanceGoal = State(initialValue: tempManager.userGoals.distanceGoal)
@@ -84,7 +82,6 @@ struct GoalsModalView: View {
                 .animation(.default, value: currentGoal)
             }
             .onAppear {
-                // Update temporary values with current saved values
                 tempStepsGoal = goalsManager.userGoals.stepsGoal
                 tempDistanceGoal = goalsManager.userGoals.distanceGoal
                 tempMovementGoal = goalsManager.userGoals.movementGoal
