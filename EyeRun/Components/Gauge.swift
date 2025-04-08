@@ -88,16 +88,13 @@ struct MainMetrics: View {
                 .padding()
             Divider()
                 .background(Color.black.opacity(0.8))
-            CaloriesProgress(caloriesBurned: healthManager.currentCalories ?? 0)
+            CaloriesProgress(caloriesBurned: Double(healthManager.currentCalories ?? 0))
            
                 .padding()
         }
         .frame(maxWidth: .infinity)
         .background(Color.gray.opacity(0.1))
         .cornerRadius(15)
-        .onChange(of: healthManager.currentCalories) { oldValue, newValue in
-            print(newValue)
-        }
         .onAppear(){
             healthManager.fetchCaloriesData()
             healthManager.fetchActiveMinutes()
