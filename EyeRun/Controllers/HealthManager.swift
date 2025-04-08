@@ -4,7 +4,7 @@ import SwiftUI
 class HealthManager: NSObject, ObservableObject {
     private let healthStore = HKHealthStore()
     var currentHeartRate: Double?
-    var currentCalories: Double?
+    var currentCalories: Int?
     var activeMinutes: Int?
     var stepCount: Int?
     var distanceTraveled: Double?
@@ -130,7 +130,7 @@ class HealthManager: NSObject, ObservableObject {
                 }
                 print(sum)
                 //                self?.currentCalories = sum.doubleValue(for: HKUnit.kilocalorie())
-                self.currentCalories = sum.doubleValue(for: HKUnit.kilocalorie()).rounded()
+                self.currentCalories = Int(sum.doubleValue(for: HKUnit.kilocalorie()).rounded())
                 //                print(self)
             }
         }
