@@ -80,13 +80,6 @@ struct StreakCard: View {
 }
 
 struct StepsCard: View {
-    @StateObject private var controller = StepsController(deviceType: {
-        #if targetEnvironment(simulator)
-        return .simulator
-        #else
-        return .iPhone
-        #endif
-    }())
     let steps: Int
     @EnvironmentObject var goalsManager: GoalsManager
     @EnvironmentObject var healthManager: HealthManager
@@ -94,7 +87,7 @@ struct StepsCard: View {
     @State private var refreshTimer: Timer?
 
     var progress: CGFloat {
-        CGFloat(controller.steps) / CGFloat(goalsManager.userGoals.stepsGoal)
+        CGFloat(steps) / CGFloat(goalsManager.userGoals.stepsGoal)
     }
 
     var body: some View {
@@ -142,30 +135,8 @@ struct StepsCard: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .background(Color.customizedBlue)
         .cornerRadius(15)
-        .onAppear {
-            refreshSteps()
-
-            refreshTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
-                refreshSteps()
-            }
-        }
         .onDisappear {
             refreshTimer?.invalidate()
-        }
-    }
-
-    private func refreshSteps() {
-        // Stop updating if goal is reached
-        if controller.steps >= goalsManager.userGoals.stepsGoal {
-            refreshTimer?.invalidate()
-            print("🎯 Goal reached! Step counting stopped.")
-            return
-        }
-
-        do {
-            try controller.fetchDailySteps()
-        } catch {
-            print("❌ Failed to fetch steps: \(error.localizedDescription)")
         }
     }
 }
@@ -255,7 +226,7 @@ struct CaloriesCard: View {
             Spacer()
 
             VStack(alignment: .leading) {
-                Text("\(calories)")
+                Text("\(calories ?? 0)")
                     .font(.system(size: 56))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
@@ -346,9 +317,11 @@ struct SpeedCard: View {
 
 
 #Preview {
+    var healthManager = HealthManager()
+    
     ScrollView{
-//        StepsCard()
-//            .environmentObject(GoalsManager())
+        StepsCard(steps: healthManager.stepCount ?? 0)
+            .environmentObject(GoalsManager())
         HeartRateCard(heartRate: 90)
         StreakCard(streak: 90)
         DistanceCard(distance: 3.7, goals: 5)
