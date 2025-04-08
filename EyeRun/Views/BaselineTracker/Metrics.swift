@@ -16,6 +16,7 @@ struct PrimaryMetrics: View {
                 .padding()
             
             MainMetrics()
+                .environmentObject(HealthManager())
         }
     }
 }
@@ -42,6 +43,9 @@ struct SecondaryMetrics: View {
                 .sheet(isPresented: $showModal) {
                     GoalsModalView()
                 }
+            }
+            .onAppear(){
+                healthManager.fetchHeartRate()
             }
         }    }
 

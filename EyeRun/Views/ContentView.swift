@@ -12,6 +12,7 @@ struct ContentView: View {
     var body: some View {
         BaselineTrackerView()
             .environmentObject(GoalsManager())
+            .environmentObject(HealthManager())
             .onAppear{
                 healthManager.requestAuthorization { isSuccess, error in
                     if isSuccess{

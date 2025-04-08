@@ -242,7 +242,7 @@ struct PaceCard: View {
 }
 
 struct CaloriesCard: View {
-    let calories: Int
+    let calories: Double?
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Calories")

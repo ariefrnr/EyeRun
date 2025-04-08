@@ -52,7 +52,7 @@ struct MovementProgress: View {
 }
 
 struct CaloriesProgress: View {
-    var caloriesBurned = 189
+    var caloriesBurned: Double
     @EnvironmentObject var goalsManager: GoalsManager
     
     var body: some View {
@@ -63,7 +63,7 @@ struct CaloriesProgress: View {
                 .foregroundColor(Color.customizedOrange)
                 .multilineTextAlignment(.center)
             
-            Text("\(caloriesBurned)")
+            Text("\(Int(caloriesBurned))")
                 .font(.system(size: 32))
                 .fontWeight(.bold)
             
@@ -77,7 +77,7 @@ struct CaloriesProgress: View {
 
 struct MainMetrics: View {
     @EnvironmentObject var goalsManager: GoalsManager
-    
+    @EnvironmentObject var healthManager: HealthManager
     var body: some View {
         VStack(alignment: .center){
             DistanceProgress()
@@ -88,12 +88,19 @@ struct MainMetrics: View {
                 .padding()
             Divider()
                 .background(Color.black.opacity(0.8))
-            CaloriesProgress()
+            CaloriesProgress(caloriesBurned: healthManager.currentCalories ?? 0)
+           
                 .padding()
         }
         .frame(maxWidth: .infinity)
         .background(Color.gray.opacity(0.1))
         .cornerRadius(15)
+        .onChange(of: healthManager.currentCalories) { oldValue, newValue in
+            print(newValue)
+        }
+        .onAppear(){
+            healthManager.fetchCaloriesData()
+        }
     }
 }
 

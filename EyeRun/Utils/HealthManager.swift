@@ -1,11 +1,13 @@
 import HealthKit
-
+import SwiftUI
+@Observable
 class HealthManager: NSObject, ObservableObject {
     private let healthStore = HKHealthStore()
-    @Published var currentHeartRate: Double?
-    @Published var lastReadingDate: Date?
-    @Published var isLoading = false
-    @Published var error: Error?
+     var currentHeartRate: Double?
+    var currentCalories: Double?
+    var lastReadingDate: Date?
+   var isLoading = false
+ var error: Error?
     
     func requestAuthorization(completion: @escaping (Bool, Error?) -> Void) {
         guard HKHealthStore.isHealthDataAvailable() else {
@@ -19,21 +21,27 @@ class HealthManager: NSObject, ObservableObject {
         
         let readTypes: Set<HKObjectType> = [
             HKObjectType.quantityType(forIdentifier: .heartRate)!,
-            HKObjectType.quantityType(forIdentifier: .stepCount)!
+            HKObjectType.quantityType(forIdentifier: .stepCount)!,
+            HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
         ]
         
         healthStore.requestAuthorization(toShare: nil, read: readTypes) { success, error in
             DispatchQueue.main.async {
-                if success {
-                    self.fetchHeartRate()
-                }
-                self.error = error
-                completion(success, error)
+//                if success {
+//                    self.fetchHeartRate()
+//                }
+//                self.error = error
+//                completion(success, error)
+//                if success {
+//                    self.fetchCaloriesData()
+//                } else {
+//                    print("Authorization failed: \(error?.localizedDescription ?? "")")
+//                }
             }
         }
     }
     
-    // Fungsi utama untuk mengambil dan mengupdate data
+    
     func fetchHeartRate() {
         isLoading = true
         
@@ -45,29 +53,30 @@ class HealthManager: NSObject, ObservableObject {
                 
                 if heartRate == nil {
                     self?.error = NSError(domain: "com.yourapp", code: 3,
-                                        userInfo: [NSLocalizedDescriptionKey: "No heart rate data available"])
+                                          userInfo: [NSLocalizedDescriptionKey: "No heart rate data available"])
                 }
             }
         }
     }
     
-    private func getLatestHeartRate(completion: @escaping (Double?) -> Void) {
+    func getLatestHeartRate(completion: @escaping (Double?) -> Void) {
         guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else {
             completion(nil)
             return
         }
         
         let now = Date()
-        let startDate = Calendar.current.date(byAdding: .hour, value: -24, to: now)!
+        let startDate = Calendar.current.date(byAdding: .hour, value: -24 * 7, to: now)!
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: now, options: .strictStartDate)
         let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
         
         let query = HKSampleQuery(
             sampleType: heartRateType,
             predicate: predicate,
-            limit: 1,
+            limit: 100,
             sortDescriptors: [sortDescriptor]
         ) { _, samples, error in
+//            print(samples)
             if let error = error {
                 print("Error fetching heart rate: \(error.localizedDescription)")
                 completion(nil)
@@ -85,4 +94,42 @@ class HealthManager: NSObject, ObservableObject {
         
         healthStore.execute(query)
     }
+    func fetchCaloriesData() {
+        guard let activeEnergyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned) else {
+            currentCalories = nil
+            return
+        }
+        
+        let now = Date()
+        let startOfDay = Calendar.current.startOfDay(for: now)
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+        
+        let query = HKStatisticsQuery(
+            quantityType: activeEnergyType,
+            quantitySamplePredicate: predicate,
+            options: .cumulativeSum
+        ) { [unowned self] _, result, error in
+            
+            DispatchQueue.main.async {
+                if let error = error {
+                    self.error = error
+                    self.currentCalories = nil
+                    return
+                }
+                
+                guard let result = result, let sum = result.sumQuantity() else {
+                    
+                    self.currentCalories = nil
+                    return
+                }
+                print(sum)
+//                self?.currentCalories = sum.doubleValue(for: HKUnit.kilocalorie())
+                self.currentCalories = sum.doubleValue(for: HKUnit.kilocalorie())
+//                print(self)
+            }
+        }
+        
+        healthStore.execute(query)
+    }
 }
+
