@@ -54,6 +54,7 @@ struct SecondaryMetrics: View {
             }
             .onAppear(){
                 fetchDataStreak()
+                autoRefreshOn()
             }
             .onDisappear(){
                 autoRefreshOff()
@@ -62,16 +63,12 @@ struct SecondaryMetrics: View {
     }
 
     private func fetchDataStreak() {
-        let currentDate = Date()
-        healthManager.fetchHeartRate()
-        healthManager.fetchStepCount(for: currentDate)
-        healthManager.fetchCaloriesData(for: currentDate)
-        healthManager.fetchActiveMinutes(for: currentDate)
-        healthManager.fetchWalkingRunningDistance(for: currentDate)
+        healthManager.fetchAllMetrics(for: selectedDate)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
             
             streakManager.checkAndUpdateStreak(healthManager: healthManager, goalsManager: goalsManager)
         }
+        
     }
 
     
