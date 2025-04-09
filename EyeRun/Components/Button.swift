@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct HorizontalButton: View {
     let buttonName: String
     var systemImageName: String? = nil
