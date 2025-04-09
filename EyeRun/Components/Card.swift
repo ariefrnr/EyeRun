@@ -124,7 +124,6 @@ struct StepsCard: View {
                     GeometryReader { geometry in
                         Rectangle()
                             .fill(Color.white)
-                            .frame(width: geometry.size.width * min(progress, 1.0))
                             .cornerRadius(5)
                     },
                     alignment: .leading

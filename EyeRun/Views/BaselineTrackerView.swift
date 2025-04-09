@@ -1,17 +1,19 @@
 import SwiftUI
 
 struct BaselineTrackerView: View {
+    @State private var selectedDate = Date()
+    @EnvironmentObject var healthManager: HealthManager
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
                     // Date
-                    DateView()
+                    DateView(selectedDate: $selectedDate)
                         .padding(.horizontal)
-
+                
                     // Primary Metrics
                     VStack {
-                        PrimaryMetrics()
+                        PrimaryMetrics(selectedDate: $selectedDate)
                         
                         NavigationLink(destination: LiveRunningView()) {
                             HStack{
@@ -30,8 +32,15 @@ struct BaselineTrackerView: View {
                     .padding(.horizontal)
 
                     // Secondary Metrics
-                    SecondaryMetrics()
+                    SecondaryMetrics(selectedDate: $selectedDate)
                         .padding(.horizontal)
+                   
+                }
+                .onChange(of: selectedDate) { newDate in
+                        healthManager.fetchAllMetrics(for: newDate)
+                    }
+                .onAppear {
+                    healthManager.fetchAllMetrics(for: selectedDate)
                 }
                 .padding(.vertical)
             }

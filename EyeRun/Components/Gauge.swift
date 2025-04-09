@@ -81,6 +81,7 @@ struct CaloriesProgress: View {
 struct MainMetrics: View {
     @EnvironmentObject var goalsManager: GoalsManager
     @EnvironmentObject var healthManager: HealthManager
+    @Binding var selectedDate: Date
 
     var body: some View {
         VStack(alignment: .center){
@@ -124,8 +125,7 @@ struct MainMetrics: View {
     }
 }
 
-#Preview {
-    MainMetrics()
-        .environmentObject(GoalsManager())
-        .environmentObject(HealthManager())
-}
+
+//#Preview {
+//    MainMetrics(selectedDate: $selectedDate)
+//}

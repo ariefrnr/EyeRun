@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PrimaryMetrics: View {
+    @Binding var selectedDate: Date
     var body: some View {
         HStack {
             Image(.personRun)
@@ -15,8 +16,7 @@ struct PrimaryMetrics: View {
                 .frame(width: 200, height: 350)
                 .padding()
             
-            MainMetrics()
-                .environmentObject(HealthManager())
+            MainMetrics(selectedDate: $selectedDate)
         }
     }
 }
@@ -26,8 +26,10 @@ struct SecondaryMetrics: View {
     @EnvironmentObject var goalsManager: GoalsManager
     @EnvironmentObject var healthManager: HealthManager
     @StateObject private var streakManager = StreakManager()
-    
+    @Binding var selectedDate: Date
     @State var timer: Timer?
+    
+    
     
     var body: some View {
         HStack {
@@ -51,26 +53,38 @@ struct SecondaryMetrics: View {
             }
             .onAppear(){
                 fetchDataStreak()
-                autoRefreshOn()
+//                autoRefreshOn()
             }
             .onDisappear(){
                 autoRefreshOff()
             }
+            
+//            .onChange(of: selectedDate) {
+//                tanggalBaru in
+//                print("date changed to: \(tanggalBaru)")
+//                healthManager.fetchStepCount(for: tanggalBaru)
+//            }
+            
+
         }
         
 
     }
+    
+
     private func fetchDataStreak() {
+        let currentDate = Date()
         healthManager.fetchHeartRate()
-        healthManager.fetchStepCount()
-        healthManager.fetchCaloriesData()
-        healthManager.fetchActiveMinutes()
-        healthManager.fetchWalkingRunningDistance()
+        healthManager.fetchStepCount(for: currentDate)
+        healthManager.fetchCaloriesData(for: currentDate)
+        healthManager.fetchActiveMinutes(for: currentDate)
+        healthManager.fetchWalkingRunningDistance(for: currentDate)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
             
             streakManager.checkAndUpdateStreak(healthManager: healthManager, goalsManager: goalsManager)
         }
     }
+
     
     func autoRefreshOn(){
         timer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) {_ in
@@ -85,11 +99,9 @@ struct SecondaryMetrics: View {
     
 }
 
-#Preview {
-    PrimaryMetrics()
-        .environmentObject(GoalsManager())
-        .environmentObject(HealthManager())
-    SecondaryMetrics()
-        .environmentObject(GoalsManager())
-        .environmentObject(HealthManager())
-}
+//#Preview {
+//    //    PrimaryMetrics()
+//    
+//    SecondaryMetrics(selectedDate: $selectedDate)
+//        .environmentObject(GoalsManager())
+//}

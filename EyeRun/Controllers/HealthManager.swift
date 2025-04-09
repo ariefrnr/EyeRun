@@ -100,90 +100,58 @@ class HealthManager: NSObject, ObservableObject {
         
         healthStore.execute(query)
     }
-    func fetchCaloriesData() {
+    func fetchCaloriesData(for date: Date) {
         guard let activeEnergyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned) else {
             currentCalories = nil
             return
         }
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: date)
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
         
-        let now = Date()
-        let startOfDay = Calendar.current.startOfDay(for: now)
-        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+        let predicate = HKQuery.predicateForSamples(
+            withStart: startOfDay,
+            end: endOfDay,
+            options: .strictStartDate
+        )
         
         let query = HKStatisticsQuery(
             quantityType: activeEnergyType,
             quantitySamplePredicate: predicate,
             options: .cumulativeSum
-        ) { [unowned self] _, result, error in
-            
-            DispatchQueue.main.async {
-                if let error = error {
-                    self.error = error
-                    self.currentCalories = nil
-                    return
-                }
-                
-                guard let result = result, let sum = result.sumQuantity() else {
-                    
-                    self.currentCalories = nil
-                    return
-                }
-                print(sum)
-                //                self?.currentCalories = sum.doubleValue(for: HKUnit.kilocalorie())
-                self.currentCalories = Int(sum.doubleValue(for: HKUnit.kilocalorie()).rounded())
-                //                print(self)
-            }
-        }
-        
-        healthStore.execute(query)
-    }
-    func fetchStepCount() {
-        guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
-            return
-        }
-        
-        let now = Date()
-        let calendar = Calendar.current
-        let startOfDay = calendar.startOfDay(for: now)
-        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
-        
-        let query = HKStatisticsQuery(
-            quantityType: stepCountType,
-            quantitySamplePredicate: predicate,
-            options: .cumulativeSum
         ) { [weak self] _, result, error in
             DispatchQueue.main.async {
-                guard let self = self else { return }
-                
                 if let error = error {
-                    print("Error fetching step count: \(error.localizedDescription)")
+                    print("Error fetching calories data: \(error.localizedDescription)")
+                    self?.currentCalories = nil
                     return
                 }
                 
                 guard let result = result, let sum = result.sumQuantity() else {
-                    self.stepCount = nil
+                    self?.currentCalories = nil
                     return
                 }
-                
-                let steps = Int(sum.doubleValue(for: HKUnit.count()))
-                self.stepCount = steps
-                self.lastReadingDate = now
-                print("Fetched \(steps) steps")
+                self?.currentCalories = Int(sum.doubleValue(for: HKUnit.kilocalorie()).rounded())
+//                print("Calories sum: \(self?.currentCalories)")
             }
         }
-        
         healthStore.execute(query)
-    }
+    }   
     
-    func fetchActiveMinutes() {
+    func fetchActiveMinutes(for date: Date) {
         guard let exerciseTimeType = HKQuantityType.quantityType(forIdentifier: .appleExerciseTime) else {
             return
         }
         
-        let now = Date()
         let calendar = Calendar.current
-        let startOfDay = calendar.startOfDay(for: now)
-        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+        let startOfDay = calendar.startOfDay(for: date)
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+        
+        let predicate = HKQuery.predicateForSamples(
+            withStart: startOfDay,
+            end: endOfDay,
+            options: .strictStartDate
+        )
         
         let query = HKStatisticsQuery(
             quantityType: exerciseTimeType,
@@ -212,42 +180,97 @@ class HealthManager: NSObject, ObservableObject {
         
         healthStore.execute(query)
     }
-    func fetchWalkingRunningDistance() {
-            guard let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) else {
-                return
-            }
-            
-            let now = Date()
-            let calendar = Calendar.current
-            let startOfDay = calendar.startOfDay(for: now)
-            let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
-            
-            let query = HKStatisticsQuery(
-                quantityType: distanceType,
-                quantitySamplePredicate: predicate,
-                options: .cumulativeSum
-            ) { [weak self] _, result, error in
-                DispatchQueue.main.async {
-                    guard let self = self else { return }
-                    
-                    if let error = error {
-                        print("Error fetching walking/running distance: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    if let sum = result?.sumQuantity() {
-                        let distanceInKm = sum.doubleValue(for: HKUnit.meterUnit(with: .kilo))
-                        self.distanceTraveled = distanceInKm > 0 ? distanceInKm : nil
-                    } else {
-                        self.distanceTraveled = nil
-                    }
-                    
-                    self.lastReadingDate = now
-                    print("Walking/Running distance: \(self.distanceTraveled ?? 0) km")
-                }
-            }
-            
-            healthStore.execute(query)
+    func fetchWalkingRunningDistance(for date: Date) {
+        guard let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) else {
+            return
         }
+        
+        
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: date)
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+        
+        let predicate = HKQuery.predicateForSamples(
+            withStart: startOfDay,
+            end: endOfDay,
+            options: .strictStartDate
+        )
+        
+        
+        let query = HKStatisticsQuery(
+            quantityType: distanceType,
+            quantitySamplePredicate: predicate,
+            options: .cumulativeSum
+        ) { [weak self] _, result, error in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                
+                if let error = error {
+                    print("Error fetching walking/running distance: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let sum = result?.sumQuantity() {
+                    let distanceInKm = sum.doubleValue(for: HKUnit.meterUnit(with: .kilo))
+                    self.distanceTraveled = distanceInKm > 0 ? distanceInKm : nil
+                } else {
+                    self.distanceTraveled = nil
+                }
+                
+                self.lastReadingDate = date
+                print("Walking/Running distance: \(self.distanceTraveled ?? 0) km")
+            }
+        }
+        
+        healthStore.execute(query)
+    }
+    
+    
+    
+    
+    func fetchStepCount(for date: Date) {
+        guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
+        
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: date)
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+        
+        let predicate = HKQuery.predicateForSamples(
+            withStart: startOfDay,
+            end: endOfDay,
+            options: .strictStartDate
+        )
+        
+        let query = HKStatisticsQuery(
+            quantityType: stepCountType,
+            quantitySamplePredicate: predicate,
+            options: .cumulativeSum
+        ) { [weak self] _, result, error in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                
+                if let error = error {
+                    print("Error fetching step count: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let result = result, let sum = result.sumQuantity() else {
+                    self.stepCount = nil
+                    return
+                }
+                
+                self.stepCount = Int(sum.doubleValue(for: HKUnit.count()))
+                print("Fetched \(self.stepCount ?? 0) steps for \(date)")
+            }
+        }
+        
+        healthStore.execute(query)
+    }
+    
+    func fetchAllMetrics(for date: Date) {
+        fetchCaloriesData(for: date)
+        fetchStepCount(for: date)
+        fetchActiveMinutes(for: date)
+        fetchWalkingRunningDistance(for: date)
+    }
 }
-
