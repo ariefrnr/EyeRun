@@ -1,14 +1,14 @@
 import HealthKit
 import SwiftUI
-@Observable
+
 class HealthManager: NSObject, ObservableObject {
     private let healthStore = HKHealthStore()
-    var currentHeartRate: Double?
-    var currentCalories: Int?
-    var activeMinutes: Int?
-    var stepCount: Int?
-    var distanceTraveled: Double?
-    var lastReadingDate: Date?
+    @Published var currentHeartRate: Double?
+    @Published var currentCalories: Int?
+    @Published var activeMinutes: Int?
+    @Published var stepCount: Int?
+    @Published var distanceTraveled: Double?
+    @Published var lastReadingDate: Date?
     var isLoading = false
     var error: Error?
     

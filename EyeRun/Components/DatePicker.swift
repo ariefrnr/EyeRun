@@ -14,23 +14,22 @@ struct DatePicker: View {
     
     init(selectedDate: Date = Date()) {
         self.selectedDate = selectedDate
-        self.dates = Self.generateWeekDates(from: selectedDate)
+        self.dates = Self.generateDates(from: selectedDate)
     }
     
-    private static func generateWeekDates(from date: Date) -> [Date] {
+    private static func generateDates(from date: Date) -> [Date] {
         let calendar = Calendar.current
-        guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)) else {
-            return []
-        }
+        let today = Date()
         
-        return (-20..<5).map { index in
-            calendar.date(byAdding: .day, value: index, to: startOfWeek)!
+        // Generate dates from 10 days before today to 3 days after today
+        return (-10...3).map { index in
+            calendar.date(byAdding: .day, value: index, to: today)!
         }
     }
     
     var body: some View {
         ScrollViewReader { scrollProxy in
-            ScrollView(.horizontal){
+            ScrollView(.horizontal) {
                 HStack(spacing: 8) {
                     ForEach(dates, id: \.self) { date in
                         VStack {
@@ -52,7 +51,7 @@ struct DatePicker: View {
                             }
                         }
                         .opacity(isDateInFuture(date) ? 0.8 : 1.0)
-                        
+                        .id(date)
                     }
                 }
                 .padding(4)
@@ -61,18 +60,14 @@ struct DatePicker: View {
             }
             .scrollIndicators(.hidden)
             .onAppear {
-                // Find today's date and center it
                 let today = Date()
                 if let todayDate = dates.first(where: { isSameDay(date1: $0, date2: today) }) {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        
                         scrollProxy.scrollTo(todayDate, anchor: .center)
                         selectedDate = today
-                        
                     }
                 }
             }
-            
         }
     }
     
@@ -80,8 +75,6 @@ struct DatePicker: View {
         let calendar = Calendar.current
         return calendar.compare(date, to: Date(), toGranularity: .day) == .orderedDescending
     }
-    
-    
     
     private func dayAbbreviation(from date: Date) -> String {
         let formatter = DateFormatter()
@@ -109,7 +102,3 @@ struct DatePicker_Previews: PreviewProvider {
             .padding()
     }
 }
-
-//#Preview {
-//    DatePicker(.selectedDate: .constant(Date))
-//}
