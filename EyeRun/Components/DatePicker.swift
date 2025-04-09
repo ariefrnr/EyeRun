@@ -55,13 +55,11 @@ struct DatePicker: View {
                     }
                 }
                 .padding(4)
-                .padding(.horizontal, UIScreen.main.bounds.width / 2 - 45/2) // Add horizontal padding to allow centering
                 .cornerRadius(15)
                 .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 2)
             }
             .scrollIndicators(.hidden)
             .onAppear {
-                // Find today's date and scroll to it
                 let today = Date()
                 if let todayDate = dates.first(where: { isSameDay(date1: $0, date2: today) }) {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
