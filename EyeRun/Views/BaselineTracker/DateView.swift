@@ -9,20 +9,12 @@ import SwiftUI
 
 struct DateView: View {
     @StateObject private var healthManager = HealthManager()
-//    @State private var selectedDate = Date()
     @Binding var selectedDate: Date
     var body: some View {
         VStack {
             SegmentedControls(type: .other)
             DatePicker(selectedDate: $selectedDate)
-                
-       
         }
         .environmentObject(healthManager)
     }
 }
-
-
-//#Preview {
-//    DateView()
-//}

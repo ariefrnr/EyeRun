@@ -54,24 +54,12 @@ struct SecondaryMetrics: View {
             }
             .onAppear(){
                 fetchDataStreak()
-//                autoRefreshOn()
             }
             .onDisappear(){
                 autoRefreshOff()
             }
-            
-//            .onChange(of: selectedDate) {
-//                tanggalBaru in
-//                print("date changed to: \(tanggalBaru)")
-//                healthManager.fetchStepCount(for: tanggalBaru)
-//            }
-            
-
         }
-        
-
     }
-    
 
     private func fetchDataStreak() {
         let currentDate = Date()
@@ -99,10 +87,3 @@ struct SecondaryMetrics: View {
     }
     
 }
-
-//#Preview {
-//    //    PrimaryMetrics()
-//    
-//    SecondaryMetrics(selectedDate: $selectedDate)
-//        .environmentObject(GoalsManager())
-//}
