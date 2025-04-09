@@ -8,18 +8,23 @@
 import SwiftUI
 
 struct LiveRunningView: View {
+    @StateObject private var locationManager = LocationManager()
+    @State private var elapsedTime: Double = 0.0
+    @State private var state: StopwatchState = .idle
+
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack {
-                    // Stopwatch
-                    Stopwatch()
-                        .padding()
+                VStack(spacing: 30) {
+                    StopwatchRun(
+                        manager: locationManager,
+                        elapsedTime: $elapsedTime,
+                        state: $state
+                    )
                     
-                    // Metrics
-                    LiveMetrics()
-                        .padding()
+                    LiveMetrics(manager: locationManager)
                 }
+                .padding()
             }
             .navigationTitle("Live Running")
             .navigationBarTitleDisplayMode(.inline)
@@ -27,7 +32,8 @@ struct LiveRunningView: View {
     }
 }
 
-
 #Preview {
     LiveRunningView()
+        .environmentObject(HealthManager())
 }
+

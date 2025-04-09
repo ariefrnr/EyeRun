@@ -144,7 +144,7 @@ struct StepsCard: View {
 
 struct DistanceCard: View {
     let distance: CGFloat
-    let goals: CGFloat
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Distance")
@@ -182,7 +182,27 @@ struct DistanceCard: View {
 }
 
 struct PaceCard: View {
-    let pace: String
+    let paceInMinutesPerKm: Double
+    
+    var paceText: String {
+        guard paceInMinutesPerKm > 0 else { return "--" }
+
+        let totalSeconds = Int(paceInMinutesPerKm * 60)
+
+        if totalSeconds < 60 {
+            return "\(totalSeconds) s"
+        } else if totalSeconds < 3600 {
+            let minutes = totalSeconds / 60
+            return "\(minutes) m"
+        } else if totalSeconds < 86400 {
+            let hours = totalSeconds / 3600
+            return "\(hours) h"
+        } else {
+            let days = totalSeconds / 86400
+            return "\(days) day"
+        }
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing:0) {
             Text("Pace")
@@ -193,14 +213,15 @@ struct PaceCard: View {
             Spacer()
             
             HStack(alignment: .lastTextBaseline, spacing: 5) {
-                Text("\(pace)")
+                Text(paceText)
                     .font(.system(size: 48))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
             }
             .padding(.top)
+            
             VStack{
-                Text("/kilometers")
+                Text("/Kilometer")
                     .font(.title2)
                     .bold()
                     .foregroundColor(.white)
@@ -216,6 +237,7 @@ struct PaceCard: View {
 
 struct CaloriesCard: View {
     let calories: Double?
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Calories")
@@ -226,7 +248,7 @@ struct CaloriesCard: View {
             Spacer()
 
             VStack(alignment: .leading) {
-                Text("\(calories ?? 0)")
+                Text("\(calories ?? 0, specifier: "%.0f")")
                     .font(.system(size: 56))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
@@ -317,15 +339,13 @@ struct SpeedCard: View {
 
 
 #Preview {
-    var healthManager = HealthManager()
-    
     ScrollView{
-        StepsCard(steps: healthManager.stepCount ?? 0)
+        StepsCard(steps: HealthManager().stepCount ?? 0)
             .environmentObject(GoalsManager())
         HeartRateCard(heartRate: 90)
         StreakCard(streak: 90)
-        DistanceCard(distance: 3.7, goals: 5)
-        PaceCard(pace: "43:28")
+        DistanceCard(distance: 3.7)
+        PaceCard(paceInMinutesPerKm: 100.3)
         CaloriesCard(calories: 239)
         CadenceCard(cadence: 75)
         SpeedCard(speed: 6.6)

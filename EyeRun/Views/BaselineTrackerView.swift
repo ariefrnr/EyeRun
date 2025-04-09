@@ -44,4 +44,6 @@ struct BaselineTrackerView: View {
 
 #Preview {
     BaselineTrackerView()
+        .environmentObject(GoalsManager())
+        .environmentObject(HealthManager())
 }
