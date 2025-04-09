@@ -68,11 +68,11 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         isTracking = false
         locationManager.stopUpdatingLocation()
         pedometer.stopUpdates()
-        distance = 0
-        pace = 0
-        cadence = 0
-        calories = 0
-        speed = 0
+//        distance = 0
+//        pace = 0
+//        cadence = 0
+//        calories = 0
+//        speed = 0
         previousLocation = nil
     }
 
