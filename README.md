@@ -92,6 +92,13 @@ open EyeRun.xcodeproj
 • 🎨 [Figma Design](https://www.figma.com/design/0pGzLS5zeJNBH2qyCEMnwf/CC1?node-id=13-34&t=Kycm6mys7jtfybcE-1)  
 • 🧭 [Miro Journey Map](https://miro.com/app/board/uXjVIXaHxLo=/?share_link_id=301250632045)
 
+## Development Team
+| Name                                         | Role                      |
+|----------------------------------------------|---------------------------|
+| [Jonathan Tjahjadi](https://github.com/jonathantjahjadi)     | iOS Developer & Designer  |
+| [Arief Roihan Nur Rahman](https://github.com/ariefrnr)       | HealthKit Integration     |
+| [Channo Adikara](https://github.com/channoadikara)           | Motion & Location Logic   |
+
 ## 📄 License
 This project is currently closed-source and proprietary. For access or licensing inquiries, please contact the development team.
 
