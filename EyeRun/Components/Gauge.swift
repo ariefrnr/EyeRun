@@ -104,11 +104,6 @@ struct MainMetrics: View {
         .background(Color.gray.opacity(0.1))
         .cornerRadius(15)
         .onAppear {
-            // Fetch data
-            healthManager.fetchCaloriesData()
-            healthManager.fetchActiveMinutes()
-            healthManager.fetchWalkingRunningDistance()
-            
             // Check for reminders after slight delay to ensure data is fetched
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 let distance = healthManager.distanceTraveled ?? 0

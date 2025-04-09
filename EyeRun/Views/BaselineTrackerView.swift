@@ -3,6 +3,7 @@ import SwiftUI
 struct BaselineTrackerView: View {
     @State private var selectedDate = Date()
     @EnvironmentObject var healthManager: HealthManager
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -36,9 +37,9 @@ struct BaselineTrackerView: View {
                         .padding(.horizontal)
                    
                 }
-                .onChange(of: selectedDate) { newDate in
-                        healthManager.fetchAllMetrics(for: newDate)
-                    }
+                .onChange(of: selectedDate, { oldValue, newValue in
+                    healthManager.fetchAllMetrics(for: newValue)
+                })
                 .onAppear {
                     healthManager.fetchAllMetrics(for: selectedDate)
                 }
