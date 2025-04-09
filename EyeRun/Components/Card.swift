@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct HeartRateCard: View {
     var heartRate: Double?  // Make it optional
@@ -129,18 +130,19 @@ struct StepsCard: View {
                     alignment: .leading
                 )
                 .cornerRadius(3)
-
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .background(Color.customizedBlue)
         .cornerRadius(15)
+        .onAppear {
+            goalsManager.handleStepsReminder(steps: steps)
+        }
         .onDisappear {
             refreshTimer?.invalidate()
         }
     }
 }
- 
 
 struct DistanceCard: View {
     let distance: CGFloat

@@ -26,11 +26,14 @@ struct DistanceProgress: View {
                 .opacity(0.6)
         }
         .frame(maxWidth: .infinity)
+        .onAppear {
+            goalsManager.handleDistanceReminder(currentDistance: distance)
+        }
     }
 }
 
 struct MovementProgress: View {
-    var activeMinutes = 30
+    var activeMinutes: Int
     @EnvironmentObject var goalsManager: GoalsManager
     
     var body: some View {
@@ -78,27 +81,45 @@ struct CaloriesProgress: View {
 struct MainMetrics: View {
     @EnvironmentObject var goalsManager: GoalsManager
     @EnvironmentObject var healthManager: HealthManager
+
     var body: some View {
         VStack(alignment: .center){
             DistanceProgress(distance: healthManager.distanceTraveled ?? 0)
                 .padding()
+            
             Divider()
                 .background(Color.black.opacity(1))
+            
             MovementProgress(activeMinutes: healthManager.activeMinutes ?? 0)
                 .padding()
+            
             Divider()
                 .background(Color.black.opacity(0.8))
+            
             CaloriesProgress(caloriesBurned: Double(healthManager.currentCalories ?? 0))
-           
                 .padding()
         }
         .frame(maxWidth: .infinity)
         .background(Color.gray.opacity(0.1))
         .cornerRadius(15)
-        .onAppear(){
+        .onAppear {
+            // Fetch data
             healthManager.fetchCaloriesData()
             healthManager.fetchActiveMinutes()
             healthManager.fetchWalkingRunningDistance()
+            
+            // Check for reminders after slight delay to ensure data is fetched
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                let distance = healthManager.distanceTraveled ?? 0
+                let activeMinutes = healthManager.activeMinutes ?? 0
+                let calories = healthManager.currentCalories ?? 0
+                
+                goalsManager.handleAllReminders(
+                    distance: distance,
+                    minutes: activeMinutes,
+                    calories: calories
+                )
+            }
         }
     }
 }
