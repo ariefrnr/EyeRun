@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     var healthManager = HealthManager()
     var body: some View {
         BaselineTrackerView()
