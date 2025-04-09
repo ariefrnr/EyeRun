@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PrimaryMetrics: View {
     @Binding var selectedDate: Date
+    
     var body: some View {
         HStack {
             Image(.personRun)
