@@ -89,4 +89,5 @@ struct SecondaryMetrics: View {
     //    PrimaryMetrics()
     SecondaryMetrics()
         .environmentObject(GoalsManager())
+        .environmentObject(HealthManager())
 }

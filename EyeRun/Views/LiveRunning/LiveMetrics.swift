@@ -9,27 +9,27 @@ import SwiftUI
 
 struct LiveMetrics: View {
     @ObservedObject var manager: LocationManager
+    @EnvironmentObject var healthManager: HealthManager
     
     var body: some View {
         HStack {
             VStack {
-                DistanceCard(distance: manager.distance)
-                PaceCard(paceInSecondsPerKm: manager.pace * 1000)
-                CadenceCard(cadence: 75)
+                DistanceCard(distance: manager.distance / 1000)
+                PaceCard(paceInMinutesPerKm: manager.pace)
+                CadenceCard(cadence: manager.cadence)
             }
             
             VStack {
-                HeartRateCard(heartRate: 90)
-                    .frame(height: 200)
-                CaloriesCard(calories: 239)
-                SpeedCard(speed: 6.6)
+                HeartRateCard(heartRate: healthManager.currentHeartRate ?? 0)
+                    .frame(height: 300)
+                CaloriesCard(calories: manager.calories)
+                SpeedCard(speed: CGFloat(manager.speed))
             }
         }
     }
 }
 
 #Preview {
-    var locationManager = LocationManager()
-    
-    LiveMetrics(manager: locationManager)
+    LiveMetrics(manager: LocationManager())
+        .environmentObject(HealthManager())
 }

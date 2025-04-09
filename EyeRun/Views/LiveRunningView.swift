@@ -34,5 +34,6 @@ struct LiveRunningView: View {
 
 #Preview {
     LiveRunningView()
+        .environmentObject(HealthManager())
 }
 
