@@ -26,11 +26,14 @@ struct DistanceProgress: View {
                 .opacity(0.6)
         }
         .frame(maxWidth: .infinity)
+        .onAppear {
+            goalsManager.handleDistanceReminder(currentDistance: distance)
+        }
     }
 }
 
 struct MovementProgress: View {
-    var activeMinutes = 30
+    var activeMinutes: Int
     @EnvironmentObject var goalsManager: GoalsManager
     
     var body: some View {
@@ -82,28 +85,38 @@ struct MainMetrics: View {
 
     var body: some View {
         VStack(alignment: .center){
+            DistanceProgress(distance: healthManager.distanceTraveled ?? 0)
+                .padding()
             
-                DistanceProgress(distance: healthManager.distanceTraveled ?? 0)
-                    .padding()
-                Divider()
-                    .background(Color.black.opacity(1))
-                MovementProgress(activeMinutes: healthManager.activeMinutes ?? 0)
-                    .padding()
-                Divider()
-                    .background(Color.black.opacity(0.8))
-                CaloriesProgress(caloriesBurned: Double(healthManager.currentCalories ?? 0))
-                    .padding()
-                Text("\(healthManager.currentCalories ?? 0)")
+            Divider()
+                .background(Color.black.opacity(1))
             
+            MovementProgress(activeMinutes: healthManager.activeMinutes ?? 0)
+                .padding()
+            
+            Divider()
+                .background(Color.black.opacity(0.8))
+            
+            CaloriesProgress(caloriesBurned: Double(healthManager.currentCalories ?? 0))
+                .padding()
         }
         .frame(maxWidth: .infinity)
         .background(Color.gray.opacity(0.1))
         .cornerRadius(15)
-//        .onChange(of: selectedDate) { newDate in
-//            healthManager.fetchWalkingRunningDistance(for: newDate)
-//            healthManager.fetchActiveMinutes(for: newDate)
-//            healthManager.fetchCaloriesData(for: newDate)
-//        }
+        .onAppear {
+            // Check for reminders after slight delay to ensure data is fetched
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                let distance = healthManager.distanceTraveled ?? 0
+                let activeMinutes = healthManager.activeMinutes ?? 0
+                let calories = healthManager.currentCalories ?? 0
+                
+                goalsManager.handleAllReminders(
+                    distance: distance,
+                    minutes: activeMinutes,
+                    calories: calories
+                )
+            }
+        }
     }
 }
 

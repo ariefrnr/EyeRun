@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PrimaryMetrics: View {
     @Binding var selectedDate: Date
+    
     var body: some View {
         HStack {
             Image(.personRun)
@@ -62,19 +63,8 @@ struct SecondaryMetrics: View {
             .onDisappear(){
                 autoRefreshOff()
             }
-            
-//            .onChange(of: selectedDate) {
-//                tanggalBaru in
-//                print("date changed to: \(tanggalBaru)")
-//                healthManager.fetchStepCount(for: tanggalBaru)
-//            }
-            
-
         }
-        
-
     }
-    
 
     private func fetchDataStreak() {
         let currentDate = Date()
@@ -99,10 +89,3 @@ struct SecondaryMetrics: View {
     }
     
 }
-
-//#Preview {
-//    //    PrimaryMetrics()
-//    
-//    SecondaryMetrics(selectedDate: $selectedDate)
-//        .environmentObject(GoalsManager())
-//}
