@@ -1,92 +1,100 @@
-# EyeRun 🏃‍♂️📱
+# 🏃‍♂️ EyeRun – Personalized Jogging Companion for iOS
 
-**EyeRun** adalah aplikasi pendamping lari berbasis iOS yang dirancang untuk mengubah pengalaman berlari menjadi lebih pintar, personal, dan bermakna. Menggabungkan kekuatan **HealthKit**, **CoreMotion**, dan **CoreLocation**, EyeRun menyajikan data kebugaran secara real-time melalui antarmuka **SwiftUI** yang bersih dan intuitif.
-
----
-
-## 🚀 Fitur Utama
-
-- **Pelacakan Langkah & Kalori** – Lacak jumlah langkah dan kalori yang terbakar secara akurat.
-- **Jarak & Durasi Real-Time** – Pantau jarak tempuh dan waktu lari dengan akurasi tinggi.
-- **Cadence Tracker** – Hitung jumlah langkah per menit (cadence) untuk optimasi performa.
-- **Interval Timer** – Atur waktu lari dan istirahat secara otomatis.
-- **Pacer (Pengatur Kecepatan)** – Bantu menjaga kecepatan lari tetap konsisten.
-- **Umpan Balik Motivasi** – Dorongan semangat untuk terus berlari dan berkembang.
-- **Integrasi Penuh dengan HealthKit** – Semua data kesehatan langsung disimpan ke sistem Apple Health.
+**EyeRun** is a powerful yet lightweight iOS running companion designed to elevate your jogging experience through smart, personalized fitness tracking. Built with **Swift**, integrated natively with **HealthKit**, **CoreLocation**, and **CoreMotion**, EyeRun delivers real-time insights including step count, distance, calories burned, elapsed time, and cadence — all presented within a clean and intuitive **SwiftUI** interface.
 
 ---
 
-## 🌟 Mengapa EyeRun?
+## 📱 App Overview
 
-Kebutuhan akan aplikasi kebugaran yang **sederhana, personal, dan terintegrasi** terus meningkat. EyeRun hadir sebagai solusi yang ringan namun bertenaga untuk pelari pemula hingga menengah yang ingin berkembang tanpa terbebani antarmuka kompleks.
+EyeRun empowers users to run smarter and more consistently by combining health data, motion tracking, and location awareness. Whether you're a beginner or a fitness enthusiast, EyeRun offers personalized feedback, motivational tools, and performance optimizers without overwhelming complexity.
 
-- Memanfaatkan **framework Apple asli** untuk data yang akurat dan performa maksimal.
-- Menawarkan **fitur pelari yang sering terlupakan** di aplikasi arus utama.
-- Fokus pada **motivasi dan kemajuan**, bukan sekadar statistik.
+### 🔍 Features at a Glance
 
----
-
-## 🧑‍💻 Teknologi yang Digunakan
-
-- **Swift & SwiftUI**
-- **HealthKit**
-- **CoreLocation**
-- **CoreMotion**
+- 📍 **Accurate Step, Distance, & Calorie Tracking**
+- 🕒 **Real-Time Run Metrics with SwiftUI**
+- 🎧 **Motivational Feedback to Keep You Moving**
+- 🏃 **Cadence Monitoring (Steps per Minute)**
+- ⏱️ **Interval Timer for Structured Training**
+- ⚡ **Speed Pacer to Maintain Consistent Tempo**
+- 📊 **Seamless Apple HealthKit Integration**
 
 ---
 
-## 🖼️ Cuplikan Aplikasi
+## 🎯 Problem & Opportunity
 
-| Home Screen | Live Metrics | WatchOS View |
-|-------------|--------------|--------------|
-| ![Home](assets/app_home.jpg) | ![Live Metrics](assets/live_metrics.jpg) | ![Watch View](assets/watch_view.jpg) |
+The growing global focus on fitness and quantified self has created demand for intuitive, integrated health apps. Many fitness apps today are either data-heavy or lack personalization for runners.
 
-> Letakkan gambar di dalam folder `assets/` di repo kamu.  
-> Contoh path: `EyeRun/assets/app_home.jpg`
+EyeRun fills this gap by offering:
 
----
-
-## 🛠️ Cara Menjalankan Proyek
-
-1. Buka proyek di Xcode (`.xcodeproj` atau `.xcworkspace`)
-2. Pastikan perangkat atau simulator iOS dipilih.
-3. Jalankan proyek dengan menekan tombol **Run (⌘ + R)**.
-4. Aktifkan izin untuk **Health**, **Motion & Fitness**, dan **Location**.
+- ✅ Native integration with Apple frameworks for accurate and energy-efficient tracking.
+- ✅ Tailored features for runners like pace guidance and interval timers.
+- ✅ Simple, clean UI/UX suited for casual to intermediate runners.
+- ✅ Real-time motivational support to build running habits.
 
 ---
 
-## 📐 Desain & Dokumentasi
+## 🔧 Tech Stack
 
-- **Desain (Miro):**  
-  [Miro Board](https://miro.com/app/board/uXjVIXaHxLo=/?share_link_id=301250632045)
-
-- **Desain (Figma):**  
-  [Figma Link](https://www.figma.com/design/0pGzLS5zeJNBH2qyCEMnwf/CC1?node-id=13-34&t=Kycm6mys7jtfybcE-1)
-
-- **Dokumentasi Kode:**  
-  [GitHub Repository](https://github.com/ariefrnr/EyeRun)
-
----
-
-## 👥 Tim Pengembang
-
-- **Jonathan Tjahjadi**
-- **Arief Roihan Nur Rahman**
-- **Channo Adikara**
+| Technology     | Description                                |
+|----------------|--------------------------------------------|
+| Swift          | Native iOS development                     |
+| SwiftUI        | Declarative UI framework                   |
+| HealthKit      | Health and fitness data management         |
+| CoreMotion     | Motion tracking and cadence analysis       |
+| CoreLocation   | GPS-based distance and location tracking   |
 
 ---
 
-## 📄 Lisensi
+## 📸 App Screenshots
 
-Lisensi belum ditentukan. Jika ingin aplikasi ini bersifat open-source, pertimbangkan untuk menggunakan lisensi seperti [MIT](https://opensource.org/licenses/MIT), [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0), atau [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html).
+| Home Screen               | Live Metrics              | Apple Watch View         |
+|---------------------------|---------------------------|---------------------------|
+| ![Home](assets/app_home.jpg) | ![Metrics](assets/live_metrics.jpg) | ![Watch](assets/watch_view.jpg) |
 
----
-
-## ❤️ Kontribusi
-
-Pull request dan masukan sangat diterima! Silakan fork proyek ini, buat cabang baru, dan ajukan PR untuk berkontribusi.
+> Screenshots are available in the `assets/` directory.
 
 ---
 
-![Swift](https://img.shields.io/badge/Swift-5.0-orange?logo=swift)
-![Platform](https://img.shields.io/badge/Platform-iOS%20%26%20watchOS-blue?logo=apple)
+## 🧭 Project Structure
+
+```bash
+EyeRun/
+├── EyeRun.xcodeproj/           # Xcode project configuration
+├── EyeRun/                     # App source code
+│   ├── Views/                  # SwiftUI views
+│   ├── ViewModels/             # Logic and data binding
+│   ├── Models/                 # Data structures
+│   └── Services/               # HealthKit, Motion, Location managers
+├── assets/                     # App screenshots for documentation
+└── README.md                   # Project documentation
+```
+
+## 🧪 Getting Started
+
+**Prerequisites**
+- macOS with Xcode 15 or higher
+- iPhone device or iOS Simulator (iOS 17+ recommended)
+- Enable Health, Motion & Location permissions on first launch
+
+**Installation**
+1. Clone the repository:
+```bash
+git clone https://github.com/ariefrnr/EyeRun.git
+cd EyeRun
+```
+3. Open in Xcode:
+```bash
+open EyeRun.xcodeproj
+```
+5. Run the app on a physical device or simulator.
+
+## 🧠 Design Resources  
+• 🎨 [Figma Design](https://www.figma.com/design/0pGzLS5zeJNBH2qyCEMnwf/CC1?node-id=13-34&t=Kycm6mys7jtfybcE-1)  
+• 🧭 [Miro Journey Map](https://miro.com/app/board/uXjVIXaHxLo=/?share_link_id=301250632045)
+
+## 📄 License
+This project is currently closed-source and proprietary. For access or licensing inquiries, please contact the development team.
+
+## 📬 Contact & Contributions
+We’re open to collaboration, feedback, and feature suggestions.
+Please submit issues or pull requests on GitHub, or reach out to the team directly.
