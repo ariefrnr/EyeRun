@@ -52,7 +52,11 @@ struct SecondaryMetrics: View {
                 }
             }
             .onAppear(){
-                fetchDataStreak()
+                healthManager.fetchAllMetrics(for: selectedDate)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+                    
+                    streakManager.checkAndUpdateStreak(healthManager: healthManager, goalsManager: goalsManager)
+                }
 //                autoRefreshOn()
             }
             .onDisappear(){
@@ -79,10 +83,7 @@ struct SecondaryMetrics: View {
         healthManager.fetchCaloriesData(for: currentDate)
         healthManager.fetchActiveMinutes(for: currentDate)
         healthManager.fetchWalkingRunningDistance(for: currentDate)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
-            
-            streakManager.checkAndUpdateStreak(healthManager: healthManager, goalsManager: goalsManager)
-        }
+        
     }
 
     
