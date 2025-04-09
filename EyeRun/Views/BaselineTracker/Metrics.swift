@@ -11,7 +11,7 @@ struct PrimaryMetrics: View {
     @State private var selectedDate = Date()
     var body: some View {
         HStack {
-            Image(systemName: "figure.run")
+            Image(.personRun)
                 .resizable()
                 .frame(width: 200, height: 350)
                 .padding()

@@ -1,111 +1,224 @@
 import SwiftUI
+import CoreLocation
 
 struct StopwatchRun: View {
-    @State private var elapsedTime: Double = 0
-    @State private var isRunning = true
-    @State private var isPaused = false
-    @State private var isStopped = false
-    
+    @ObservedObject var manager: LocationManager
+    @Binding var elapsedTime: Double
+    @Binding var state: StopwatchState
+
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
-    
-    // Formatted time string
+
     var formattedTime: String {
         let minutes = Int(elapsedTime) / 60
         let seconds = Int(elapsedTime) % 60
         let tenths = Int((elapsedTime.truncatingRemainder(dividingBy: 1)) * 10)
-        
         return String(format: "%02d:%02d:%02d", minutes, seconds, tenths)
     }
-    
+
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 20) {
             Text(formattedTime)
                 .font(.system(size: 64, weight: .bold, design: .monospaced))
-                .foregroundColor(isStopped ? .customizedOrange : .black)
+                .foregroundColor(state == .stopped ? .customizedOrange : .black)
                 .frame(width: 350)
-            
-            if isStopped {
-                Text("Stopped")
-                    .font(.system(size: 20, weight: .regular))
-                    .foregroundColor(.heartRateRed)
-                  
-            } else if isPaused {
-                Text("Paused")
-                    .font(.system(size: 20, weight: .regular))
-                    .foregroundColor(.customizedOrange)
-                
-            } else if isRunning {
-                Text("Live Running")
-                    .font(.system(size: 20, weight: .regular))
-                    .foregroundColor(.customGreen)
-            }
-            
+
+            Text(statusText)
+                .font(.system(size: 20))
+                .foregroundColor(statusColor)
+
             HStack {
-                Button(action: {
-                    isRunning = false
-                    isPaused = false
-                    isStopped = true
-                }) {
+                Button {
+                    state = .stopped
+                    manager.stopTracking()
+                } label: {
                     Image(systemName: "stop.fill")
-                        .padding()
-                        .frame(width: 60, height: 60)
-                        .font(.system(size: 28))
-                        .background(Color.heartRateRed)
-                        .foregroundColor(Color.white)
-                        .cornerRadius(500)
+                        .buttonStyle(color: .customizedOrange)
                 }
+
                 Spacer()
-                if isStopped {
-                    Button(action: {}) {
+                
+                switch state {
+                    case .idle, .paused:
+                        Button {
+                            state = .running
+                            manager.startTracking()
+                        } label: {
+                            Image(systemName: "play.fill")
+                                .buttonStyle(color: .green)
+                        }
+    
+                    case .running:
+                        Button {
+                            state = .paused
+                            manager.pauseTracking()
+                        } label: {
+                            Image(systemName: "pause.fill")
+                                .buttonStyle(color: .customizedOrange)
+                        }
+    
+                    case .stopped:
                         Image(systemName: "play.fill")
-                            .padding()
-                            .frame(width: 60, height: 60)
-                            .font(.system(size: 28))
-                            .background(Color.gray.opacity(0.4))
-                            .foregroundColor(Color.gray)
-                            .cornerRadius(500)
-                    }
-                    .disabled(true)
-                } else if isRunning {
-                    Button(action: {
-                        isRunning = false
-                        isPaused = true
-                    }) {
-                        Image(systemName: "pause.fill")
-                            .padding()
-                            .frame(width: 60, height: 60)
-                            .font(.system(size: 28))
-                            .background(Color.customizedOrange)
-                            .foregroundColor(Color.white)
-                            .cornerRadius(500)
-                    }
-                } else if isPaused {
-                    Button(action: {
-                        isRunning = true
-                        isPaused = false
-                    }) {
-                        Image(systemName: "play.fill")
-                            .padding()
-                            .frame(width: 60, height: 60)
-                            .font(.system(size: 28))
-                            .background(Color.customGreen)
-                            .foregroundColor(Color.white)
-                            .cornerRadius(500)
-                    }
+                            .buttonStyle(color: .gray)
+                            .disabled(true)
                 }
             }
             .frame(width: 350)
         }
         .padding()
         .onReceive(timer) { _ in
-            if isRunning {
+            if state == .running {
                 elapsedTime += 0.1
             }
         }
     }
+
+    private var statusText: String {
+        switch state {
+            case .idle: return "Idle"
+            case .running: return "Live Running"
+            case .paused: return "Paused"
+            case .stopped: return "Stopped"
+        }
+    }
+
+    private var statusColor: Color {
+        switch state {
+            case .idle: return .gray
+            case .running: return .green
+            case .paused: return .orange
+            case .stopped: return .red
+        }
+    }
 }
 
-// Preview
-#Preview {
-    StopwatchRun()
+extension Image {
+    func buttonStyle(color: Color) -> some View {
+        self
+            .padding()
+            .frame(width: 60, height: 60)
+            .font(.system(size: 28))
+            .background(color)
+            .foregroundColor(.white)
+            .cornerRadius(500)
+    }
 }
+
+#Preview {
+    StopwatchRun(
+        manager: LocationManager(),
+        elapsedTime: .constant(0),
+        state: .constant(.idle)
+    )
+}
+
+
+//import SwiftUI
+//import CoreLocation
+//
+//struct StopwatchRun: View {
+//    @ObservedObject var manager: LocationManager
+//    @Binding var elapsedTime: Double
+//    @Binding var state: StopwatchState
+//
+//    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+//
+//    var formattedTime: String {
+//        let minutes = Int(elapsedTime) / 60
+//        let seconds = Int(elapsedTime) % 60
+//        let tenths = Int((elapsedTime.truncatingRemainder(dividingBy: 1)) * 10)
+//        return String(format: "%02d:%02d:%02d", minutes, seconds, tenths)
+//    }
+//
+//    var body: some View {
+//        VStack(spacing: 20) {
+//            Text(formattedTime)
+//                .font(.system(size: 64, weight: .bold, design: .monospaced))
+//                .foregroundColor(state == .stopped ? .customizedOrange : .black)
+//
+//            Text(statusText)
+//                .font(.title2)
+//                .foregroundColor(statusColor)
+//
+//            HStack {
+//                Button {
+//                    state = .stopped
+//                    manager.stopTracking()
+//                } label: {
+//                    Image(systemName: "stop.fill")
+//                        .buttonStyle(color: .red)
+//                }
+//
+//                Spacer()
+//
+//                switch state {
+//                case .idle, .paused:
+//                    Button {
+//                        state = .running
+//                        manager.startTracking()
+//                    } label: {
+//                        Image(systemName: "play.fill")
+//                            .buttonStyle(color: .green)
+//                    }
+//
+//                case .running:
+//                    Button {
+//                        state = .paused
+//                        manager.pauseTracking()
+//                    } label: {
+//                        Image(systemName: "pause.fill")
+//                            .buttonStyle(color: .orange)
+//                    }
+//
+//                case .stopped:
+//                    Image(systemName: "play.fill")
+//                        .buttonStyle(color: .gray)
+//                        .disabled(true)
+//                }
+//            }
+//        }
+//        .onReceive(timer) { _ in
+//            if state == .running {
+//                elapsedTime += 0.1
+//            }
+//        }
+//    }
+//
+//    private var statusText: String {
+//        switch state {
+//        case .idle: return "Idle"
+//        case .running: return "Running"
+//        case .paused: return "Paused"
+//        case .stopped: return "Stopped"
+//        }
+//    }
+//
+//    private var statusColor: Color {
+//        switch state {
+//        case .idle: return .gray
+//        case .running: return .green
+//        case .paused: return .orange
+//        case .stopped: return .red
+//        }
+//    }
+//}
+//
+//extension Image {
+//    func buttonStyle(color: Color) -> some View {
+//        self
+//            .padding()
+//            .frame(width: 60, height: 60)
+//            .font(.system(size: 28))
+//            .background(color)
+//            .foregroundColor(.white)
+//            .clipShape(Circle())
+//    }
+//}
+//
+//
+//#Preview {
+//    StopwatchRun(
+//        manager: LocationManager(),
+//        elapsedTime: .constant(0),
+//        state: .constant(.idle)
+//    )
+//}
