@@ -10,7 +10,7 @@ import SwiftUI
 struct PrimaryMetrics: View {
     var body: some View {
         HStack {
-            Image(systemName: "figure.run")
+            Image(.personRun)
                 .resizable()
                 .frame(width: 200, height: 350)
                 .padding()
@@ -86,7 +86,9 @@ struct SecondaryMetrics: View {
 }
 
 #Preview {
-    //    PrimaryMetrics()
+    PrimaryMetrics()
+        .environmentObject(GoalsManager())
+        .environmentObject(HealthManager())
     SecondaryMetrics()
         .environmentObject(GoalsManager())
         .environmentObject(HealthManager())
