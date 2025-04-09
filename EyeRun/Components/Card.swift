@@ -144,7 +144,7 @@ struct StepsCard: View {
 
 struct DistanceCard: View {
     let distance: CGFloat
-    let goals: CGFloat
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Distance")
@@ -182,7 +182,17 @@ struct DistanceCard: View {
 }
 
 struct PaceCard: View {
-    let pace: String
+    let paceInSecondsPerKm: Double
+    
+    var paceText: String {
+        guard paceInSecondsPerKm > 0 else { return "--:--" }
+        
+        let totalSeconds = Int(paceInSecondsPerKm)
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing:0) {
             Text("Pace")
@@ -193,14 +203,15 @@ struct PaceCard: View {
             Spacer()
             
             HStack(alignment: .lastTextBaseline, spacing: 5) {
-                Text("\(pace)")
+                Text("\(paceText)")
                     .font(.system(size: 48))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
             }
             .padding(.top)
+            
             VStack{
-                Text("/kilometers")
+                Text("min/km")
                     .font(.title2)
                     .bold()
                     .foregroundColor(.white)
@@ -324,8 +335,8 @@ struct SpeedCard: View {
             .environmentObject(GoalsManager())
         HeartRateCard(heartRate: 90)
         StreakCard(streak: 90)
-        DistanceCard(distance: 3.7, goals: 5)
-        PaceCard(pace: "43:28")
+        DistanceCard(distance: 3.7)
+        PaceCard(paceInSecondsPerKm: 100.3)
         CaloriesCard(calories: 239)
         CadenceCard(cadence: 75)
         SpeedCard(speed: 6.6)

@@ -19,7 +19,7 @@ struct ContentView: View {
                     if isSuccess{
                         print("success")
                     } else {
-                        print(error?.localizedDescription)
+                        print(error?.localizedDescription ?? "Error Localized Description")
                     }
                 }
             }

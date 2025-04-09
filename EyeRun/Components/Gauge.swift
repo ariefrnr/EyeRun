@@ -18,7 +18,7 @@ struct DistanceProgress: View {
                 .fontWeight(.semibold)
                 .foregroundColor(Color.customizedOrange)
                 .multilineTextAlignment(.center)
-            Text(String(format: "%.2f", distance ?? 0))
+            Text(String(format: "%.2f", distance))
                 .font(.system(size: 32))
                 .fontWeight(.bold)
             Text("/\(Int(goalsManager.userGoals.distanceGoal)) km")
@@ -105,4 +105,6 @@ struct MainMetrics: View {
 
 #Preview {
     MainMetrics()
+        .environmentObject(GoalsManager())
+        .environmentObject(HealthManager())
 }

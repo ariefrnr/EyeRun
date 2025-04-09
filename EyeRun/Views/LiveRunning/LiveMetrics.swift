@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct LiveMetrics: View {
+    @ObservedObject var manager: LocationManager
+    
     var body: some View {
         HStack {
             VStack {
-                DistanceCard(distance: 3.7, goals: 5)
-                PaceCard(pace: "43:28")
-                    .frame(height: 300)
+                DistanceCard(distance: manager.distance)
+                PaceCard(paceInSecondsPerKm: manager.pace * 1000)
                 CadenceCard(cadence: 75)
-                    .frame(height: 200)
-                
-
             }
             
             VStack {
@@ -30,7 +28,8 @@ struct LiveMetrics: View {
     }
 }
 
-
 #Preview {
-    LiveMetrics()
+    var locationManager = LocationManager()
+    
+    LiveMetrics(manager: locationManager)
 }
