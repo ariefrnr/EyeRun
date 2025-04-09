@@ -78,6 +78,7 @@ struct CaloriesProgress: View {
 struct MainMetrics: View {
     @EnvironmentObject var goalsManager: GoalsManager
     @EnvironmentObject var healthManager: HealthManager
+    @Binding var selectedDate: Date
     var body: some View {
         VStack(alignment: .center){
             DistanceProgress(distance: healthManager.distanceTraveled ?? 0)
@@ -89,20 +90,21 @@ struct MainMetrics: View {
             Divider()
                 .background(Color.black.opacity(0.8))
             CaloriesProgress(caloriesBurned: Double(healthManager.currentCalories ?? 0))
-           
+            
                 .padding()
         }
         .frame(maxWidth: .infinity)
         .background(Color.gray.opacity(0.1))
         .cornerRadius(15)
         .onAppear(){
-            healthManager.fetchCaloriesData()
-            healthManager.fetchActiveMinutes()
-            healthManager.fetchWalkingRunningDistance()
+            healthManager.fetchCaloriesData(for: selectedDate)
+            healthManager.fetchActiveMinutes(for: selectedDate)
+            healthManager.fetchWalkingRunningDistance(for:selectedDate)
         }
     }
 }
 
-#Preview {
-    MainMetrics()
-}
+
+//#Preview {
+//    MainMetrics(selectedDate: $selectedDate)
+//}

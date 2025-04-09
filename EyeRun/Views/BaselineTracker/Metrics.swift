@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PrimaryMetrics: View {
+    @State private var selectedDate = Date()
     var body: some View {
         HStack {
             Image(systemName: "figure.run")
@@ -15,7 +16,7 @@ struct PrimaryMetrics: View {
                 .frame(width: 200, height: 350)
                 .padding()
             
-            MainMetrics()
+            MainMetrics(selectedDate: $selectedDate)
                 .environmentObject(HealthManager())
         }
     }
@@ -26,7 +27,7 @@ struct SecondaryMetrics: View {
     @EnvironmentObject var goalsManager: GoalsManager
     @EnvironmentObject var healthManager: HealthManager
     @StateObject private var streakManager = StreakManager()
-    
+    @Binding var selectedDate: Date
     @State var timer: Timer?
     
     var body: some View {
@@ -56,21 +57,44 @@ struct SecondaryMetrics: View {
             .onDisappear(){
                 autoRefreshOff()
             }
+            
+//            .onChange(of: selectedDate) {
+//                newDate in
+//                print("date changed to: \(newDate)")
+//                healthManager.fetchStepCount(for: newDate)
+//            }
+            
+
         }
         
 
     }
+    
+
     private func fetchDataStreak() {
+        let currentDate = Date()
         healthManager.fetchHeartRate()
-        healthManager.fetchStepCount()
-        healthManager.fetchCaloriesData()
-        healthManager.fetchActiveMinutes()
-        healthManager.fetchWalkingRunningDistance()
+//        healthManager.fetchHeartRate(for: currentDate)
+        healthManager.fetchStepCount(for: currentDate)
+        healthManager.fetchCaloriesData(for: currentDate)
+        healthManager.fetchActiveMinutes(for: currentDate)
+        healthManager.fetchWalkingRunningDistance(for: currentDate)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
             
             streakManager.checkAndUpdateStreak(healthManager: healthManager, goalsManager: goalsManager)
         }
     }
+//    private func fetchDataStreak() {
+//        healthManager.fetchHeartRate()
+//        healthManager.fetchStepCount(for: selectedDate)
+//        healthManager.fetchCaloriesData()
+//        healthManager.fetchActiveMinutes()
+//        healthManager.fetchWalkingRunningDistance()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+//            
+//            streakManager.checkAndUpdateStreak(healthManager: healthManager, goalsManager: goalsManager)
+//        }
+//    }
     
     func autoRefreshOn(){
         timer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) {_ in
@@ -85,8 +109,9 @@ struct SecondaryMetrics: View {
     
 }
 
-#Preview {
-    //    PrimaryMetrics()
-    SecondaryMetrics()
-        .environmentObject(GoalsManager())
-}
+//#Preview {
+//    //    PrimaryMetrics()
+//    
+//    SecondaryMetrics(selectedDate: $selectedDate)
+//        .environmentObject(GoalsManager())
+//}

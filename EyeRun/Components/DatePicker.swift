@@ -9,12 +9,13 @@
 import SwiftUI
 
 struct DatePicker: View {
-    @State private var selectedDate = Date()
+    @Binding private var selectedDate: Date
     let dates: [Date]
     
-    init(selectedDate: Date = Date()) {
-        self.selectedDate = selectedDate
-        self.dates = Self.generateDates(from: selectedDate)
+    init(selectedDate: Binding<Date>) {
+        self._selectedDate = selectedDate
+        self.dates = Self.generateDates(from: selectedDate.wrappedValue)
+       
     }
     
     private static func generateDates(from date: Date) -> [Date] {
@@ -49,6 +50,7 @@ struct DatePicker: View {
                             if !isDateInFuture(date) {
                                 selectedDate = date
                             }
+                            print(selectedDate)
                         }
                         .opacity(isDateInFuture(date) ? 0.8 : 1.0)
                         .id(date)
@@ -97,8 +99,16 @@ struct DatePicker: View {
 // Preview
 struct DatePicker_Previews: PreviewProvider {
     static var previews: some View {
-        DatePicker()
-            .previewLayout(.sizeThatFits)
-            .padding()
+        // Create a static state wrapper for the preview
+        PreviewWrapper()
+    }
+    
+    // Helper struct to hold state for the preview
+    private struct PreviewWrapper: View {
+        @State private var selectedDate = Date()
+        
+        var body: some View {
+            DatePicker(selectedDate: $selectedDate)
+        }
     }
 }

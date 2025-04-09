@@ -1,12 +1,14 @@
 import SwiftUI
 
 struct BaselineTrackerView: View {
+    @State private var selectedDate = Date()
+    @EnvironmentObject var healthManager: HealthManager
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
                     // Date
-                    DateView()
+                    DatePicker(selectedDate: $selectedDate)
                         .padding(.horizontal)
 
                     // Primary Metrics
@@ -30,8 +32,14 @@ struct BaselineTrackerView: View {
                     .padding(.horizontal)
 
                     // Secondary Metrics
-                    SecondaryMetrics()
+                    SecondaryMetrics(selectedDate: $selectedDate)
                         .padding(.horizontal)
+                }
+                .onChange(of: selectedDate) {
+                    newDate in
+                    print("date changed to: \(newDate)")
+                    healthManager.fetchStepCount(for: newDate)
+                    healthManager.fetchCaloriesData(for: newDate)
                 }
                 .padding(.vertical)
             }
