@@ -13,16 +13,10 @@ struct DateView: View {
     @Binding var selectedDate: Date
     var body: some View {
         VStack {
-            SegmentedControls(type: .other)
+//            SegmentedControls(type: .other)
             DatePicker(selectedDate: $selectedDate)
-//                .onChange(of: selectedDate) {
-//                    newDate in
-//                    healthManager.fetchStepCount(for: newDate)
-//                    healthManager.fetchHeartRate()
-//                    healthManager.fetchCaloriesData(for: newDate)
-//                    healthManager.fetchActiveMinutes(for: newDate)
-//                    healthManager.fetchWalkingRunningDistance(for: newDate)
-//                }
+                
+       
         }
         .environmentObject(healthManager)
     }

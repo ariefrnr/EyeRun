@@ -64,8 +64,8 @@ struct DatePicker: View {
             .onAppear {
                 let today = Date()
                 if let todayDate = dates.first(where: { isSameDay(date1: $0, date2: today) }) {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        scrollProxy.scrollTo(todayDate, anchor: .center)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {scrollProxy.scrollTo(todayDate, anchor: .center)
+                        
                         selectedDate = today
                     }
                 }
@@ -109,6 +109,8 @@ struct DatePicker_Previews: PreviewProvider {
         
         var body: some View {
             DatePicker(selectedDate: $selectedDate)
+                .previewLayout(.sizeThatFits)
+                .padding()
         }
     }
 }

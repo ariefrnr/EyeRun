@@ -119,66 +119,24 @@ class HealthManager: NSObject, ObservableObject {
             quantityType: activeEnergyType,
             quantitySamplePredicate: predicate,
             options: .cumulativeSum
-        ) { [unowned self] _, result, error in
-            
+        ) { [weak self] _, result, error in
             DispatchQueue.main.async {
                 if let error = error {
-                    self.error = error
-                    self.currentCalories = nil
+                    print("Error fetching calories data: \(error.localizedDescription)")
+                    self?.currentCalories = nil
                     return
                 }
                 
                 guard let result = result, let sum = result.sumQuantity() else {
-                    
-                    self.currentCalories = nil
+                    self?.currentCalories = nil
                     return
                 }
-                print(sum)
-                //                self?.currentCalories = sum.doubleValue(for: HKUnit.kilocalorie())
-                self.currentCalories = Int(sum.doubleValue(for: HKUnit.kilocalorie()).rounded())
-                //                print(self)
+                self?.currentCalories = Int(sum.doubleValue(for: HKUnit.kilocalorie()).rounded())
+//                print("Calories sum: \(self?.currentCalories)")
             }
         }
-        
         healthStore.execute(query)
-    }
-    //    func fetchStepCount() {
-    //        guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
-    //            return
-    //        }
-    //
-    //        let now = Date()
-    //        let calendar = Calendar.current
-    //        let startOfDay = calendar.startOfDay(for: now)
-    //        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
-    //
-    //        let query = HKStatisticsQuery(
-    //            quantityType: stepCountType,
-    //            quantitySamplePredicate: predicate,
-    //            options: .cumulativeSum
-    //        ) { [weak self] _, result, error in
-    //            DispatchQueue.main.async {
-    //                guard let self = self else { return }
-    //
-    //                if let error = error {
-    //                    print("Error fetching step count: \(error.localizedDescription)")
-    //                    return
-    //                }
-    //
-    //                guard let result = result, let sum = result.sumQuantity() else {
-    //                    self.stepCount = nil
-    //                    return
-    //                }
-    //
-    //                let steps = Int(sum.doubleValue(for: HKUnit.count()))
-    //                self.stepCount = steps
-    //                self.lastReadingDate = now
-    //                print("Fetched \(steps) steps")
-    //            }
-    //        }
-    //
-    //        healthStore.execute(query)
-    //    }
+    }   
     
     func fetchActiveMinutes(for date: Date) {
         guard let exerciseTimeType = HKQuantityType.quantityType(forIdentifier: .appleExerciseTime) else {
@@ -309,5 +267,10 @@ class HealthManager: NSObject, ObservableObject {
         healthStore.execute(query)
     }
     
-    
+    func fetchAllMetrics(for date: Date) {
+        fetchCaloriesData(for: date)
+        fetchStepCount(for: date)
+        fetchActiveMinutes(for: date)
+        fetchWalkingRunningDistance(for: date)
+    }
 }

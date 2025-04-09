@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PrimaryMetrics: View {
-    @State private var selectedDate = Date()
+    @Binding var selectedDate: Date
     var body: some View {
         HStack {
             Image(.personRun)
@@ -17,7 +17,6 @@ struct PrimaryMetrics: View {
                 .padding()
             
             MainMetrics(selectedDate: $selectedDate)
-                .environmentObject(HealthManager())
         }
     }
 }
@@ -29,6 +28,8 @@ struct SecondaryMetrics: View {
     @StateObject private var streakManager = StreakManager()
     @Binding var selectedDate: Date
     @State var timer: Timer?
+    
+    
     
     var body: some View {
         HStack {
@@ -52,16 +53,16 @@ struct SecondaryMetrics: View {
             }
             .onAppear(){
                 fetchDataStreak()
-                autoRefreshOn()
+//                autoRefreshOn()
             }
             .onDisappear(){
                 autoRefreshOff()
             }
             
 //            .onChange(of: selectedDate) {
-//                newDate in
-//                print("date changed to: \(newDate)")
-//                healthManager.fetchStepCount(for: newDate)
+//                tanggalBaru in
+//                print("date changed to: \(tanggalBaru)")
+//                healthManager.fetchStepCount(for: tanggalBaru)
 //            }
             
 
@@ -74,7 +75,6 @@ struct SecondaryMetrics: View {
     private func fetchDataStreak() {
         let currentDate = Date()
         healthManager.fetchHeartRate()
-//        healthManager.fetchHeartRate(for: currentDate)
         healthManager.fetchStepCount(for: currentDate)
         healthManager.fetchCaloriesData(for: currentDate)
         healthManager.fetchActiveMinutes(for: currentDate)
@@ -84,17 +84,7 @@ struct SecondaryMetrics: View {
             streakManager.checkAndUpdateStreak(healthManager: healthManager, goalsManager: goalsManager)
         }
     }
-//    private func fetchDataStreak() {
-//        healthManager.fetchHeartRate()
-//        healthManager.fetchStepCount(for: selectedDate)
-//        healthManager.fetchCaloriesData()
-//        healthManager.fetchActiveMinutes()
-//        healthManager.fetchWalkingRunningDistance()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
-//            
-//            streakManager.checkAndUpdateStreak(healthManager: healthManager, goalsManager: goalsManager)
-//        }
-//    }
+
     
     func autoRefreshOn(){
         timer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) {_ in

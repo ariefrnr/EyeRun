@@ -8,12 +8,12 @@ struct BaselineTrackerView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     // Date
-                    DatePicker(selectedDate: $selectedDate)
+                    DateView(selectedDate: $selectedDate)
                         .padding(.horizontal)
-
+                
                     // Primary Metrics
                     VStack {
-                        PrimaryMetrics()
+                        PrimaryMetrics(selectedDate: $selectedDate)
                         
                         NavigationLink(destination: LiveRunningView()) {
                             HStack{
@@ -34,12 +34,13 @@ struct BaselineTrackerView: View {
                     // Secondary Metrics
                     SecondaryMetrics(selectedDate: $selectedDate)
                         .padding(.horizontal)
+                   
                 }
-                .onChange(of: selectedDate) {
-                    newDate in
-                    print("date changed to: \(newDate)")
-                    healthManager.fetchStepCount(for: newDate)
-                    healthManager.fetchCaloriesData(for: newDate)
+                .onChange(of: selectedDate) { newDate in
+                        healthManager.fetchAllMetrics(for: newDate)
+                    }
+                .onAppear {
+                    healthManager.fetchAllMetrics(for: selectedDate)
                 }
                 .padding(.vertical)
             }

@@ -79,28 +79,31 @@ struct MainMetrics: View {
     @EnvironmentObject var goalsManager: GoalsManager
     @EnvironmentObject var healthManager: HealthManager
     @Binding var selectedDate: Date
+
     var body: some View {
         VStack(alignment: .center){
-            DistanceProgress(distance: healthManager.distanceTraveled ?? 0)
-                .padding()
-            Divider()
-                .background(Color.black.opacity(1))
-            MovementProgress(activeMinutes: healthManager.activeMinutes ?? 0)
-                .padding()
-            Divider()
-                .background(Color.black.opacity(0.8))
-            CaloriesProgress(caloriesBurned: Double(healthManager.currentCalories ?? 0))
             
-                .padding()
+                DistanceProgress(distance: healthManager.distanceTraveled ?? 0)
+                    .padding()
+                Divider()
+                    .background(Color.black.opacity(1))
+                MovementProgress(activeMinutes: healthManager.activeMinutes ?? 0)
+                    .padding()
+                Divider()
+                    .background(Color.black.opacity(0.8))
+                CaloriesProgress(caloriesBurned: Double(healthManager.currentCalories ?? 0))
+                    .padding()
+                Text("\(healthManager.currentCalories ?? 0)")
+            
         }
         .frame(maxWidth: .infinity)
         .background(Color.gray.opacity(0.1))
         .cornerRadius(15)
-        .onAppear(){
-            healthManager.fetchCaloriesData(for: selectedDate)
-            healthManager.fetchActiveMinutes(for: selectedDate)
-            healthManager.fetchWalkingRunningDistance(for:selectedDate)
-        }
+//        .onChange(of: selectedDate) { newDate in
+//            healthManager.fetchWalkingRunningDistance(for: newDate)
+//            healthManager.fetchActiveMinutes(for: newDate)
+//            healthManager.fetchCaloriesData(for: newDate)
+//        }
     }
 }
 
