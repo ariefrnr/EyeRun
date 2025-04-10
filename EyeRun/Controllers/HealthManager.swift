@@ -272,5 +272,6 @@ class HealthManager: NSObject, ObservableObject {
         fetchStepCount(for: date)
         fetchActiveMinutes(for: date)
         fetchWalkingRunningDistance(for: date)
+        fetchHeartRate()
     }
 }
