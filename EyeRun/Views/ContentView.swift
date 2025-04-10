@@ -8,10 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    var healthManager = HealthManager()
     var body: some View {
-        VStack {
-            HorizontalButton(color: Color.horizontalButton)
-        }
+        BaselineTrackerView()
+            .environmentObject(GoalsManager())
+            .environmentObject(HealthManager())
+            .environmentObject(StreakManager())
+            .onAppear{
+                healthManager.requestAuthorization { isSuccess, error in
+                    if isSuccess{
+                        print("success")
+                    } else {
+                        print(error?.localizedDescription ?? "Error Localized Description")
+                    }
+                }
+            }
     }
 }
 
