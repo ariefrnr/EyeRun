@@ -33,16 +33,6 @@ class HealthManager: NSObject, ObservableObject {
         
         healthStore.requestAuthorization(toShare: nil, read: readTypes) { success, error in
             DispatchQueue.main.async {
-                //                if success {
-                //                    self.fetchHeartRate()
-                //                }
-                //                self.error = error
-                //                completion(success, error)
-                //                if success {
-                //                    self.fetchCaloriesData()
-                //                } else {
-                //                    print("Authorization failed: \(error?.localizedDescription ?? "")")
-                //                }
             }
         }
     }
@@ -82,7 +72,6 @@ class HealthManager: NSObject, ObservableObject {
             limit: 100,
             sortDescriptors: [sortDescriptor]
         ) { _, samples, error in
-            //            print(samples)
             if let error = error {
                 print("Error fetching heart rate: \(error.localizedDescription)")
                 completion(nil)
@@ -132,7 +121,6 @@ class HealthManager: NSObject, ObservableObject {
                     return
                 }
                 self?.currentCalories = Int(sum.doubleValue(for: HKUnit.kilocalorie()).rounded())
-//                print("Calories sum: \(self?.currentCalories)")
             }
         }
         healthStore.execute(query)
