@@ -94,9 +94,9 @@ open EyeRun.xcodeproj
 ## Development Team
 | Name                                         | Role                      |
 |----------------------------------------------|---------------------------|
-| [Jonathan Tjahjadi](https://github.com/jonathantjahjadi)     | Designer and Developer  |
+| [Jonathan Tjahjadi](https://github.com/jnathantj)     | Designer and Developer  |
 | [Arief Roihan Nur Rahman](https://github.com/ariefrnr)       | Developer     |
-| [Channo Adikara](https://github.com/channoadikara)           | Designer   |
+| [Channo Adikara](https://github.com/Channoadk)           | Designer   |
 
 ## 📄 License
 This project is currently closed-source and proprietary. For access or licensing inquiries, please contact the development team.
