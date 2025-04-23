@@ -15,6 +15,5 @@ struct DateView: View {
             SegmentedControls(type: .other)
             DatePicker(selectedDate: $selectedDate)
         }
-        .environmentObject(healthManager)
     }
 }
