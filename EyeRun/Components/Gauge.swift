@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DistanceProgress: View {
     var distance: Double
-    @EnvironmentObject var goalsManager: GoalsManager
+    var goalsManager: GoalsManager
     
     var body: some View {
         VStack(alignment: .center){
@@ -34,7 +34,7 @@ struct DistanceProgress: View {
 
 struct MovementProgress: View {
     var activeMinutes: Int
-    @EnvironmentObject var goalsManager: GoalsManager
+    var goalsManager: GoalsManager
     
     var body: some View {
         VStack(alignment: .center){
@@ -56,7 +56,7 @@ struct MovementProgress: View {
 
 struct CaloriesProgress: View {
     var caloriesBurned: Double
-    @EnvironmentObject var goalsManager: GoalsManager
+    var goalsManager: GoalsManager
     
     var body: some View {
         VStack(alignment: .center){
@@ -79,25 +79,25 @@ struct CaloriesProgress: View {
 }
 
 struct MainMetrics: View {
-    @EnvironmentObject var goalsManager: GoalsManager
-    @EnvironmentObject var healthManager: HealthManager
+    var goalsManager: GoalsManager
+    var healthManager: HealthManager
     @Binding var selectedDate: Date
 
     var body: some View {
         VStack(alignment: .center){
-            DistanceProgress(distance: healthManager.distanceTraveled ?? 0)
+            DistanceProgress(distance: healthManager.distanceTraveled ?? 0, goalsManager: goalsManager)
                 .padding()
             
             Divider()
                 .background(Color.black.opacity(1))
             
-            MovementProgress(activeMinutes: healthManager.activeMinutes ?? 0)
+            MovementProgress(activeMinutes: healthManager.activeMinutes ?? 0, goalsManager: goalsManager)
                 .padding()
             
             Divider()
                 .background(Color.black.opacity(0.8))
             
-            CaloriesProgress(caloriesBurned: Double(healthManager.currentCalories ?? 0))
+            CaloriesProgress(caloriesBurned: Double(healthManager.currentCalories ?? 0), goalsManager: goalsManager)
                 .padding()
         }
         .frame(maxWidth: .infinity)

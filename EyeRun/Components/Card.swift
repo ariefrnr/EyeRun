@@ -82,8 +82,8 @@ struct StreakCard: View {
 
 struct StepsCard: View {
     let steps: Int
-    @EnvironmentObject var goalsManager: GoalsManager
-    @EnvironmentObject var healthManager: HealthManager
+    var goalsManager: GoalsManager
+    var healthManager: HealthManager
 
     @State private var refreshTimer: Timer?
 
@@ -341,8 +341,7 @@ struct SpeedCard: View {
 
 #Preview {
     ScrollView{
-        StepsCard(steps: HealthManager().stepCount ?? 0)
-            .environmentObject(GoalsManager())
+        StepsCard(steps: HealthManager().stepCount ?? 0, goalsManager: GoalsManager(), healthManager: HealthManager())
         HeartRateCard(heartRate: 90)
         StreakCard(streak: 90)
         DistanceCard(distance: 3.7)

@@ -12,18 +12,6 @@ struct ContentView: View {
     var healthManager = HealthManager()
     var body: some View {
         BaselineTrackerView()
-            .environmentObject(GoalsManager())
-            .environmentObject(HealthManager())
-            .environmentObject(StreakManager())
-            .onAppear{
-                healthManager.requestAuthorization { isSuccess, error in
-                    if isSuccess{
-                        print("success")
-                    } else {
-                        print(error?.localizedDescription ?? "Error Localized Description")
-                    }
-                }
-            }
     }
 }
 

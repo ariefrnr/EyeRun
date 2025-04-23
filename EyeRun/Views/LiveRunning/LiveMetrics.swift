@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LiveMetrics: View {
     @ObservedObject var manager: LocationManager
-    @EnvironmentObject var healthManager: HealthManager
+    var healthManager: HealthManager
     
     var body: some View {
         HStack {
@@ -30,6 +30,5 @@ struct LiveMetrics: View {
 }
 
 #Preview {
-    LiveMetrics(manager: LocationManager())
-        .environmentObject(HealthManager())
+    LiveMetrics(manager: LocationManager(), healthManager: HealthManager())
 }

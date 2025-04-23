@@ -9,6 +9,8 @@ import SwiftUI
 
 struct PrimaryMetrics: View {
     @Binding var selectedDate: Date
+    var goalsManager: GoalsManager
+    var healthManager: HealthManager
     
     var body: some View {
         HStack {
@@ -17,25 +19,24 @@ struct PrimaryMetrics: View {
                 .frame(width: 200, height: 350)
                 .padding()
             
-            MainMetrics(selectedDate: $selectedDate)
+            MainMetrics(goalsManager: goalsManager, healthManager: healthManager, selectedDate: $selectedDate)
         }
     }
 }
 
 struct SecondaryMetrics: View {
     @State private var showModal = false
-    @EnvironmentObject var goalsManager: GoalsManager
-    @EnvironmentObject var healthManager: HealthManager
     @StateObject private var streakManager = StreakManager()
     @Binding var selectedDate: Date
     @State var timer: Timer?
     
-    
+    var goalsManager: GoalsManager
+    var healthManager: HealthManager
     
     var body: some View {
         HStack {
             VStack {
-                StepsCard(steps: healthManager.stepCount ?? 0)
+                StepsCard(steps: healthManager.stepCount ?? 0, goalsManager: goalsManager, healthManager: healthManager)
                 StreakCard(streak: streakManager.currentStreak)
             }
             
@@ -83,4 +84,30 @@ struct SecondaryMetrics: View {
         timer = nil
     }
     
+}
+
+// Preview
+struct Metrics_Previews: PreviewProvider {
+    static var previews: some View {
+        // Create a static state wrapper for the preview
+        PreviewWrapper()
+    }
+    
+    // Helper struct to hold state for the preview
+    private struct PreviewWrapper: View {
+        @State private var selectedDate = Date()
+        
+        private let goalsManager = GoalsManager()
+        private let healthManager = HealthManager()
+        
+        var body: some View {
+            SecondaryMetrics(
+                selectedDate: $selectedDate,
+                goalsManager: goalsManager,
+                healthManager: healthManager
+            )
+                .previewLayout(.sizeThatFits)
+                .padding()
+        }
+    }
 }

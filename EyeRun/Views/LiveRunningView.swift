@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct LiveRunningView: View {
-    @StateObject private var locationManager = LocationManager()
+    
+    
     @State private var elapsedTime: Double = 0.0
     @State private var state: StopwatchState = .idle
+    
+    private var locationManager = LocationManager()
+    private var healthManager = HealthManager()
 
     var body: some View {
         NavigationStack {
@@ -22,7 +26,7 @@ struct LiveRunningView: View {
                         state: $state
                     )
                     
-                    LiveMetrics(manager: locationManager)
+                    LiveMetrics(manager: locationManager, healthManager: healthManager)
                 }
                 .padding()
             }
