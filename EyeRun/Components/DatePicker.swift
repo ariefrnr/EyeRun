@@ -22,7 +22,6 @@ struct DatePicker: View {
         let calendar = Calendar.current
         let today = Date()
         
-        // Generate dates from 10 days before today to 3 days after today
         return (-10...3).map { index in
             calendar.date(byAdding: .day, value: index, to: today)!
         }
@@ -96,14 +95,11 @@ struct DatePicker: View {
     }
 }
 
-// Preview
 struct DatePicker_Previews: PreviewProvider {
     static var previews: some View {
-        // Create a static state wrapper for the preview
         PreviewWrapper()
     }
     
-    // Helper struct to hold state for the preview
     private struct PreviewWrapper: View {
         @State private var selectedDate = Date()
         
